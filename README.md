@@ -32,7 +32,7 @@ Next.js con `output: export`: pagine HTML generate in anticipo, nessun backend n
 
 ## Pubblicazione e indicizzazione
 
-Impostare `NEXT_PUBLIC_SITE_URL` all’origine pubblica definitiva **prima** del build. Il valore predefinito è `http://localhost:8001`, utile solo in locale. Pubblicare la cartella `out` su un hosting statico con supporto a `index.html` per directory e a `404.html` con stato HTTP 404; non usare un fallback SPA che risponde 200 alle pagine inesistenti.
+Impostare `NEXT_PUBLIC_SITE_URL` all’origine pubblica definitiva **prima** del build. Il valore predefinito è l’indirizzo dell’anteprima privata Sites, definito in `src/lib/seo.ts`. Pubblicare la cartella `out` su un hosting statico con supporto a `index.html` per directory e a `404.html` con stato HTTP 404; non usare un fallback SPA che risponde 200 alle pagine inesistenti.
 
 Le pagine includono title e description specifici, canonical, Open Graph, dati strutturati Organization / CollectionPage / Product / BreadcrumbList, robots.txt e sitemap.xml. I Product non includono prezzi, offerte, recensioni o disponibilità inventate: non si promettono risultati avanzati di shopping. Nessun file speciale per AI è necessario: la base è contenuto utile e scansionabile (https://developers.google.com/search/docs/appearance/ai-features).
 
