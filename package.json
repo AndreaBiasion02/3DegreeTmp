@@ -1,0 +1,30 @@
+{
+  "name": "3degree-vetrina",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 8001",
+    "build": "next build",
+    "preview": "node scripts/serve.mjs",
+    "check": "tsc --noEmit",
+    "test": "node --test scripts/catalog.test.mjs"
+  },
+  "dependencies": {
+    "next": "15.5.18",
+    "react": "19.0.5",
+    "react-dom": "19.0.5",
+    "lucide-react": "1.23.0",
+    "three": "0.185.1"
+  },
+  "devDependencies": {
+    "@types/node": "22.15.30",
+    "@types/react": "19.0.5",
+    "@types/react-dom": "19.0.5",
+    "@types/three": "0.185.0",
+    "typescript": "5.9.3",
+    "tailwindcss": "3.4.19",
+    "postcss": "8.5.6",
+    "autoprefixer": "10.4.21",
+    "sharp": "0.34.5"
+  }
+}

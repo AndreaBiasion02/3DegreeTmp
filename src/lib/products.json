@@ -1,0 +1,62 @@
+[
+  {
+    "slug": "informatica",
+    "name": "Informatica",
+    "description": "Un piccolo computer portatile con simbolo del codice sullo schermo e tastiera a rilievo. La base nasconde la vaschetta portaconfetti.",
+    "dimensions": [110, 83.4, 91.1],
+    "assembly": "Vaschetta + tastiera estraibile; schermo fisso a 78 gradi con due linguette da incollare.",
+    "image": "/products/informatica.webp",
+    "model": "/products/informatica-montato.glb",
+    "openModel": "/products/informatica-aperto.glb"
+  },
+  {
+    "slug": "economia",
+    "name": "Economia",
+    "description": "Una carta con simbolo dell’euro, grafico a colonne e freccia in crescita. Il coperchio racchiude una vaschetta rettangolare.",
+    "dimensions": [112, 78, 30.8],
+    "assembly": "Coperchio a carta con labbro di centraggio; simboli in rilievo incollabili.",
+    "image": "/products/economia.webp",
+    "model": "/products/economia-montato.glb",
+    "openModel": "/products/economia-aperto.glb"
+  },
+  {
+    "slug": "medicina",
+    "name": "Medicina",
+    "description": "Una valigetta con manico e croce rossa, ispirata al mondo della medicina. Il coperchio si separa dalla vaschetta portaconfetti.",
+    "dimensions": [108, 86.5, 33.2],
+    "assembly": "Valigetta con coperchio estraibile e manico spesso integrato, stampabile in piano.",
+    "image": "/products/medicina.webp",
+    "model": "/products/medicina-montato.glb",
+    "openModel": "/products/medicina-aperto.glb"
+  },
+  {
+    "slug": "giurisprudenza",
+    "name": "Giurisprudenza",
+    "description": "Un libro con bilancia della giustizia e segnalibro rosso. Sotto la copertina si trova lo spazio dedicato ai confetti.",
+    "dimensions": [98, 113.7, 32.6],
+    "assembly": "Libro cavo con dorso integrato, righe delle pagine incise e copertina estraibile.",
+    "image": "/products/giurisprudenza.webp",
+    "model": "/products/giurisprudenza-montato.glb",
+    "openModel": "/products/giurisprudenza-aperto.glb"
+  },
+  {
+    "slug": "ingegneria",
+    "name": "Ingegneria",
+    "description": "Un contenitore esagonale con ingranaggio rosso sul coperchio. Geometrie e dettagli richiamano il mondo dell’ingegneria.",
+    "dimensions": [99.6, 115, 37.6],
+    "assembly": "Scatola esagonale con coperchio guidato; ingranaggio estruso e pannelli laterali scavati.",
+    "image": "/products/ingegneria.webp",
+    "model": "/products/ingegneria-montato.glb",
+    "openModel": "/products/ingegneria-aperto.glb"
+  },
+  {
+    "slug": "biologia",
+    "name": "Biologia",
+    "description": "Un microscopio in miniatura con decorazione a doppia elica. Il piano integra una vaschetta portaconfetti con coperchio rimovibile.",
+    "dimensions": [108, 79.5, 106.7],
+    "assembly": "Microscopio modulare: arco stampato di lato e tubo separato; vaschetta accessibile frontalmente.",
+    "image": "/products/biologia.webp",
+    "model": "/products/biologia-montato.glb",
+    "openModel": "/products/biologia-aperto.glb"
+  }
+]
