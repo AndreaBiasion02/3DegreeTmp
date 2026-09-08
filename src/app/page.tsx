@@ -9,7 +9,7 @@ import Catalog from "@/components/catalog";
 import { metadata as meta } from "@/lib/seo";
 export const metadata = meta(
   "Il tuo traguardo, in 3D",
-  "Scopri le bomboniere di laurea 3Degree: sei portaconfetti in stampa 3D ispirati al tuo percorso, con immagini, dettagli e anteprime interattive.",
+  "Scopri le bomboniere di laurea 3Degree: portaconfetti a tema, tocchi per facoltà e configuratore di colori, testi e logo. Catalogo illustrativo in 3D.",
   "/"
 );
 export default function Home() {
@@ -34,7 +34,17 @@ export default function Home() {
               Scopri la collezione ↗
             </a>
           </div>
-          <Catalog />
+          <Catalog kind="sculpture" />
+          <h2 className="brand-heading mb-9 mt-16 text-4xl small:text-5xl">
+            Tocchi da personalizzare
+          </h2>
+          <Catalog kind="cap" limit={3} />
+          <a
+            href="/collections/laurea/#tocchi"
+            className="brand-button-secondary mt-9"
+          >
+            Tutti i tocchi e il configuratore ↗
+          </a>
         </div>
       </section>
       <ValueSection />

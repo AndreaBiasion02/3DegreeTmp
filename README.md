@@ -22,7 +22,11 @@ npm run preview
 
 ## Contenuti
 
-Home, collezione Laurea e sei schede: Informatica, Economia, Medicina, Giurisprudenza, Ingegneria e Biologia. Dati editoriali in `src/lib/products.json`; i dati dimensionali vengono dai manifest originali. Modelli e immagini in `public/products`. Si tratta di prototipi digitali, non di fotografie di prodotti finiti. L’NFC è presentato come concetto del brand, senza attribuirlo come caratteristica verificata ai sei prototipi.
+Home, collezione Laurea e 17 schede: i sei portaconfetti a tema più 11 tocchi importati dal catalogo pubblicato in Docker (un modello libero e dieci facoltà). I preset conservano colori, testo e font del backend. Dati editoriali in `src/lib/products.json`, immagini in `public/products`, geometria CAD già convertita in `public/models/tocco-meshes.json`. I tocchi misurano 65 × 65 × 37 mm secondo il CAD. Le anteprime sono rendering, non fotografie. L’NFC è presentato come concetto del brand.
+
+Il configuratore del tocco conserva testi multipli, font, logo SVG e posizionamento 2D/3D dello storefront originale, con controlli separati per struttura, fascia e bordo. Funziona localmente nel browser: nessun salvataggio remoto, caricamento su server o carrello. I sei modelli GLB permettono di colorare struttura e dettagli mantenendo il chip oro di Economia. I colori restano selezionati passando tra aperto e chiuso; ripristino e ricaricamento riportano ai valori iniziali.
+
+Per aggiornare volontariamente il catalogo dal database locale: `node scripts/import-backend.mjs`, poi `node scripts/render-cap-previews.mjs` e il normale build. L’importazione esegue solo una SELECT dei prodotti pubblicati e copia una lista esplicita di campi illustrativi; non esporta clienti, ordini, prezzi, chiavi o connessioni. **Non è uno step del build**: il sito funziona anche con Docker spento. Il database e il frontend originale restano invariati. `adapt-configurator.mjs` documenta il port iniziale; non eseguirlo per un semplice aggiornamento dei prodotti, perché riscrive il componente.
 
 `scripts/import-storefront.mjs` documenta l’importazione iniziale, inclusi gli adattamenti ai testi. Il build è autonomo: non richiede né lo storefront originale né la cartella condivisa. Per una nuova importazione passare la cartella storefront e quella della collezione come argomenti; questa operazione riscrive i file importati.
 

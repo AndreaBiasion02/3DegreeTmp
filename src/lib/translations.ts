@@ -106,16 +106,16 @@ Object.assign(dictionary, {
   "Process Intro":
     "Scopri l’idea dietro le bomboniere con NFC: un oggetto che può collegare il tuo giorno ai ricordi di chi lo ha vissuto.",
   "Process 2 Text":
-    "Il link può essere associato a un tag NFC, per collegare la bomboniera all’album. Il video racconta questo concetto; i sei modelli della collezione sono prototipi digitali.",
+    "Il link può essere associato a un tag NFC, per collegare la bomboniera all’album. Il video racconta questo concetto; le anteprime della collezione mostrano modelli digitali.",
   "FAQ 1 Question": "Posso acquistare da questo sito?",
   "FAQ 1 Answer":
     "Questo sito è una vetrina illustrativa: presenta i modelli e le loro caratteristiche, senza vendita online.",
   "FAQ 2 Question": "Cosa mostrano le anteprime?",
   "FAQ 2 Answer":
-    "Le immagini e le viste 3D mostrano i prototipi digitali della collezione Laurea. Puoi esplorare ogni modello aperto e chiuso. Colori e finiture del prodotto fisico possono differire.",
+    "Le immagini e le viste 3D mostrano modelli digitali. I sei portaconfetti a tema si esplorano aperti e chiusi, cambiando struttura e dettagli. Sui tocchi puoi provare colori, testi, font e logo. Colori e finiture fisiche possono differire.",
   "FAQ 3 Question": "Come scelgo il modello da esplorare?",
   "FAQ 3 Answer":
-    "Parti dal tuo percorso: Informatica, Economia, Medicina, Giurisprudenza, Ingegneria o Biologia. Ogni scheda racconta la forma del portaconfetti e riporta le dimensioni del modello montato.",
+    "Esplora i portaconfetti a tema oppure scegli un tocco per facoltà. Per una composizione libera, apri Costruisci la tua bomboniera. Ogni configurazione è solo illustrativa e non richiede un account.",
   "Clear before creating": "Conosci ogni dettaglio",
 });
 export const t = (key: string) => dictionary[key] ?? key;

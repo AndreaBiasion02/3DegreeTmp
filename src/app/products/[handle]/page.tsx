@@ -1,5 +1,7 @@
 import { notFound } from "next/navigation";
-import products from "@/lib/products.json";
+import { products } from "@/lib/catalog";
+import CapExplorer from "@/components/cap-explorer";
+import Image from "next/image";
 import { metadata as meta, absolute } from "@/lib/seo";
 import Schema from "@/components/schema";
 import Viewer from "@/components/viewer";
@@ -41,7 +43,18 @@ export default async function Product({ params }: Props) {
         <span>{p.name}</span>
       </nav>
       <div className="grid items-start gap-10 small:grid-cols-[1.2fr_1fr] small:gap-16">
-        <Viewer product={p} />
+        {p.kind === "cap" ? (
+          <Image
+            src={p.image}
+            alt={`${p.name}, configurazione iniziale`}
+            width={465}
+            height={355}
+            priority
+            className="w-full rounded-[1.75rem]"
+          />
+        ) : (
+          <Viewer product={p} />
+        )}
         <article>
           <span className="brand-kicker">
             Collezione Laurea · Portaconfetti
@@ -64,7 +77,11 @@ export default async function Product({ params }: Props) {
                 Colori del prototipo
               </dt>
               <dd className="mt-2">
-                Nero e rosso{p.slug === "economia" ? ", con dettaglio oro" : ""}
+                {p.kind === "cap"
+                  ? "Combinazione iniziale della facoltà, modificabile nel configuratore."
+                  : `Struttura e dettagli modificabili nella vista 3D${
+                      p.slug === "economia" ? "; chip oro mantenuto" : ""
+                    }.`}
               </dd>
             </div>
             <div className="py-5">
@@ -95,11 +112,14 @@ export default async function Product({ params }: Props) {
           </a>
         </article>
       </div>
+      {p.kind === "cap" && p.preset && (
+        <CapExplorer image={p.image} name={p.name} preset={p.preset} />
+      )}
       <section className="border-t border-brand-primary/15 mt-20 pt-14 pb-10">
         <h2 className="brand-heading mb-10 text-4xl xsmall:text-5xl">
           Altri percorsi, altre storie.
         </h2>
-        <Catalog exclude={p.slug} />
+        <Catalog exclude={p.slug} limit={6} />
       </section>
       <Schema
         data={{

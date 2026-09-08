@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 export const siteUrl = (
-  process.env.NEXT_PUBLIC_SITE_URL || "https://tredegree-vetrina.a-biasionsomaschini.chatgpt.site"
+  process.env.NEXT_PUBLIC_SITE_URL ||
+  "https://tredegree-vetrina.a-biasionsomaschini.chatgpt.site"
 ).replace(/\/$/, "");
 export function metadata(
   title: string,

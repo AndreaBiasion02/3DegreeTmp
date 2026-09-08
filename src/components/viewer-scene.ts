@@ -1,10 +1,12 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+import { colorRole, type ModelColors } from "@/lib/model-colors";
 export type SceneControls = {
   dispose: () => void;
   rotate: (direction: number) => void;
   zoom: (factor: number) => void;
+  setColors: (colors: ModelColors) => void;
 };
 export async function createScene(
   host: HTMLDivElement,
@@ -58,6 +60,32 @@ export async function createScene(
   fill.position.set(-3, 2, -2);
   scene.add(fill);
   const model = gltf.scene;
+  const colored: Array<{
+    material: THREE.MeshStandardMaterial;
+    role: "structure" | "accent";
+  }> = [];
+  model.traverse((object) => {
+    if (!(object instanceof THREE.Mesh)) return;
+    const attribute = object.geometry.getAttribute("color");
+    const role = colorRole(
+      object.name,
+      attribute
+        ? [attribute.getX(0), attribute.getY(0), attribute.getZ(0)]
+        : undefined
+    );
+    if (role === "fixed") return;
+    const materials = Array.isArray(object.material)
+      ? object.material
+      : [object.material];
+    const copies = materials.map((original) => {
+      const material = original.clone() as THREE.MeshStandardMaterial;
+      material.vertexColors = false;
+      colored.push({ material, role });
+      return material;
+    });
+    materials.forEach((material) => material.dispose());
+    object.material = Array.isArray(object.material) ? copies : copies[0];
+  });
   model.rotation.x = -Math.PI / 2;
   model.updateMatrixWorld(true);
   const box = new THREE.Box3().setFromObject(model);
@@ -111,6 +139,10 @@ export async function createScene(
   observer.observe(host);
   resize();
   return {
+    setColors(colors) {
+      colored.forEach(({ material, role }) => material.color.set(colors[role]));
+      render();
+    },
     rotate(direction) {
       const position = camera.position.clone().sub(controls.target);
       position.applyAxisAngle(

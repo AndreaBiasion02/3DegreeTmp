@@ -46,21 +46,63 @@ test("Every catalog page has crawlable content, one H1 and unique canonical meta
     }
   }
 });
-test("All six supplied models have valid binary glTFs and optimized images", async () => {
-  assert.equal(products.length, 6);
+test("All 17 products have valid assets, including six glTF pairs and eleven cap presets", async () => {
+  assert.equal(products.length, 17);
+  assert.equal(products.filter((p) => p.kind === "cap").length, 11);
   for (const p of products) {
     assert.equal(p.dimensions.length, 3);
     assert(p.dimensions.every((n) => n > 0));
-    for (const file of [p.model, p.openModel]) {
+    for (const file of p.kind === "cap" ? [] : [p.model, p.openModel]) {
       const buffer = await fs.readFile(path.join("public", file));
       assert.equal(buffer.toString("ascii", 0, 4), "glTF");
       assert.equal(buffer.readUInt32LE(4), 2);
       assert.equal(buffer.readUInt32LE(8), buffer.length);
     }
+    if (p.kind === "cap") {
+      assert(p.preset);
+      for (const key of [
+        "structureColor",
+        "middleColor",
+        "lineColor",
+        "textColor",
+      ])
+        assert.match(p.preset[key], /^#[0-9a-f]{6}$/i);
+    }
     assert((await fs.stat(path.join("public", p.image))).size < 100_000);
     const html = await readPage(`/products/${p.slug}/`);
     assert(html.includes(p.name));
     assert(html.includes(p.description.replaceAll("’", "’")));
+  }
+});
+test("Runtime is database-free and the converted CAD preserves dimensions", async () => {
+  const meshes = JSON.parse(
+    await fs.readFile("public/models/tocco-meshes.json", "utf8")
+  );
+  const bounds = [
+    [Infinity, -Infinity],
+    [Infinity, -Infinity],
+    [Infinity, -Infinity],
+  ];
+  for (const mesh of meshes)
+    for (let i = 0; i < mesh.attributes.position.array.length; i++) {
+      const v = mesh.attributes.position.array[i];
+      bounds[i % 3][0] = Math.min(bounds[i % 3][0], v);
+      bounds[i % 3][1] = Math.max(bounds[i % 3][1], v);
+    }
+  assert.deepEqual(
+    bounds.map(([min, max]) => max - min),
+    [65, 65, 37]
+  );
+  for (const file of [
+    "src/components/cap-configurator.tsx",
+    "src/lib/configurator/assets.ts",
+    "src/components/viewer.tsx",
+  ]) {
+    const code = await fs.readFile(file, "utf8");
+    assert.doesNotMatch(
+      code,
+      /localhost:9000|MEDUSA_|uploadGraduationFavorAssets|addToCart|\/api\//
+    );
   }
 });
 test("Sitemap exposes the full catalog and purchase endpoints are absent", async () => {

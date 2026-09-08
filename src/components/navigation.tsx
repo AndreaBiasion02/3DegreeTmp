@@ -101,7 +101,7 @@ export function Footer() {
               I percorsi
             </h2>
             <ul className="mt-6 grid grid-cols-2 gap-3">
-              {products.map((p) => (
+              {products.slice(0, 6).map((p) => (
                 <li key={p.slug}>
                   <a
                     className="hover:text-brand-gold"
@@ -118,8 +118,8 @@ export function Footer() {
               Il progetto
             </h2>
             <p className="mt-6 leading-relaxed">
-              Sei percorsi di laurea, sei modi di custodire un ricordo. Esplora
-              forme e dettagli della collezione.
+              Portaconfetti a tema e tocchi personalizzabili. Esplora forme e
+              dettagli della collezione.
             </p>
             <p className="mt-4 text-sm">
               Vetrina illustrativa, senza vendita online.

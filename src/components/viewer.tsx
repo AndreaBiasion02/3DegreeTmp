@@ -2,6 +2,11 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import type { SceneControls } from "./viewer-scene";
+import {
+  colorChoices,
+  defaultColors,
+  type ModelColors,
+} from "@/lib/model-colors";
 type Product = {
   name: string;
   image: string;
@@ -15,6 +20,12 @@ export default function Viewer({ product }: { product: Product }) {
     "loading"
   );
   const [retry, setRetry] = useState(0);
+  const [colors, setColors] = useState<ModelColors>(defaultColors);
+  const colorsRef = useRef(colors);
+  useEffect(() => {
+    colorsRef.current = colors;
+    scene.current?.setColors(colors);
+  }, [colors]);
   const host = useRef<HTMLDivElement>(null);
   const scene = useRef<SceneControls | null>(null);
   useEffect(() => {
@@ -40,6 +51,7 @@ export default function Viewer({ product }: { product: Product }) {
         }
         instance = value;
         scene.current = value;
+        value.setColors(colorsRef.current);
         setStatus("ready");
       })
       .catch(() => {
@@ -114,6 +126,58 @@ export default function Viewer({ product }: { product: Product }) {
           </div>
         )}
       </div>
+      <fieldset className="mt-5 space-y-4 rounded-2xl border border-brand-primary/15 p-4">
+        <legend className="px-2 font-bold">Prova i colori</legend>
+        {(["structure", "accent"] as const).map((role) => (
+          <div key={role}>
+            <label className="flex items-center justify-between gap-3 text-sm font-bold">
+              {role === "structure" ? "Struttura" : "Dettagli"}
+              <input
+                aria-label={
+                  role === "structure" ? "Colore struttura" : "Colore dettagli"
+                }
+                type="color"
+                value={colors[role]}
+                onChange={(e) => {
+                  setColors((c) => ({ ...c, [role]: e.target.value }));
+                  setEnabled(true);
+                }}
+                className="h-10 w-12"
+              />
+            </label>
+            <div className="mt-2 flex flex-wrap gap-2">
+              {colorChoices.map(([label, hex]) => (
+                <button
+                  key={hex}
+                  type="button"
+                  title={label}
+                  aria-label={`${
+                    role === "structure" ? "Struttura" : "Dettagli"
+                  } ${label}`}
+                  aria-pressed={colors[role] === hex}
+                  onClick={() => {
+                    setColors((c) => ({ ...c, [role]: hex }));
+                    setEnabled(true);
+                  }}
+                  className="h-11 w-11 rounded-full border-2 border-brand-primary/30 aria-pressed:ring-2 aria-pressed:ring-brand-primary aria-pressed:ring-offset-2"
+                  style={{ backgroundColor: hex }}
+                />
+              ))}
+            </div>
+          </div>
+        ))}
+        <button
+          type="button"
+          className="text-sm underline"
+          onClick={() => setColors(defaultColors)}
+        >
+          Ripristina i colori originali
+        </button>
+        <p className="text-sm text-brand-dark/70">
+          I colori vengono applicati alla vista 3D, anche aprendo il modello. Le
+          immagini mostrano la versione originale.
+        </p>
+      </fieldset>
       {enabled && (
         <div
           className="mt-4 flex flex-wrap gap-2"
