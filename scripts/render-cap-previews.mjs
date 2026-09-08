@@ -98,15 +98,14 @@ for (const p of products.filter((p) => p.kind === "cap")) {
     })"/></svg>`;
     output = output.composite([{ input: Buffer.from(svg) }]);
   }
-  await output
-    .png()
-    .toBuffer()
-    .then((b) =>
-      sharp(b)
-        .resize(465, 355)
-        .webp({ quality: 88 })
-        .toFile("public" + p.image)
-    );
+  const pngBuffer = await output.png().toBuffer();
+  await sharp(pngBuffer)
+    .resize(465, 355)
+    .webp({ quality: 88 })
+    .toFile("public" + p.image);
+  await sharp(pngBuffer)
+    .webp({ quality: 92 })
+    .toFile("public" + p.image.replace(/\.webp$/, "@2x.webp"));
   p.dimensions = [65, 65, 37];
 }
 fs.writeFileSync(

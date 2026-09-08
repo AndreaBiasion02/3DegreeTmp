@@ -1,7 +1,9 @@
 "use client";
 
 import { Canvas, useLoader } from "@react-three/fiber";
+import { filamentColors, filamentName } from "@/lib/filament-colors";
 import { OrbitControls, Text } from "@react-three/drei";
+import { preloadFont } from "troika-three-text";
 import {
   Box,
   Check,
@@ -15,7 +17,10 @@ import {
 } from "lucide-react";
 import {
   type ChangeEvent,
+  Component,
   type PointerEvent as ReactPointerEvent,
+  type ReactNode,
+  Suspense,
   useEffect,
   useMemo,
   useRef,
@@ -45,6 +50,34 @@ import type {
   GraduationFavorPayload,
   GraduationFavorTransientAssets,
 } from "@/lib/configurator/graduation-favor";
+
+class CanvasErrorBoundary extends Component<
+  { children: ReactNode; fallback?: ReactNode },
+  { hasError: boolean }
+> {
+  state = { hasError: false };
+
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error: unknown) {
+    console.error("Canvas 3D rendering error:", error);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        this.props.fallback ?? (
+          <div className="flex h-full w-full items-center justify-center p-4 text-center text-xs text-brand-dark/70">
+            Errore di caricamento 3D
+          </div>
+        )
+      );
+    }
+    return this.props.children;
+  }
+}
 
 type StepLoadState =
   | { status: "loading" }
@@ -115,7 +148,7 @@ type GraduationFavorConfiguratorProps = {
   onTransientAssetsChange: (assets: GraduationFavorTransientAssets) => void;
 };
 
-const linePresets = ["#dc2626", "#facc15", "#0f766e", "#ffffff", "#1e3a8a"];
+const linePresets = filamentColors;
 const textScaleMin = 0.28;
 const textScaleMax = 2.46;
 const textPositionLimit = 0.78;
@@ -319,6 +352,16 @@ export default function GraduationFavorConfigurator({
   const [logoError, setLogoError] = useState<string | null>(null);
   const [viewMode, setViewMode] = useState<"2d" | "3d">("2d");
   const [isLogoDragActive, setIsLogoDragActive] = useState(false);
+
+  useEffect(() => {
+    fontOptions.forEach((option) => {
+      try {
+        preloadFont({ font: option.src }, () => {});
+      } catch {
+        // ignore preload errors
+      }
+    });
+  }, []);
   const surfaceSignature = useMemo(
     () =>
       JSON.stringify({
@@ -744,7 +787,7 @@ export default function GraduationFavorConfigurator({
             </span>
             {linePresets.map((color) => (
               <button
-                aria-label={`Colore bordo ${color}`}
+                aria-label={`Colore bordo ${filamentName(color)}`}
                 className={`h-8 w-8 rounded-full border-2 shadow-sm transition-all hover:scale-110 ${
                   config.lineColor === color
                     ? "border-brand-primary ring-2 ring-brand-primary/20 ring-offset-2"
@@ -841,28 +884,30 @@ export default function GraduationFavorConfigurator({
               viewMode === "3d" ? "visible" : "invisible"
             }`}
           >
-            <Canvas
-              frameloop="demand"
-              camera={{ position: [4, 3, 5], fov: 42 }}
-              dpr={[1, 1.5]}
-              gl={{ preserveDrawingBuffer: true }}
-              style={{ height: "100%", width: "100%" }}
-            >
-              <color attach="background" args={["#eef1ed"]} />
-              <ambientLight intensity={2.2} />
-              <directionalLight intensity={0.7} position={[3, 5, 4]} />
-              {stepModel ? (
-                <>
-                  <StepBaseModel config={config} model={stepModel} />
-                </>
-              ) : null}
-              <OrbitControls
-                enablePan={false}
-                maxDistance={8}
-                minDistance={3}
-                target={[0, 0, 0]}
-              />
-            </Canvas>
+            <CanvasErrorBoundary>
+              <Canvas
+                frameloop="demand"
+                camera={{ position: [4, 3, 5], fov: 42 }}
+                dpr={[1, 1.5]}
+                gl={{ preserveDrawingBuffer: true }}
+                style={{ height: "100%", width: "100%" }}
+              >
+                <color attach="background" args={["#eef1ed"]} />
+                <ambientLight intensity={2.2} />
+                <directionalLight intensity={0.7} position={[3, 5, 4]} />
+                <Suspense fallback={null}>
+                  {stepModel ? (
+                    <StepBaseModel config={config} model={stepModel} />
+                  ) : null}
+                </Suspense>
+                <OrbitControls
+                  enablePan={false}
+                  maxDistance={8}
+                  minDistance={3}
+                  target={[0, 0, 0]}
+                />
+              </Canvas>
+            </CanvasErrorBoundary>
           </div>
           <div
             className={`absolute inset-0 ${
@@ -929,14 +974,7 @@ export default function GraduationFavorConfigurator({
 
           <ColorControl
             label="Colore struttura"
-            presets={[
-              "#000000",
-              "#7f1d1d",
-              "#1e3a8a",
-              "#064e3b",
-              "#4c1d95",
-              "#ffffff",
-            ]}
+            presets={filamentColors}
             value={config.structureColor}
             onChange={(structureColor) =>
               setConfig((current) => ({ ...current, structureColor }))
@@ -1912,32 +1950,37 @@ function StepBaseModel({
       <TopBand material={lineMaterial} />
 
       {config.textItems.map((item) => {
-        const text = item.text.trim();
+        const trimmed = item.text.trim();
         const font =
           fontOptions.find((option) => option.key === item.fontKey) ??
           fontOptions[0];
 
-        return text ? (
-          <Text
-            anchorX="center"
-            anchorY="middle"
-            color={item.color}
-            font={font.src}
-            fontSize={item.scale}
-            key={item.id}
-            lineHeight={0.9}
-            outlineColor="#000000"
-            outlineWidth={0.018}
-            position={[item.x, topSurfaceY, -item.y]}
-            rotation={[-Math.PI / 2, 0, 0]}
-            textAlign="center"
-          >
-            {text}
-          </Text>
+        return trimmed ? (
+          <Suspense fallback={null} key={item.id}>
+            <Text
+              anchorX="center"
+              anchorY="middle"
+              color={item.color}
+              font={font.src}
+              fontSize={item.scale}
+              lineHeight={0.9}
+              outlineColor="#000000"
+              outlineWidth={0.018}
+              position={[item.x, topSurfaceY + 0.008, -item.y]}
+              rotation={[-Math.PI / 2, 0, 0]}
+              textAlign="center"
+            >
+              {item.text}
+            </Text>
+          </Suspense>
         ) : null;
       })}
 
-      {config.logoItem ? <LogoSurface item={config.logoItem} /> : null}
+      {config.logoItem ? (
+        <Suspense fallback={null}>
+          <LogoSurface item={config.logoItem} />
+        </Suspense>
+      ) : null}
     </group>
   );
 }
@@ -2087,18 +2130,12 @@ function ColorControl({
         <label className="text-small-regular font-medium text-brand-dark">
           {label}
         </label>
-        <input
-          aria-label={label}
-          className="h-10 w-12 cursor-pointer border border-gray-200 bg-white p-1"
-          type="color"
-          value={value}
-          onChange={(event) => onChange(event.target.value)}
-        />
+        <span className="text-sm">{filamentName(value)}</span>
       </div>
       <div className="flex flex-wrap gap-2">
         {presets.map((preset) => (
           <button
-            aria-label={`${label} ${preset}`}
+            aria-label={`${label} ${filamentName(preset)}`}
             className="flex h-10 w-10 items-center justify-center border border-gray-200"
             key={preset}
             onClick={() => onChange(preset)}
@@ -2159,7 +2196,7 @@ function ToolbarColorControl({
               {label}
             </p>
             <p className="mt-0.5 text-[10px] text-brand-dark/45">
-              {disabled ? "Carica prima un logo" : value.toUpperCase()}
+              {disabled ? "Carica prima un logo" : filamentName(value)}
             </p>
           </div>
         </div>
@@ -2178,7 +2215,7 @@ function ToolbarColorControl({
 
           return (
             <button
-              aria-label={`${label} ${preset}`}
+              aria-label={`${label} ${filamentName(preset)}`}
               aria-pressed={isSelected}
               className={`grid h-8 w-8 place-items-center rounded-full border-2 shadow-sm transition-all ${
                 isSelected

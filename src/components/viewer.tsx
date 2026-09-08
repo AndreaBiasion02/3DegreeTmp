@@ -1,7 +1,8 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import Image from "next/image";
+import ResponsiveImage from "./responsive-image";
 import type { SceneControls } from "./viewer-scene";
+import { filamentName } from "@/lib/filament-colors";
 import {
   colorChoices,
   defaultColors,
@@ -68,7 +69,7 @@ export default function Viewer({ product }: { product: Product }) {
     <figure className="min-w-0">
       <div className="relative aspect-[465/355] overflow-hidden rounded-[1.75rem] border border-brand-primary/15 bg-[#f0efed]">
         {(!enabled || status !== "ready") && (
-          <Image
+          <ResponsiveImage
             src={product.image}
             alt={`Prototipo digitale del portaconfetti ${product.name}, con coperchio separato`}
             width={465}
@@ -132,18 +133,7 @@ export default function Viewer({ product }: { product: Product }) {
           <div key={role}>
             <label className="flex items-center justify-between gap-3 text-sm font-bold">
               {role === "structure" ? "Struttura" : "Dettagli"}
-              <input
-                aria-label={
-                  role === "structure" ? "Colore struttura" : "Colore dettagli"
-                }
-                type="color"
-                value={colors[role]}
-                onChange={(e) => {
-                  setColors((c) => ({ ...c, [role]: e.target.value }));
-                  setEnabled(true);
-                }}
-                className="h-10 w-12"
-              />
+              <span>{filamentName(colors[role])}</span>
             </label>
             <div className="mt-2 flex flex-wrap gap-2">
               {colorChoices.map(([label, hex]) => (
@@ -174,8 +164,8 @@ export default function Viewer({ product }: { product: Product }) {
           Ripristina i colori originali
         </button>
         <p className="text-sm text-brand-dark/70">
-          I colori vengono applicati alla vista 3D, anche aprendo il modello. Le
-          immagini mostrano la versione originale.
+          Solo colori della palette ELEGOO PLA Basic. I colori a schermo sono
+          indicativi. La scelta resta applicata anche aprendo il modello.
         </p>
       </fieldset>
       {enabled && (

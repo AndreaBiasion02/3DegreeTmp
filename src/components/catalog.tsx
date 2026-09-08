@@ -1,4 +1,4 @@
-import Image from "next/image";
+import ResponsiveImage from "./responsive-image";
 import { products } from "@/lib/catalog";
 export default function Catalog({
   exclude,
@@ -21,7 +21,7 @@ export default function Catalog({
           <li key={p.slug} className="min-w-0">
             <a className="group block" href={`/products/${p.slug}/`}>
               <div className="overflow-hidden rounded-[1.75rem] border border-brand-primary/15 bg-[#f0efed]">
-                <Image
+                <ResponsiveImage
                   src={p.image}
                   alt={
                     p.kind === "cap"

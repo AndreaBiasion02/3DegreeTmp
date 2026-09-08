@@ -1,6 +1,7 @@
 // Optional, read-only import. Never runs during build or on the public website.
 import { execFileSync } from "node:child_process";
 import fs from "node:fs";
+import { normalizeCatalog } from "./normalize-palette.mjs";
 const sql =
   "SELECT coalesce(json_agg(t),'[]') FROM (SELECT title,handle,description,metadata FROM product WHERE deleted_at IS NULL AND status='published' ORDER BY handle) t";
 const rows = JSON.parse(
@@ -50,7 +51,7 @@ const current = JSON.parse(
 ).filter((p) => p.kind !== "cap");
 fs.writeFileSync(
   "src/lib/products.json",
-  JSON.stringify([...current, ...caps], null, 2) + "\n"
+  JSON.stringify(normalizeCatalog([...current, ...caps]), null, 2) + "\n"
 );
 console.log(
   `Imported ${caps.length} published products and their presentation presets. No customer, order, price or credential data exported.`

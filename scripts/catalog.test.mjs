@@ -3,6 +3,10 @@ import assert from "node:assert/strict";
 import fs from "node:fs/promises";
 import path from "node:path";
 const products = JSON.parse(await fs.readFile("src/lib/products.json", "utf8"));
+const palette = JSON.parse(
+  await fs.readFile("src/lib/filament-palette.json", "utf8")
+);
+const allowed = new Set(palette.map((p) => p.hex));
 const pages = [
   "/",
   "/collections/laurea/",
@@ -65,14 +69,52 @@ test("All 17 products have valid assets, including six glTF pairs and eleven cap
         "middleColor",
         "lineColor",
         "textColor",
-      ])
+      ]) {
         assert.match(p.preset[key], /^#[0-9a-f]{6}$/i);
+        assert(allowed.has(p.preset[key]), `${p.slug}: unsupported ${key}`);
+      }
     }
     assert((await fs.stat(path.join("public", p.image))).size < 100_000);
     const html = await readPage(`/products/${p.slug}/`);
     assert(html.includes(p.name));
     assert(html.includes(p.description.replaceAll("’", "’")));
   }
+});
+test("All product color surfaces use the nine printable filament colors", async () => {
+  assert.equal(allowed.size, 9);
+  for (const file of [
+    "src/components/viewer.tsx",
+    "src/components/cap-configurator.tsx",
+  ])
+    assert.doesNotMatch(await fs.readFile(file, "utf8"), /type=["']color["']/);
+  const rgbSet = new Set(
+    palette.map((p) =>
+      [1, 3, 5].map((i) => parseInt(p.hex.slice(i, i + 2), 16)).join(",")
+    )
+  );
+  for (const p of products.filter((p) => p.kind !== "cap"))
+    for (const file of [p.model, p.openModel]) {
+      const b = await fs.readFile("public" + file),
+        len = b.readUInt32LE(12),
+        j = JSON.parse(b.subarray(20, 20 + len)),
+        bin = b.subarray(28 + len);
+      for (const mesh of j.meshes)
+        for (const primitive of mesh.primitives) {
+          const a = j.accessors[primitive.attributes.COLOR_0],
+            v = j.bufferViews[a.bufferView],
+            offset = (v.byteOffset || 0) + (a.byteOffset || 0),
+            stride = v.byteStride || 4;
+          for (let i = 0; i < a.count; i++)
+            assert(
+              rgbSet.has(
+                [
+                  ...bin.subarray(offset + i * stride, offset + i * stride + 3),
+                ].join(",")
+              ),
+              `${file}: unsupported mesh color`
+            );
+        }
+    }
 });
 test("Runtime is database-free and the converted CAD preserves dimensions", async () => {
   const meshes = JSON.parse(

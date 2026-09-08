@@ -3,7 +3,11 @@
     "slug": "informatica",
     "name": "Informatica",
     "description": "Un piccolo computer portatile con simbolo del codice sullo schermo e tastiera a rilievo. La base nasconde la vaschetta portaconfetti.",
-    "dimensions": [110, 83.4, 91.1],
+    "dimensions": [
+      110,
+      83.4,
+      91.1
+    ],
     "assembly": "Vaschetta + tastiera estraibile; schermo fisso a 78 gradi con due linguette da incollare.",
     "image": "/products/informatica.webp",
     "model": "/products/informatica-montato.glb",
@@ -13,7 +17,11 @@
     "slug": "economia",
     "name": "Economia",
     "description": "Una carta con simbolo dell’euro, grafico a colonne e freccia in crescita. Il coperchio racchiude una vaschetta rettangolare.",
-    "dimensions": [112, 78, 30.8],
+    "dimensions": [
+      112,
+      78,
+      30.8
+    ],
     "assembly": "Coperchio a carta con labbro di centraggio; simboli in rilievo incollabili.",
     "image": "/products/economia.webp",
     "model": "/products/economia-montato.glb",
@@ -23,7 +31,11 @@
     "slug": "medicina",
     "name": "Medicina",
     "description": "Una valigetta con manico e croce rossa, ispirata al mondo della medicina. Il coperchio si separa dalla vaschetta portaconfetti.",
-    "dimensions": [108, 86.5, 33.2],
+    "dimensions": [
+      108,
+      86.5,
+      33.2
+    ],
     "assembly": "Valigetta con coperchio estraibile e manico spesso integrato, stampabile in piano.",
     "image": "/products/medicina.webp",
     "model": "/products/medicina-montato.glb",
@@ -33,7 +45,11 @@
     "slug": "giurisprudenza",
     "name": "Giurisprudenza",
     "description": "Un libro con bilancia della giustizia e segnalibro rosso. Sotto la copertina si trova lo spazio dedicato ai confetti.",
-    "dimensions": [98, 113.7, 32.6],
+    "dimensions": [
+      98,
+      113.7,
+      32.6
+    ],
     "assembly": "Libro cavo con dorso integrato, righe delle pagine incise e copertina estraibile.",
     "image": "/products/giurisprudenza.webp",
     "model": "/products/giurisprudenza-montato.glb",
@@ -43,7 +59,11 @@
     "slug": "ingegneria",
     "name": "Ingegneria",
     "description": "Un contenitore esagonale con ingranaggio rosso sul coperchio. Geometrie e dettagli richiamano il mondo dell’ingegneria.",
-    "dimensions": [99.6, 115, 37.6],
+    "dimensions": [
+      99.6,
+      115,
+      37.6
+    ],
     "assembly": "Scatola esagonale con coperchio guidato; ingranaggio estruso e pannelli laterali scavati.",
     "image": "/products/ingegneria.webp",
     "model": "/products/ingegneria-montato.glb",
@@ -53,7 +73,11 @@
     "slug": "biologia",
     "name": "Biologia",
     "description": "Un microscopio in miniatura con decorazione a doppia elica. Il piano integra una vaschetta portaconfetti con coperchio rimovibile.",
-    "dimensions": [108, 79.5, 106.7],
+    "dimensions": [
+      108,
+      79.5,
+      106.7
+    ],
     "assembly": "Microscopio modulare: arco stampato di lato e tubo separato; vaschetta accessibile frontalmente.",
     "image": "/products/biologia.webp",
     "model": "/products/biologia-montato.glb",
@@ -62,18 +86,22 @@
   {
     "slug": "bomboniera-architettura",
     "name": "Bomboniera Laurea Architettura",
-    "description": "Bomboniera a forma di cappello di laurea con i colori e le iniziali della facoltà di Architettura. Configurazione predefinita ispirata ai colori accademici tradizionali.",
+    "description": "Bomboniera a forma di cappello di laurea con i colori della facoltà di Architettura. Configurazione predefinita ispirata ai colori accademici tradizionali.",
     "kind": "cap",
     "image": "/products/bomboniera-architettura.webp",
     "model": "",
     "openModel": "",
-    "dimensions": [65, 65, 37],
+    "dimensions": [
+      65,
+      65,
+      37
+    ],
     "assembly": "Tocco di laurea con base cilindrica, fascia e coperchio quadrato da 65 mm.",
     "preset": {
-      "structureColor": "#111827",
-      "middleColor": "#fef3c7",
-      "lineColor": "#f59e0b",
-      "text": "ARC",
+      "structureColor": "#222222",
+      "middleColor": "#ffffff",
+      "lineColor": "#ffffff",
+      "text": "",
       "fontKey": "great-vibes",
       "textColor": "#ffffff"
     },
@@ -82,18 +110,22 @@
   {
     "slug": "bomboniera-economia",
     "name": "Bomboniera Laurea Economia",
-    "description": "Bomboniera a forma di cappello di laurea con i colori e le iniziali della facoltà di Economia. Configurazione predefinita ispirata ai colori accademici tradizionali.",
+    "description": "Bomboniera a forma di cappello di laurea con i colori della facoltà di Economia. Configurazione predefinita ispirata ai colori accademici tradizionali.",
     "kind": "cap",
     "image": "/products/bomboniera-economia.webp",
     "model": "",
     "openModel": "",
-    "dimensions": [65, 65, 37],
+    "dimensions": [
+      65,
+      65,
+      37
+    ],
     "assembly": "Tocco di laurea con base cilindrica, fascia e coperchio quadrato da 65 mm.",
     "preset": {
-      "structureColor": "#064e3b",
-      "middleColor": "#f8fafc",
+      "structureColor": "#222222",
+      "middleColor": "#facc15",
       "lineColor": "#facc15",
-      "text": "ECO",
+      "text": "",
       "fontKey": "great-vibes",
       "textColor": "#ffffff"
     },
@@ -102,18 +134,22 @@
   {
     "slug": "bomboniera-farmacia",
     "name": "Bomboniera Laurea Farmacia",
-    "description": "Bomboniera a forma di cappello di laurea con i colori e le iniziali della facoltà di Farmacia. Configurazione predefinita ispirata ai colori accademici tradizionali.",
+    "description": "Bomboniera a forma di cappello di laurea con i colori della facoltà di Farmacia. Configurazione predefinita ispirata ai colori accademici tradizionali.",
     "kind": "cap",
     "image": "/products/bomboniera-farmacia.webp",
     "model": "",
     "openModel": "",
-    "dimensions": [65, 65, 37],
+    "dimensions": [
+      65,
+      65,
+      37
+    ],
     "assembly": "Tocco di laurea con base cilindrica, fascia e coperchio quadrato da 65 mm.",
     "preset": {
-      "structureColor": "#064e3b",
-      "middleColor": "#dcfce7",
-      "lineColor": "#facc15",
-      "text": "FAR",
+      "structureColor": "#222222",
+      "middleColor": "#dc2626",
+      "lineColor": "#218c45",
+      "text": "",
       "fontKey": "great-vibes",
       "textColor": "#ffffff"
     },
@@ -122,18 +158,22 @@
   {
     "slug": "bomboniera-giurisprudenza",
     "name": "Bomboniera Laurea Giurisprudenza",
-    "description": "Bomboniera a forma di cappello di laurea con i colori e le iniziali della facoltà di Giurisprudenza. Configurazione predefinita ispirata ai colori accademici tradizionali.",
+    "description": "Bomboniera a forma di cappello di laurea con i colori della facoltà di Giurisprudenza. Configurazione predefinita ispirata ai colori accademici tradizionali.",
     "kind": "cap",
     "image": "/products/bomboniera-giurisprudenza.webp",
     "model": "",
     "openModel": "",
-    "dimensions": [65, 65, 37],
+    "dimensions": [
+      65,
+      65,
+      37
+    ],
     "assembly": "Tocco di laurea con base cilindrica, fascia e coperchio quadrato da 65 mm.",
     "preset": {
-      "structureColor": "#1e3a8a",
-      "middleColor": "#f8fafc",
-      "lineColor": "#facc15",
-      "text": "GIU",
+      "structureColor": "#222222",
+      "middleColor": "#2458b8",
+      "lineColor": "#2458b8",
+      "text": "",
       "fontKey": "great-vibes",
       "textColor": "#ffffff"
     },
@@ -142,18 +182,22 @@
   {
     "slug": "bomboniera-ingegneria",
     "name": "Bomboniera Laurea Ingegneria",
-    "description": "Bomboniera a forma di cappello di laurea con i colori e le iniziali della facoltà di Ingegneria. Configurazione predefinita ispirata ai colori accademici tradizionali.",
+    "description": "Bomboniera a forma di cappello di laurea con i colori della facoltà di Ingegneria. Configurazione predefinita ispirata ai colori accademici tradizionali.",
     "kind": "cap",
     "image": "/products/bomboniera-ingegneria.webp",
     "model": "",
     "openModel": "",
-    "dimensions": [65, 65, 37],
+    "dimensions": [
+      65,
+      65,
+      37
+    ],
     "assembly": "Tocco di laurea con base cilindrica, fascia e coperchio quadrato da 65 mm.",
     "preset": {
-      "structureColor": "#1e3a8a",
-      "middleColor": "#fef3c7",
+      "structureColor": "#222222",
+      "middleColor": "#f97316",
       "lineColor": "#f97316",
-      "text": "ING",
+      "text": "",
       "fontKey": "great-vibes",
       "textColor": "#ffffff"
     },
@@ -162,18 +206,22 @@
   {
     "slug": "bomboniera-lettere",
     "name": "Bomboniera Laurea Lettere e Filosofia",
-    "description": "Bomboniera a forma di cappello di laurea con i colori e le iniziali della facoltà di Lettere e Filosofia. Configurazione predefinita ispirata ai colori accademici tradizionali.",
+    "description": "Bomboniera a forma di cappello di laurea con i colori della facoltà di Lettere e Filosofia. Configurazione predefinita ispirata ai colori accademici tradizionali.",
     "kind": "cap",
     "image": "/products/bomboniera-lettere.webp",
     "model": "",
     "openModel": "",
-    "dimensions": [65, 65, 37],
+    "dimensions": [
+      65,
+      65,
+      37
+    ],
     "assembly": "Tocco di laurea con base cilindrica, fascia e coperchio quadrato da 65 mm.",
     "preset": {
-      "structureColor": "#4c1d95",
-      "middleColor": "#f8fafc",
-      "lineColor": "#c084fc",
-      "text": "LET",
+      "structureColor": "#222222",
+      "middleColor": "#803fa1",
+      "lineColor": "#803fa1",
+      "text": "",
       "fontKey": "great-vibes",
       "textColor": "#ffffff"
     },
@@ -182,18 +230,22 @@
   {
     "slug": "bomboniera-medicina",
     "name": "Bomboniera Laurea Medicina",
-    "description": "Bomboniera a forma di cappello di laurea con i colori e le iniziali della facoltà di Medicina. Configurazione predefinita ispirata ai colori accademici tradizionali.",
+    "description": "Bomboniera a forma di cappello di laurea con i colori della facoltà di Medicina. Configurazione predefinita ispirata ai colori accademici tradizionali.",
     "kind": "cap",
     "image": "/products/bomboniera-medicina.webp",
     "model": "",
     "openModel": "",
-    "dimensions": [65, 65, 37],
+    "dimensions": [
+      65,
+      65,
+      37
+    ],
     "assembly": "Tocco di laurea con base cilindrica, fascia e coperchio quadrato da 65 mm.",
     "preset": {
-      "structureColor": "#7f1d1d",
-      "middleColor": "#f8fafc",
+      "structureColor": "#222222",
+      "middleColor": "#dc2626",
       "lineColor": "#dc2626",
-      "text": "MED",
+      "text": "",
       "fontKey": "great-vibes",
       "textColor": "#ffffff"
     },
@@ -202,18 +254,22 @@
   {
     "slug": "bomboniera-psicologia",
     "name": "Bomboniera Laurea Psicologia",
-    "description": "Bomboniera a forma di cappello di laurea con i colori e le iniziali della facoltà di Psicologia. Configurazione predefinita ispirata ai colori accademici tradizionali.",
+    "description": "Bomboniera a forma di cappello di laurea con i colori della facoltà di Psicologia. Configurazione predefinita ispirata ai colori accademici tradizionali.",
     "kind": "cap",
     "image": "/products/bomboniera-psicologia.webp",
     "model": "",
     "openModel": "",
-    "dimensions": [65, 65, 37],
+    "dimensions": [
+      65,
+      65,
+      37
+    ],
     "assembly": "Tocco di laurea con base cilindrica, fascia e coperchio quadrato da 65 mm.",
     "preset": {
-      "structureColor": "#0f766e",
-      "middleColor": "#f8fafc",
-      "lineColor": "#5eead4",
-      "text": "PSI",
+      "structureColor": "#222222",
+      "middleColor": "#218c45",
+      "lineColor": "#218c45",
+      "text": "",
       "fontKey": "great-vibes",
       "textColor": "#ffffff"
     },
@@ -222,18 +278,22 @@
   {
     "slug": "bomboniera-scienze-politiche",
     "name": "Bomboniera Laurea Scienze Politiche",
-    "description": "Bomboniera a forma di cappello di laurea con i colori e le iniziali della facoltà di Scienze Politiche. Configurazione predefinita ispirata ai colori accademici tradizionali.",
+    "description": "Bomboniera a forma di cappello di laurea con i colori della facoltà di Scienze Politiche. Configurazione predefinita ispirata ai colori accademici tradizionali.",
     "kind": "cap",
     "image": "/products/bomboniera-scienze-politiche.webp",
     "model": "",
     "openModel": "",
-    "dimensions": [65, 65, 37],
+    "dimensions": [
+      65,
+      65,
+      37
+    ],
     "assembly": "Tocco di laurea con base cilindrica, fascia e coperchio quadrato da 65 mm.",
     "preset": {
-      "structureColor": "#7f1d1d",
-      "middleColor": "#dbeafe",
+      "structureColor": "#222222",
+      "middleColor": "#2458b8",
       "lineColor": "#facc15",
-      "text": "POL",
+      "text": "",
       "fontKey": "great-vibes",
       "textColor": "#ffffff"
     },
@@ -242,18 +302,22 @@
   {
     "slug": "bomboniera-veterinaria",
     "name": "Bomboniera Laurea Veterinaria",
-    "description": "Bomboniera a forma di cappello di laurea con i colori e le iniziali della facoltà di Veterinaria. Configurazione predefinita ispirata ai colori accademici tradizionali.",
+    "description": "Bomboniera a forma di cappello di laurea con i colori della facoltà di Veterinaria. Configurazione predefinita ispirata ai colori accademici tradizionali.",
     "kind": "cap",
     "image": "/products/bomboniera-veterinaria.webp",
     "model": "",
     "openModel": "",
-    "dimensions": [65, 65, 37],
+    "dimensions": [
+      65,
+      65,
+      37
+    ],
     "assembly": "Tocco di laurea con base cilindrica, fascia e coperchio quadrato da 65 mm.",
     "preset": {
-      "structureColor": "#44403c",
-      "middleColor": "#f8fafc",
-      "lineColor": "#064e3b",
-      "text": "VET",
+      "structureColor": "#222222",
+      "middleColor": "#808080",
+      "lineColor": "#808080",
+      "text": "",
       "fontKey": "great-vibes",
       "textColor": "#ffffff"
     },
@@ -267,10 +331,14 @@
     "image": "/products/tocco-laurea.webp",
     "model": "",
     "openModel": "",
-    "dimensions": [65, 65, 37],
+    "dimensions": [
+      65,
+      65,
+      37
+    ],
     "assembly": "Tocco di laurea con base cilindrica, fascia e coperchio quadrato da 65 mm.",
     "preset": {
-      "structureColor": "#000000",
+      "structureColor": "#222222",
       "middleColor": "#dc2626",
       "lineColor": "#dc2626",
       "text": "",

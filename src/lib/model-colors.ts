@@ -1,19 +1,13 @@
 export type ModelColors = { structure: string; accent: string };
+import { filamentPalette } from "./filament-colors";
 export const defaultColors: ModelColors = {
-  structure: "#27292a",
-  accent: "#bd4039",
+  structure: "#222222",
+  accent: "#dc2626",
 };
-export const colorChoices = [
-  ["Nero", "#222222"],
-  ["Bianco", "#f8fafc"],
-  ["Rosso", "#bd4039"],
-  ["Bordeaux", "#7f1d1d"],
-  ["Blu", "#1e3a8a"],
-  ["Verde", "#064e3b"],
-  ["Viola", "#4c1d95"],
-  ["Oro", "#d3af56"],
-] as const;
-// Semantic part names survive both closed and open GLBs. Gold details remain unchanged.
+export const colorChoices = filamentPalette.map(
+  (p) => [p.name, p.hex] as const
+);
+// Semantic part names survive both closed and open GLBs. The chip uses fixed PLA yellow.
 export function colorRole(
   name: string,
   rgb?: number[]

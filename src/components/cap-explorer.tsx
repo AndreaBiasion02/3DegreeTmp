@@ -1,7 +1,7 @@
 "use client";
 import dynamic from "next/dynamic";
 import { useState } from "react";
-import Image from "next/image";
+import ResponsiveImage from "./responsive-image";
 import type { CapPreset } from "@/lib/catalog";
 const Configurator = dynamic(() => import("./cap-configurator"), {
   ssr: false,
@@ -34,7 +34,7 @@ export default function CapExplorer({
         />
       ) : (
         <div className="grid items-center gap-8 rounded-[1.75rem] border border-brand-primary/15 bg-brand-paper p-5 small:grid-cols-2 small:p-9">
-          <Image
+          <ResponsiveImage
             src={image}
             alt={`Anteprima 3D ${name}`}
             width={465}
@@ -56,9 +56,10 @@ export default function CapExplorer({
         </div>
       )}
       <p className="mt-4 text-sm text-brand-dark/70">
-        Simulazione illustrativa, senza acquisto. Testi e logo sono elaborati
-        solo sul tuo dispositivo e non vengono inviati a un server. Ricaricando
-        la pagina riparti dalla configurazione iniziale.
+        Solo colori della palette ELEGOO PLA Basic; le tonalità a schermo sono
+        indicative. Simulazione illustrativa, senza acquisto. Testi e logo sono
+        elaborati solo sul tuo dispositivo e non vengono inviati a un server.
+        Ricaricando la pagina riparti dalla configurazione iniziale.
       </p>
     </section>
   );

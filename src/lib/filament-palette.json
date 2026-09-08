@@ -1,0 +1,11 @@
+[
+  { "name": "Nero", "supplierName": "Black", "hex": "#222222" },
+  { "name": "Bianco", "supplierName": "White", "hex": "#ffffff" },
+  { "name": "Grigio", "supplierName": "Grey", "hex": "#808080" },
+  { "name": "Rosso", "supplierName": "Red", "hex": "#dc2626" },
+  { "name": "Giallo", "supplierName": "Yellow", "hex": "#facc15" },
+  { "name": "Arancione", "supplierName": "Orange", "hex": "#f97316" },
+  { "name": "Blu cobalto", "supplierName": "Cobalt Blue", "hex": "#2458b8" },
+  { "name": "Verde", "supplierName": "Green", "hex": "#218c45" },
+  { "name": "Viola", "supplierName": "Purple", "hex": "#803fa1" }
+]

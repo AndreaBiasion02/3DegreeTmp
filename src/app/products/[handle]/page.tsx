@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { products } from "@/lib/catalog";
 import CapExplorer from "@/components/cap-explorer";
-import Image from "next/image";
+import ResponsiveImage from "@/components/responsive-image";
 import { metadata as meta, absolute } from "@/lib/seo";
 import Schema from "@/components/schema";
 import Viewer from "@/components/viewer";
@@ -44,7 +44,7 @@ export default async function Product({ params }: Props) {
       </nav>
       <div className="grid items-start gap-10 small:grid-cols-[1.2fr_1fr] small:gap-16">
         {p.kind === "cap" ? (
-          <Image
+          <ResponsiveImage
             src={p.image}
             alt={`${p.name}, configurazione iniziale`}
             width={465}
@@ -80,7 +80,7 @@ export default async function Product({ params }: Props) {
                 {p.kind === "cap"
                   ? "Combinazione iniziale della facoltà, modificabile nel configuratore."
                   : `Struttura e dettagli modificabili nella vista 3D${
-                      p.slug === "economia" ? "; chip oro mantenuto" : ""
+                      p.slug === "economia" ? "; chip giallo" : ""
                     }.`}
               </dd>
             </div>

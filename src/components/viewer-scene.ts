@@ -86,7 +86,6 @@ export async function createScene(
     materials.forEach((material) => material.dispose());
     object.material = Array.isArray(object.material) ? copies : copies[0];
   });
-  model.rotation.x = -Math.PI / 2;
   model.updateMatrixWorld(true);
   const box = new THREE.Box3().setFromObject(model);
   const size = box.getSize(new THREE.Vector3());
