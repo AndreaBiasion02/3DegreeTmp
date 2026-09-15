@@ -4,8 +4,10 @@ import {
   ProcessSection,
   ValueSection,
   FaqAndCta,
+  ContactSection,
 } from "@/components/sections";
 import Catalog from "@/components/catalog";
+import CollectionCards from "@/components/collection-cards";
 import { metadata as meta } from "@/lib/seo";
 export const metadata = meta(
   "Il tuo traguardo, in 3D",
@@ -24,31 +26,32 @@ export default function Home() {
             <div>
               <span className="brand-kicker">In evidenza</span>
               <h2 className="brand-heading mt-4 text-5xl xsmall:text-6xl small:text-7xl">
-                Collezione Laurea
+                Le nostre collezioni
               </h2>
             </div>
             <a
               href="/collections/laurea/"
               className="shrink-0 border-b border-brand-primary pb-1 text-sm font-bold uppercase"
             >
-              Scopri la collezione ↗
+              Scopri le collezioni ↗
             </a>
           </div>
-          <Catalog kind="sculpture" />
+          <CollectionCards />
           <h2 className="brand-heading mb-9 mt-16 text-4xl small:text-5xl">
-            Tocchi da personalizzare
+            Il simbolo della tua facoltà
           </h2>
-          <Catalog kind="cap" limit={3} />
+          <Catalog collection="tocchi-di-facolta" limit={3} />
           <a
-            href="/collections/laurea/#tocchi"
+            href="/collections/tocchi-di-facolta/"
             className="brand-button-secondary mt-9"
           >
-            Tutti i tocchi e il configuratore ↗
+            Tutti i tocchi di facoltà ↗
           </a>
         </div>
       </section>
       <ValueSection />
       <FaqAndCta />
+      <ContactSection />
     </>
   );
 }

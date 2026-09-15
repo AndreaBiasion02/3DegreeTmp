@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import fs from "node:fs/promises";
 import path from "node:path";
 const products = JSON.parse(await fs.readFile("src/lib/products.json", "utf8"));
+const collections = JSON.parse(await fs.readFile("src/lib/collections.json", "utf8"));
 const palette = JSON.parse(
   await fs.readFile("src/lib/filament-palette.json", "utf8")
 );
@@ -10,6 +11,7 @@ const allowed = new Set(palette.map((p) => p.hex));
 const pages = [
   "/",
   "/collections/laurea/",
+  ...collections.map(c => `/collections/${c.slug}/`),
   ...products.map((p) => `/products/${p.slug}/`),
 ];
 const readPage = (route) =>
@@ -50,9 +52,10 @@ test("Every catalog page has crawlable content, one H1 and unique canonical meta
     }
   }
 });
-test("All 17 products have valid assets, including six glTF pairs and eleven cap presets", async () => {
+test("All 17 products have valid assets: six shapes, ten faculty caps and one configurator", async () => {
   assert.equal(products.length, 17);
-  assert.equal(products.filter((p) => p.kind === "cap").length, 11);
+  assert.equal(products.filter((p) => p.kind === "cap").length, 1);
+  assert.equal(products.filter((p) => p.kind === "faculty-cap").length, 10);
   for (const p of products) {
     assert.equal(p.dimensions.length, 3);
     assert(p.dimensions.every((n) => n > 0));
@@ -62,7 +65,7 @@ test("All 17 products have valid assets, including six glTF pairs and eleven cap
       assert.equal(buffer.readUInt32LE(4), 2);
       assert.equal(buffer.readUInt32LE(8), buffer.length);
     }
-    if (p.kind === "cap") {
+    if (p.kind === "cap" || p.kind === "faculty-cap") {
       assert(p.preset);
       for (const key of [
         "structureColor",

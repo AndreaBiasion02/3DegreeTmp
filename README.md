@@ -22,6 +22,12 @@ npm run preview
 
 ## Contenuti
 
+### Collezioni attuali
+
+Il catalogo è diviso in **Forme di laurea** (6 forme originali), **Tocchi di facoltà** (10 simboli a filo del coperchio) e **Personalizzabili** (il configuratore libero). Le pagine e il footer usano `src/lib/collections.json`.
+
+`npm run generate:faculty` rigenera i dieci tocchi dal CAD: GLB aperti/chiusi, rendering WebP e STL del coperchio e del simbolo. I simboli occupano gli ultimi 0,8 mm del coperchio e terminano sul suo stesso piano. File di stampa e istruzioni in `public/models/facolta/LEGGIMI.md`; prevedono stampa multicolore e richiedono una prova fisica. Dopo una nuova importazione del catalogo, rieseguire questo comando prima del build per ripristinare collezioni e modelli di facoltà.
+
 Home, collezione Laurea e 17 schede: i sei portaconfetti a tema più 11 tocchi importati dal catalogo pubblicato in Docker (un modello libero e dieci facoltà). I preset conservano colori, testo e font del backend. Dati editoriali in `src/lib/products.json`, immagini in `public/products`, geometria CAD già convertita in `public/models/tocco-meshes.json`. I tocchi misurano 65 × 65 × 37 mm secondo il CAD. Le anteprime sono rendering, non fotografie. L’NFC è presentato come concetto del brand.
 
 Il configuratore del tocco conserva testi multipli, font, logo SVG e posizionamento 2D/3D dello storefront originale, con controlli separati per struttura, fascia e bordo. Funziona localmente nel browser: nessun salvataggio remoto, caricamento su server o carrello. I sei modelli GLB permettono di colorare struttura e dettagli mantenendo il chip giallo di Economia. I colori restano selezionati passando tra aperto e chiuso; ripristino e ricaricamento riportano ai valori iniziali.

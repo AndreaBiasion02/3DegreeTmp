@@ -52,7 +52,7 @@ const Hero = () => {
 
           <div className="relative aspect-[4/3] overflow-hidden border-t border-brand-primary/15 medium:aspect-auto medium:min-h-full medium:border-l medium:border-t-0">
             <Image
-              src="/hero-image.webp"
+              src="/hero-homepage-ultrarealistica-v3.webp"
               alt={t("Hero Image Alt")}
               fill
               className="object-cover object-center transition-transform duration-1000 ease-out hover:scale-[1.015]"

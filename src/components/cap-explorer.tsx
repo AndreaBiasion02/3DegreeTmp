@@ -37,8 +37,8 @@ export default function CapExplorer({
           <ResponsiveImage
             src={image}
             alt={`Anteprima 3D ${name}`}
-            width={465}
-            height={355}
+            width={930}
+            height={710}
             priority
             className="w-full rounded-2xl"
           />

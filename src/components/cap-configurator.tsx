@@ -16,6 +16,7 @@ import {
   Trash2,
 } from "lucide-react";
 import {
+  useCallback,
   type ChangeEvent,
   Component,
   type PointerEvent as ReactPointerEvent,
@@ -95,6 +96,7 @@ type StepModel = {
   parts: StepPart[];
   center: Vector3;
   scale: number;
+  topSurfaceY: number;
 };
 
 type TextItem = {
@@ -154,9 +156,9 @@ const textScaleMax = 2.46;
 const textPositionLimit = 0.78;
 const capSurfaceSize = 3.2;
 const capSizeMm = 65;
-const bandOuterSizeMm = 57;
+const bandOuterSizeMm = 55;
 const bandThicknessMm = 2;
-const printableSurfaceSizeMm = 50;
+const printableSurfaceSizeMm = 49;
 const printableSurfaceSize =
   capSurfaceSize * (printableSurfaceSizeMm / capSizeMm);
 const bandOuterSize = capSurfaceSize * (bandOuterSizeMm / capSizeMm);
@@ -166,7 +168,7 @@ const logoScaleMin = 0.3;
 const logoScaleMax = 2.46;
 const textMaxItems = 5;
 const textMaxCharacters = 18;
-const topSurfaceY = 0.955;
+const topSurfaceY = 0.9108;
 const defaultFontKey = "great-vibes";
 
 const fontOptions = [
@@ -314,12 +316,15 @@ async function loadStepModel(cadSourcePath: string) {
   bounds.getCenter(center);
 
   const maxAxis = Math.max(size.x, size.y, size.z) || 1;
+  const scale = 3.2 / maxAxis;
+  const topSurfaceY = (bounds.max.z - center.z) * scale;
 
   return {
     model: {
       parts,
       center,
-      scale: 3.2 / maxAxis,
+      scale,
+      topSurfaceY,
     },
     meshCount: parts.length,
   };
@@ -1925,6 +1930,8 @@ function StepBaseModel({
   );
   useEffect(() => () => lineMaterial.dispose(), [lineMaterial]);
 
+  const resolvedTopSurfaceY = model.topSurfaceY ?? topSurfaceY;
+
   return (
     <group>
       <group scale={model.scale} rotation={[-Math.PI / 2, 0, 0]}>
@@ -1947,50 +1954,124 @@ function StepBaseModel({
         </group>
       </group>
 
-      <TopBand material={lineMaterial} />
+      <TopBand material={lineMaterial} topSurfaceY={resolvedTopSurfaceY} />
 
       {config.textItems.map((item) => {
         const trimmed = item.text.trim();
-        const font =
-          fontOptions.find((option) => option.key === item.fontKey) ??
-          fontOptions[0];
-
         return trimmed ? (
           <Suspense fallback={null} key={item.id}>
-            <Text
-              anchorX="center"
-              anchorY="middle"
-              color={item.color}
-              font={font.src}
-              fontSize={item.scale}
-              lineHeight={0.9}
-              outlineColor="#000000"
-              outlineWidth={0.018}
-              position={[item.x, topSurfaceY + 0.008, -item.y]}
-              rotation={[-Math.PI / 2, 0, 0]}
-              textAlign="center"
-            >
-              {item.text}
-            </Text>
+            <Configured3DText item={item} topSurfaceY={resolvedTopSurfaceY} />
           </Suspense>
         ) : null;
       })}
 
       {config.logoItem ? (
         <Suspense fallback={null}>
-          <LogoSurface item={config.logoItem} />
+          <LogoSurface
+            item={config.logoItem}
+            topSurfaceY={resolvedTopSurfaceY}
+          />
         </Suspense>
       ) : null}
     </group>
   );
 }
 
-function TopBand({ material }: { material: MeshStandardMaterial }) {
+function Configured3DText({
+  item,
+  topSurfaceY,
+}: {
+  item: TextItem;
+  topSurfaceY: number;
+}) {
+  const font =
+    fontOptions.find((option) => option.key === item.fontKey) ??
+    fontOptions[0];
+
+  const initialOffset = useMemo(() => {
+    if (typeof document === "undefined") return [0, 0] as [number, number];
+    const canvas = document.createElement("canvas");
+    const context = canvas.getContext("2d");
+    if (!context) return [0, 0] as [number, number];
+    const refFontSize = 100;
+    context.font = `${refFontSize}px "${font.family}"`;
+    const metrics = context.measureText(item.text.trim());
+    const scale = item.scale / refFontSize;
+    const cx =
+      ((-metrics.actualBoundingBoxLeft + metrics.actualBoundingBoxRight) / 2 -
+        metrics.width / 2) *
+      scale;
+    const cy =
+      ((metrics.actualBoundingBoxAscent - metrics.actualBoundingBoxDescent) / 2 -
+        refFontSize * 0.225) *
+      scale;
+    return [cx, cy] as [number, number];
+  }, [font.family, item.scale, item.text]);
+
+  const [offset, setOffset] = useState<[number, number]>(initialOffset);
+
+  useEffect(() => {
+    setOffset(initialOffset);
+  }, [initialOffset]);
+
+  const handleSync = useCallback((troika: any) => {
+    if (!troika?.geometry) return;
+    troika.geometry.computeBoundingBox();
+    const box = troika.geometry.boundingBox;
+    if (box && isFinite(box.min.x) && isFinite(box.max.x)) {
+      const cx = (box.min.x + box.max.x) / 2;
+      const cy = (box.min.y + box.max.y) / 2;
+      setOffset((prev) => {
+        if (
+          Math.abs(prev[0] - cx) < 0.0002 &&
+          Math.abs(prev[1] - cy) < 0.0002
+        ) {
+          return prev;
+        }
+        return [cx, cy];
+      });
+    }
+  }, []);
+
+  return (
+    <group
+      position={[
+        item.x - offset[0],
+        topSurfaceY + 0.002,
+        -(item.y - offset[1]),
+      ]}
+    >
+      <Text
+        anchorX="center"
+        anchorY="middle"
+        color={item.color}
+        font={font.src}
+        fontSize={item.scale}
+        lineHeight={0.9}
+        outlineColor="#000000"
+        outlineWidth={0.018}
+        rotation={[-Math.PI / 2, 0, 0]}
+        textAlign="center"
+        onSync={handleSync}
+      >
+        {item.text}
+      </Text>
+    </group>
+  );
+}
+
+function TopBand({
+  material,
+  topSurfaceY,
+}: {
+  material: MeshStandardMaterial;
+  topSurfaceY: number;
+}) {
   const innerSize = bandOuterSize - bandThickness * 2;
   const edgeOffset = (bandOuterSize - bandThickness) / 2;
 
   return (
-    <group position={[0, topSurfaceY + 0.004, 0]}>
+    <group position={[0, topSurfaceY + 0.001, 0]}>
       <mesh
         material={material}
         position={[0, 0, -edgeOffset]}
@@ -2023,7 +2104,13 @@ function TopBand({ material }: { material: MeshStandardMaterial }) {
   );
 }
 
-function LogoSurface({ item }: { item: LogoItem }) {
+function LogoSurface({
+  item,
+  topSurfaceY,
+}: {
+  item: LogoItem;
+  topSurfaceY: number;
+}) {
   const texture = useLoader(TextureLoader, item.maskDataUrl);
 
   useEffect(() => {
@@ -2033,7 +2120,7 @@ function LogoSurface({ item }: { item: LogoItem }) {
 
   return (
     <mesh
-      position={[item.x, topSurfaceY + 0.006, -item.y]}
+      position={[item.x, topSurfaceY + 0.0015, -item.y]}
       rotation={[-Math.PI / 2, 0, 0]}
     >
       <planeGeometry args={[item.scale * item.aspectRatio, item.scale]} />

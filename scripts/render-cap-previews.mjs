@@ -7,11 +7,11 @@ const meshes = JSON.parse(
   fs.readFileSync("public/models/tocco-meshes.json", "utf8")
 );
 const font = opentype.loadSync("public/fonts/great-vibes-400.woff");
-const W = 930,
-  H = 710,
-  s = 8,
+const W = 2790,
+  H = 2130,
+  s = 24,
   ox = W / 2,
-  oy = 550;
+  oy = 1650;
 const project = ([x, y, z]) => [
   ox + s * (0.8 * x + 0.6 * y),
   oy + s * (0.36 * x - 0.48 * y - 0.8 * z),
@@ -55,16 +55,12 @@ for (const p of products.filter((p) => p.kind === "cap")) {
             (-0.2 * n[0] - 0.4 * n[1] + 0.89 * n[2]) / (Math.hypot(...n) || 1)
           );
       const color = rgb.map((c) => Math.min(255, Math.round(12 + c * shade)));
-      for (
-        let y = Math.max(0, Math.floor(Math.min(...points.map((p) => p[1]))));
-        y <= Math.min(H - 1, Math.ceil(Math.max(...points.map((p) => p[1]))));
-        y++
-      ) {
-        for (
-          let x = Math.max(0, Math.floor(Math.min(...points.map((p) => p[0]))));
-          x <= Math.min(W - 1, Math.ceil(Math.max(...points.map((p) => p[0]))));
-          x++
-        ) {
+      const minY = Math.max(0, Math.floor(Math.min(points[0][1], points[1][1], points[2][1])));
+      const maxY = Math.min(H - 1, Math.ceil(Math.max(points[0][1], points[1][1], points[2][1])));
+      const minX = Math.max(0, Math.floor(Math.min(points[0][0], points[1][0], points[2][0])));
+      const maxX = Math.min(W - 1, Math.ceil(Math.max(points[0][0], points[1][0], points[2][0])));
+      for (let y = minY; y <= maxY; y++) {
+        for (let x = minX; x <= maxX; x++) {
           const u =
             ((B[1] - C[1]) * (x - C[0]) + (C[0] - B[0]) * (y - C[1])) / den;
           const v =
@@ -99,13 +95,20 @@ for (const p of products.filter((p) => p.kind === "cap")) {
     output = output.composite([{ input: Buffer.from(svg) }]);
   }
   const pngBuffer = await output.png().toBuffer();
+  const file1x = "public" + p.image;
+  const file2x = "public" + p.image.replace(/\.webp$/, "@2x.webp");
   await sharp(pngBuffer)
-    .resize(465, 355)
-    .webp({ quality: 88 })
-    .toFile("public" + p.image);
+    .resize(930, 710, { kernel: "lanczos3" })
+    .webp({ quality: 90, effort: 4 })
+    .toFile(file1x);
   await sharp(pngBuffer)
-    .webp({ quality: 92 })
-    .toFile("public" + p.image.replace(/\.webp$/, "@2x.webp"));
+    .resize(1860, 1420, { kernel: "lanczos3" })
+    .webp({ quality: 92, effort: 4 })
+    .toFile(file2x);
+  if (fs.existsSync("out/products")) {
+    fs.copyFileSync(file1x, "out" + p.image);
+    fs.copyFileSync(file2x, "out" + p.image.replace(/\.webp$/, "@2x.webp"));
+  }
   p.dimensions = [65, 65, 37];
 }
 fs.writeFileSync(

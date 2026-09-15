@@ -16,7 +16,9 @@ export type Product = {
   image: string;
   model: string;
   openModel: string;
-  kind?: "cap";
+  kind?: "cap" | "faculty-cap";
+  collection: string;
+  symbol?: string;
   preset?: CapPreset;
   modelVersion?: string;
 };

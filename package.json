@@ -7,7 +7,8 @@
     "build": "next build",
     "preview": "node scripts/serve.mjs",
     "check": "tsc --noEmit",
-    "test": "node --test scripts/catalog.test.mjs"
+    "test": "node --test scripts/catalog.test.mjs scripts/faculty-caps.test.mjs",
+    "generate:faculty": "node scripts/build-faculty-caps.mjs"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.7",
@@ -26,6 +27,7 @@
     "@types/react-dom": "19.0.5",
     "@types/three": "0.185.0",
     "autoprefixer": "10.4.21",
+    "polygon-clipping": "^0.15.7",
     "postcss": "8.5.6",
     "sharp": "0.34.5",
     "tailwindcss": "3.4.19",

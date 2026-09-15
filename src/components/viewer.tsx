@@ -13,6 +13,7 @@ type Product = {
   image: string;
   model: string;
   openModel: string;
+  kind?: string;
 };
 export default function Viewer({ product }: { product: Product }) {
   const [enabled, setEnabled] = useState(false);
@@ -71,9 +72,9 @@ export default function Viewer({ product }: { product: Product }) {
         {(!enabled || status !== "ready") && (
           <ResponsiveImage
             src={product.image}
-            alt={`Prototipo digitale del portaconfetti ${product.name}, con coperchio separato`}
-            width={465}
-            height={355}
+            alt={product.kind === "faculty-cap" ? `${product.name}, simbolo a filo del coperchio` : `Prototipo digitale del portaconfetti ${product.name}, con coperchio separato`}
+            width={930}
+            height={710}
             priority
             className="absolute inset-0 h-full w-full object-contain"
           />
@@ -227,7 +228,9 @@ export default function Viewer({ product }: { product: Product }) {
       <figcaption className="mt-4 text-sm leading-relaxed text-brand-dark/70">
         {enabled
           ? "Trascina per ruotare, usa due dita per lo zoom oppure i pulsanti. Vista del prototipo digitale."
-          : "Anteprima illustrativa con coperchio separato. Attiva il 3D per ruotare il modello e scoprirlo aperto o chiuso."}
+          : product.kind === "faculty-cap"
+            ? "Attiva il 3D per ruotare il tocco e scoprirlo aperto o chiuso."
+            : "Anteprima illustrativa con coperchio separato. Attiva il 3D per ruotare il modello e scoprirlo aperto o chiuso."}
       </figcaption>
       <noscript>
         <p className="mt-3 text-sm">

@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { products } from "@/lib/catalog";
+import collections from "@/lib/collections.json";
 import CapExplorer from "@/components/cap-explorer";
 import ResponsiveImage from "@/components/responsive-image";
 import { metadata as meta, absolute } from "@/lib/seo";
@@ -26,6 +27,7 @@ export default async function Product({ params }: Props) {
   const { handle } = await params;
   const p = products.find((p) => p.slug === handle);
   if (!p) notFound();
+  const collection = collections.find(c => c.slug === p.collection)!;
   const dimensions = p.dimensions
     .map((n) => n.toLocaleString("it-IT"))
     .join(" × ");
@@ -36,8 +38,8 @@ export default async function Product({ params }: Props) {
           Home
         </a>
         <span>/</span>
-        <a href="/collections/laurea/" className="underline">
-          Collezione Laurea
+        <a href={`/collections/${collection.slug}/`} className="underline">
+          {collection.name}
         </a>
         <span>/</span>
         <span>{p.name}</span>
@@ -47,8 +49,8 @@ export default async function Product({ params }: Props) {
           <ResponsiveImage
             src={p.image}
             alt={`${p.name}, configurazione iniziale`}
-            width={465}
-            height={355}
+            width={930}
+            height={710}
             priority
             className="w-full rounded-[1.75rem]"
           />
@@ -57,7 +59,7 @@ export default async function Product({ params }: Props) {
         )}
         <article>
           <span className="brand-kicker">
-            Collezione Laurea · Portaconfetti
+            {collection.name}
           </span>
           <h1 className="brand-heading mt-5 break-words text-[clamp(2.25rem,7vw,4rem)]">
             {p.name}
@@ -78,7 +80,7 @@ export default async function Product({ params }: Props) {
               </dt>
               <dd className="mt-2">
                 {p.kind === "cap"
-                  ? "Combinazione iniziale della facoltà, modificabile nel configuratore."
+                  ? "Colori, testi e logo modificabili nel configuratore."
                   : `Struttura e dettagli modificabili nella vista 3D${
                       p.slug === "economia" ? "; chip giallo" : ""
                     }.`}
@@ -95,7 +97,7 @@ export default async function Product({ params }: Props) {
                 Tecnica prevista
               </dt>
               <dd className="mt-2">
-                Stampa 3D, componenti separati da assemblare
+                {p.kind === "faculty-cap" ? "Stampa 3D multicolore, simbolo a filo della superficie" : "Stampa 3D, componenti separati da assemblare"}
               </dd>
             </div>
           </dl>
@@ -105,10 +107,10 @@ export default async function Product({ params }: Props) {
             nella realizzazione fisica.
           </p>
           <a
-            href="/collections/laurea/"
+            href={`/collections/${collection.slug}/`}
             className="brand-button-secondary mt-7"
           >
-            Tutti i modelli ↗
+            Scopri la collezione ↗
           </a>
         </article>
       </div>
@@ -119,7 +121,7 @@ export default async function Product({ params }: Props) {
         <h2 className="brand-heading mb-10 text-4xl xsmall:text-5xl">
           Altri percorsi, altre storie.
         </h2>
-        <Catalog exclude={p.slug} limit={6} />
+        <Catalog exclude={p.slug} collection={p.kind === "cap" ? undefined : p.collection} limit={6} />
       </section>
       <Schema
         data={{
@@ -152,7 +154,7 @@ export default async function Product({ params }: Props) {
           "@type": "BreadcrumbList",
           itemListElement: [
             ["Home", "/"],
-            ["Collezione Laurea", "/collections/laurea/"],
+            [collection.name, `/collections/${collection.slug}/`],
             [p.name, `/products/${p.slug}/`],
           ].map(([name, url], i) => ({
             "@type": "ListItem",

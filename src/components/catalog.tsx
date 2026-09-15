@@ -4,17 +4,20 @@ export default function Catalog({
   exclude,
   kind,
   limit,
+  collection,
 }: {
   exclude?: string;
   kind?: "cap" | "sculpture";
   limit?: number;
+  collection?: string;
 }) {
   return (
     <ul className="grid gap-x-7 gap-y-12 xsmall:grid-cols-2 small:grid-cols-3">
       {products
         .filter((p) => p.slug !== exclude)
+        .filter((p) => !collection || p.collection === collection)
         .filter(
-          (p) => !kind || (kind === "cap" ? p.kind === "cap" : p.kind !== "cap")
+          (p) => !kind || (kind === "cap" ? p.kind === "cap" : !p.kind)
         )
         .slice(0, limit)
         .map((p) => (
@@ -24,12 +27,14 @@ export default function Catalog({
                 <ResponsiveImage
                   src={p.image}
                   alt={
-                    p.kind === "cap"
+                    p.kind === "faculty-cap"
+                      ? `${p.name}: ${p.symbol} a filo del coperchio`
+                      : p.kind === "cap"
                       ? `${p.name}: anteprima del tocco nei colori iniziali`
                       : `Portaconfetti laurea ${p.name}: vista del prototipo con coperchio separato`
                   }
-                  width={465}
-                  height={355}
+                  width={930}
+                  height={710}
                   className="w-full transition-transform duration-500 group-hover:scale-[1.03]"
                 />
               </div>

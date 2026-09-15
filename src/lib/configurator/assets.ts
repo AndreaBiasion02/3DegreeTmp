@@ -8,7 +8,7 @@ const MAX_LOGO_MASK_DATA_URL_LENGTH = 1_200_000;
 const CAP_TEXTURE_SIZE = 1024;
 const CAP_SURFACE_SIZE = 3.2;
 const CAP_SIZE_MM = 65;
-const BAND_OUTER_SIZE_MM = 57;
+const BAND_OUTER_SIZE_MM = 55;
 const BAND_THICKNESS_MM = 2;
 const ACCEPTED_LOGO_TYPES = new Set(["image/svg+xml"]);
 
@@ -164,13 +164,23 @@ export async function createCapSurfaceTexture(input: CapSurfaceTextureInput) {
     const fontSize = (item.scale / CAP_SURFACE_SIZE) * CAP_TEXTURE_SIZE;
     context.font = `${fontSize}px "${item.fontFamily}"`;
     context.fillStyle = item.color;
-    drawWrappedText(
-      context,
-      item.text,
-      CAP_TEXTURE_SIZE / 2 + (item.x / CAP_SURFACE_SIZE) * CAP_TEXTURE_SIZE,
-      CAP_TEXTURE_SIZE / 2 - (item.y / CAP_SURFACE_SIZE) * CAP_TEXTURE_SIZE,
-      ((CAP_SURFACE_SIZE * (50 / 65)) / CAP_SURFACE_SIZE) * CAP_TEXTURE_SIZE,
-      fontSize * 0.9
+    const text = item.text.trim();
+    const metrics = context.measureText(text);
+    const inkCenterX =
+      (-metrics.actualBoundingBoxLeft + metrics.actualBoundingBoxRight) / 2;
+    const inkCenterY =
+      (metrics.actualBoundingBoxAscent - metrics.actualBoundingBoxDescent) / 2;
+    const targetCenterX =
+      CAP_TEXTURE_SIZE / 2 + (item.x / CAP_SURFACE_SIZE) * CAP_TEXTURE_SIZE;
+    const targetCenterY =
+      CAP_TEXTURE_SIZE / 2 - (item.y / CAP_SURFACE_SIZE) * CAP_TEXTURE_SIZE;
+
+    context.textAlign = "left";
+    context.textBaseline = "alphabetic";
+    context.fillText(
+      text,
+      targetCenterX - inkCenterX,
+      targetCenterY + inkCenterY
     );
   }
 

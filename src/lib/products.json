@@ -4,324 +4,350 @@
     "name": "Informatica",
     "description": "Un piccolo computer portatile con simbolo del codice sullo schermo e tastiera a rilievo. La base nasconde la vaschetta portaconfetti.",
     "dimensions": [
-      110,
-      83.4,
-      91.1
+      66,
+      50.04,
+      54.66
     ],
     "assembly": "Vaschetta + tastiera estraibile; schermo fisso a 78 gradi con due linguette da incollare.",
     "image": "/products/informatica.webp",
     "model": "/products/informatica-montato.glb",
-    "openModel": "/products/informatica-aperto.glb"
+    "openModel": "/products/informatica-aperto.glb",
+    "collection": "forme-di-laurea"
   },
   {
     "slug": "economia",
     "name": "Economia",
     "description": "Una carta con simbolo dell’euro, grafico a colonne e freccia in crescita. Il coperchio racchiude una vaschetta rettangolare.",
     "dimensions": [
-      112,
-      78,
-      30.8
+      67.2,
+      46.8,
+      18.48
     ],
     "assembly": "Coperchio a carta con labbro di centraggio; simboli in rilievo incollabili.",
-    "image": "/products/economia.webp",
-    "model": "/products/economia-montato.glb",
-    "openModel": "/products/economia-aperto.glb"
+    "image": "/products/economia-v3.webp",
+    "model": "/products/economia-montato-v3.glb",
+    "openModel": "/products/economia-aperto-v3.glb",
+    "collection": "forme-di-laurea"
   },
   {
     "slug": "medicina",
     "name": "Medicina",
     "description": "Una valigetta con manico e croce rossa, ispirata al mondo della medicina. Il coperchio si separa dalla vaschetta portaconfetti.",
     "dimensions": [
-      108,
-      86.5,
-      33.2
+      64.8,
+      51.9,
+      19.92
     ],
     "assembly": "Valigetta con coperchio estraibile e manico spesso integrato, stampabile in piano.",
     "image": "/products/medicina.webp",
     "model": "/products/medicina-montato.glb",
-    "openModel": "/products/medicina-aperto.glb"
+    "openModel": "/products/medicina-aperto.glb",
+    "collection": "forme-di-laurea"
   },
   {
     "slug": "giurisprudenza",
     "name": "Giurisprudenza",
     "description": "Un libro con bilancia della giustizia e segnalibro rosso. Sotto la copertina si trova lo spazio dedicato ai confetti.",
     "dimensions": [
-      98,
-      113.7,
-      32.6
+      58.8,
+      68.22,
+      19.56
     ],
     "assembly": "Libro cavo con dorso integrato, righe delle pagine incise e copertina estraibile.",
     "image": "/products/giurisprudenza.webp",
     "model": "/products/giurisprudenza-montato.glb",
-    "openModel": "/products/giurisprudenza-aperto.glb"
+    "openModel": "/products/giurisprudenza-aperto.glb",
+    "collection": "forme-di-laurea"
   },
   {
     "slug": "ingegneria",
     "name": "Ingegneria",
     "description": "Un contenitore esagonale con ingranaggio rosso sul coperchio. Geometrie e dettagli richiamano il mondo dell’ingegneria.",
     "dimensions": [
-      99.6,
-      115,
-      37.6
+      59.76,
+      69,
+      22.56
     ],
     "assembly": "Scatola esagonale con coperchio guidato; ingranaggio estruso e pannelli laterali scavati.",
     "image": "/products/ingegneria.webp",
     "model": "/products/ingegneria-montato.glb",
-    "openModel": "/products/ingegneria-aperto.glb"
+    "openModel": "/products/ingegneria-aperto.glb",
+    "collection": "forme-di-laurea"
   },
   {
     "slug": "biologia",
     "name": "Biologia",
     "description": "Un microscopio in miniatura con decorazione a doppia elica. Il piano integra una vaschetta portaconfetti con coperchio rimovibile.",
     "dimensions": [
-      108,
-      79.5,
-      106.7
+      64.8,
+      47.7,
+      64.02
     ],
     "assembly": "Microscopio modulare: arco stampato di lato e tubo separato; vaschetta accessibile frontalmente.",
     "image": "/products/biologia.webp",
     "model": "/products/biologia-montato.glb",
-    "openModel": "/products/biologia-aperto.glb"
+    "openModel": "/products/biologia-aperto.glb",
+    "collection": "forme-di-laurea"
   },
   {
     "slug": "bomboniera-architettura",
-    "name": "Bomboniera Laurea Architettura",
-    "description": "Bomboniera a forma di cappello di laurea con i colori della facoltà di Architettura. Configurazione predefinita ispirata ai colori accademici tradizionali.",
-    "kind": "cap",
-    "image": "/products/bomboniera-architettura.webp",
-    "model": "",
-    "openModel": "",
+    "name": "Tocco Architettura",
+    "description": "Squadra e righello sulla faccia superiore, con un disegno a filo in colore a contrasto. Un tocco dedicato al tuo percorso di laurea.",
+    "kind": "faculty-cap",
+    "image": "/products/bomboniera-architettura-facolta.webp",
+    "model": "/products/bomboniera-architettura-facolta-montato.glb",
+    "openModel": "/products/bomboniera-architettura-facolta-aperto.glb",
     "dimensions": [
       65,
       65,
       37
     ],
-    "assembly": "Tocco di laurea con base cilindrica, fascia e coperchio quadrato da 65 mm.",
-    "preset": {
-      "structureColor": "#222222",
-      "middleColor": "#ffffff",
-      "lineColor": "#ffffff",
-      "text": "",
-      "fontKey": "great-vibes",
-      "textColor": "#ffffff"
-    },
-    "modelVersion": "tocco-laurea-v1"
-  },
-  {
-    "slug": "bomboniera-economia",
-    "name": "Bomboniera Laurea Economia",
-    "description": "Bomboniera a forma di cappello di laurea con i colori della facoltà di Economia. Configurazione predefinita ispirata ai colori accademici tradizionali.",
-    "kind": "cap",
-    "image": "/products/bomboniera-economia.webp",
-    "model": "",
-    "openModel": "",
-    "dimensions": [
-      65,
-      65,
-      37
-    ],
-    "assembly": "Tocco di laurea con base cilindrica, fascia e coperchio quadrato da 65 mm.",
-    "preset": {
-      "structureColor": "#222222",
-      "middleColor": "#facc15",
-      "lineColor": "#facc15",
-      "text": "",
-      "fontKey": "great-vibes",
-      "textColor": "#ffffff"
-    },
-    "modelVersion": "tocco-laurea-v1"
-  },
-  {
-    "slug": "bomboniera-farmacia",
-    "name": "Bomboniera Laurea Farmacia",
-    "description": "Bomboniera a forma di cappello di laurea con i colori della facoltà di Farmacia. Configurazione predefinita ispirata ai colori accademici tradizionali.",
-    "kind": "cap",
-    "image": "/products/bomboniera-farmacia.webp",
-    "model": "",
-    "openModel": "",
-    "dimensions": [
-      65,
-      65,
-      37
-    ],
-    "assembly": "Tocco di laurea con base cilindrica, fascia e coperchio quadrato da 65 mm.",
-    "preset": {
-      "structureColor": "#222222",
-      "middleColor": "#dc2626",
-      "lineColor": "#218c45",
-      "text": "",
-      "fontKey": "great-vibes",
-      "textColor": "#ffffff"
-    },
-    "modelVersion": "tocco-laurea-v1"
-  },
-  {
-    "slug": "bomboniera-giurisprudenza",
-    "name": "Bomboniera Laurea Giurisprudenza",
-    "description": "Bomboniera a forma di cappello di laurea con i colori della facoltà di Giurisprudenza. Configurazione predefinita ispirata ai colori accademici tradizionali.",
-    "kind": "cap",
-    "image": "/products/bomboniera-giurisprudenza.webp",
-    "model": "",
-    "openModel": "",
-    "dimensions": [
-      65,
-      65,
-      37
-    ],
-    "assembly": "Tocco di laurea con base cilindrica, fascia e coperchio quadrato da 65 mm.",
-    "preset": {
-      "structureColor": "#222222",
-      "middleColor": "#2458b8",
-      "lineColor": "#2458b8",
-      "text": "",
-      "fontKey": "great-vibes",
-      "textColor": "#ffffff"
-    },
-    "modelVersion": "tocco-laurea-v1"
-  },
-  {
-    "slug": "bomboniera-ingegneria",
-    "name": "Bomboniera Laurea Ingegneria",
-    "description": "Bomboniera a forma di cappello di laurea con i colori della facoltà di Ingegneria. Configurazione predefinita ispirata ai colori accademici tradizionali.",
-    "kind": "cap",
-    "image": "/products/bomboniera-ingegneria.webp",
-    "model": "",
-    "openModel": "",
-    "dimensions": [
-      65,
-      65,
-      37
-    ],
-    "assembly": "Tocco di laurea con base cilindrica, fascia e coperchio quadrato da 65 mm.",
-    "preset": {
-      "structureColor": "#222222",
-      "middleColor": "#f97316",
-      "lineColor": "#f97316",
-      "text": "",
-      "fontKey": "great-vibes",
-      "textColor": "#ffffff"
-    },
-    "modelVersion": "tocco-laurea-v1"
-  },
-  {
-    "slug": "bomboniera-lettere",
-    "name": "Bomboniera Laurea Lettere e Filosofia",
-    "description": "Bomboniera a forma di cappello di laurea con i colori della facoltà di Lettere e Filosofia. Configurazione predefinita ispirata ai colori accademici tradizionali.",
-    "kind": "cap",
-    "image": "/products/bomboniera-lettere.webp",
-    "model": "",
-    "openModel": "",
-    "dimensions": [
-      65,
-      65,
-      37
-    ],
-    "assembly": "Tocco di laurea con base cilindrica, fascia e coperchio quadrato da 65 mm.",
-    "preset": {
-      "structureColor": "#222222",
-      "middleColor": "#803fa1",
-      "lineColor": "#803fa1",
-      "text": "",
-      "fontKey": "great-vibes",
-      "textColor": "#ffffff"
-    },
-    "modelVersion": "tocco-laurea-v1"
-  },
-  {
-    "slug": "bomboniera-medicina",
-    "name": "Bomboniera Laurea Medicina",
-    "description": "Bomboniera a forma di cappello di laurea con i colori della facoltà di Medicina. Configurazione predefinita ispirata ai colori accademici tradizionali.",
-    "kind": "cap",
-    "image": "/products/bomboniera-medicina.webp",
-    "model": "",
-    "openModel": "",
-    "dimensions": [
-      65,
-      65,
-      37
-    ],
-    "assembly": "Tocco di laurea con base cilindrica, fascia e coperchio quadrato da 65 mm.",
+    "assembly": "Tocco da 65 × 65 mm con simbolo colorato incassato a filo del coperchio, senza rilievo.",
     "preset": {
       "structureColor": "#222222",
       "middleColor": "#dc2626",
       "lineColor": "#dc2626",
       "text": "",
       "fontKey": "great-vibes",
-      "textColor": "#ffffff"
+      "textColor": "#dc2626"
     },
-    "modelVersion": "tocco-laurea-v1"
+    "modelVersion": "faculty-flush-v1",
+    "collection": "tocchi-di-facolta",
+    "symbol": "Squadra e righello"
+  },
+  {
+    "slug": "bomboniera-economia",
+    "name": "Tocco Economia",
+    "description": "Grafico in crescita sulla faccia superiore, con un disegno a filo in colore a contrasto. Un tocco dedicato al tuo percorso di laurea.",
+    "kind": "faculty-cap",
+    "image": "/products/bomboniera-economia-facolta.webp",
+    "model": "/products/bomboniera-economia-facolta-montato.glb",
+    "openModel": "/products/bomboniera-economia-facolta-aperto.glb",
+    "dimensions": [
+      65,
+      65,
+      37
+    ],
+    "assembly": "Tocco da 65 × 65 mm con simbolo colorato incassato a filo del coperchio, senza rilievo.",
+    "preset": {
+      "structureColor": "#222222",
+      "middleColor": "#dc2626",
+      "lineColor": "#dc2626",
+      "text": "",
+      "fontKey": "great-vibes",
+      "textColor": "#dc2626"
+    },
+    "modelVersion": "faculty-flush-v1",
+    "collection": "tocchi-di-facolta",
+    "symbol": "Grafico in crescita"
+  },
+  {
+    "slug": "bomboniera-farmacia",
+    "name": "Tocco Farmacia",
+    "description": "Capsula sulla faccia superiore, con un disegno a filo in colore a contrasto. Un tocco dedicato al tuo percorso di laurea.",
+    "kind": "faculty-cap",
+    "image": "/products/bomboniera-farmacia-facolta.webp",
+    "model": "/products/bomboniera-farmacia-facolta-montato.glb",
+    "openModel": "/products/bomboniera-farmacia-facolta-aperto.glb",
+    "dimensions": [
+      65,
+      65,
+      37
+    ],
+    "assembly": "Tocco da 65 × 65 mm con simbolo colorato incassato a filo del coperchio, senza rilievo.",
+    "preset": {
+      "structureColor": "#222222",
+      "middleColor": "#dc2626",
+      "lineColor": "#dc2626",
+      "text": "",
+      "fontKey": "great-vibes",
+      "textColor": "#dc2626"
+    },
+    "modelVersion": "faculty-flush-v1",
+    "collection": "tocchi-di-facolta",
+    "symbol": "Capsula"
+  },
+  {
+    "slug": "bomboniera-giurisprudenza",
+    "name": "Tocco Giurisprudenza",
+    "description": "Bilancia sulla faccia superiore, con un disegno a filo in colore a contrasto. Un tocco dedicato al tuo percorso di laurea.",
+    "kind": "faculty-cap",
+    "image": "/products/bomboniera-giurisprudenza-facolta.webp",
+    "model": "/products/bomboniera-giurisprudenza-facolta-montato.glb",
+    "openModel": "/products/bomboniera-giurisprudenza-facolta-aperto.glb",
+    "dimensions": [
+      65,
+      65,
+      37
+    ],
+    "assembly": "Tocco da 65 × 65 mm con simbolo colorato incassato a filo del coperchio, senza rilievo.",
+    "preset": {
+      "structureColor": "#222222",
+      "middleColor": "#dc2626",
+      "lineColor": "#dc2626",
+      "text": "",
+      "fontKey": "great-vibes",
+      "textColor": "#dc2626"
+    },
+    "modelVersion": "faculty-flush-v1",
+    "collection": "tocchi-di-facolta",
+    "symbol": "Bilancia"
+  },
+  {
+    "slug": "bomboniera-ingegneria",
+    "name": "Tocco Ingegneria",
+    "description": "Ingranaggio sulla faccia superiore, con un disegno a filo in colore a contrasto. Un tocco dedicato al tuo percorso di laurea.",
+    "kind": "faculty-cap",
+    "image": "/products/bomboniera-ingegneria-facolta.webp",
+    "model": "/products/bomboniera-ingegneria-facolta-montato.glb",
+    "openModel": "/products/bomboniera-ingegneria-facolta-aperto.glb",
+    "dimensions": [
+      65,
+      65,
+      37
+    ],
+    "assembly": "Tocco da 65 × 65 mm con simbolo colorato incassato a filo del coperchio, senza rilievo.",
+    "preset": {
+      "structureColor": "#222222",
+      "middleColor": "#dc2626",
+      "lineColor": "#dc2626",
+      "text": "",
+      "fontKey": "great-vibes",
+      "textColor": "#dc2626"
+    },
+    "modelVersion": "faculty-flush-v1",
+    "collection": "tocchi-di-facolta",
+    "symbol": "Ingranaggio"
+  },
+  {
+    "slug": "bomboniera-lettere",
+    "name": "Tocco Lettere",
+    "description": "Libro aperto sulla faccia superiore, con un disegno a filo in colore a contrasto. Un tocco dedicato al tuo percorso di laurea.",
+    "kind": "faculty-cap",
+    "image": "/products/bomboniera-lettere-facolta.webp",
+    "model": "/products/bomboniera-lettere-facolta-montato.glb",
+    "openModel": "/products/bomboniera-lettere-facolta-aperto.glb",
+    "dimensions": [
+      65,
+      65,
+      37
+    ],
+    "assembly": "Tocco da 65 × 65 mm con simbolo colorato incassato a filo del coperchio, senza rilievo.",
+    "preset": {
+      "structureColor": "#222222",
+      "middleColor": "#dc2626",
+      "lineColor": "#dc2626",
+      "text": "",
+      "fontKey": "great-vibes",
+      "textColor": "#dc2626"
+    },
+    "modelVersion": "faculty-flush-v1",
+    "collection": "tocchi-di-facolta",
+    "symbol": "Libro aperto"
+  },
+  {
+    "slug": "bomboniera-medicina",
+    "name": "Tocco Medicina",
+    "description": "Croce sulla faccia superiore, con un disegno a filo in colore a contrasto. Un tocco dedicato al tuo percorso di laurea.",
+    "kind": "faculty-cap",
+    "image": "/products/bomboniera-medicina-facolta.webp",
+    "model": "/products/bomboniera-medicina-facolta-montato.glb",
+    "openModel": "/products/bomboniera-medicina-facolta-aperto.glb",
+    "dimensions": [
+      65,
+      65,
+      37
+    ],
+    "assembly": "Tocco da 65 × 65 mm con simbolo colorato incassato a filo del coperchio, senza rilievo.",
+    "preset": {
+      "structureColor": "#222222",
+      "middleColor": "#dc2626",
+      "lineColor": "#dc2626",
+      "text": "",
+      "fontKey": "great-vibes",
+      "textColor": "#dc2626"
+    },
+    "modelVersion": "faculty-flush-v1",
+    "collection": "tocchi-di-facolta",
+    "symbol": "Croce"
   },
   {
     "slug": "bomboniera-psicologia",
-    "name": "Bomboniera Laurea Psicologia",
-    "description": "Bomboniera a forma di cappello di laurea con i colori della facoltà di Psicologia. Configurazione predefinita ispirata ai colori accademici tradizionali.",
-    "kind": "cap",
-    "image": "/products/bomboniera-psicologia.webp",
-    "model": "",
-    "openModel": "",
+    "name": "Tocco Psicologia",
+    "description": "Cervello stilizzato sulla faccia superiore, con un disegno a filo in colore a contrasto. Un tocco dedicato al tuo percorso di laurea.",
+    "kind": "faculty-cap",
+    "image": "/products/bomboniera-psicologia-facolta.webp",
+    "model": "/products/bomboniera-psicologia-facolta-montato.glb",
+    "openModel": "/products/bomboniera-psicologia-facolta-aperto.glb",
     "dimensions": [
       65,
       65,
       37
     ],
-    "assembly": "Tocco di laurea con base cilindrica, fascia e coperchio quadrato da 65 mm.",
+    "assembly": "Tocco da 65 × 65 mm con simbolo colorato incassato a filo del coperchio, senza rilievo.",
     "preset": {
       "structureColor": "#222222",
-      "middleColor": "#218c45",
-      "lineColor": "#218c45",
+      "middleColor": "#dc2626",
+      "lineColor": "#dc2626",
       "text": "",
       "fontKey": "great-vibes",
-      "textColor": "#ffffff"
+      "textColor": "#dc2626"
     },
-    "modelVersion": "tocco-laurea-v1"
+    "modelVersion": "faculty-flush-v1",
+    "collection": "tocchi-di-facolta",
+    "symbol": "Cervello stilizzato"
   },
   {
     "slug": "bomboniera-scienze-politiche",
-    "name": "Bomboniera Laurea Scienze Politiche",
-    "description": "Bomboniera a forma di cappello di laurea con i colori della facoltà di Scienze Politiche. Configurazione predefinita ispirata ai colori accademici tradizionali.",
-    "kind": "cap",
-    "image": "/products/bomboniera-scienze-politiche.webp",
-    "model": "",
-    "openModel": "",
+    "name": "Tocco Scienze Politiche",
+    "description": "Edificio istituzionale sulla faccia superiore, con un disegno a filo in colore a contrasto. Un tocco dedicato al tuo percorso di laurea.",
+    "kind": "faculty-cap",
+    "image": "/products/bomboniera-scienze-politiche-facolta.webp",
+    "model": "/products/bomboniera-scienze-politiche-facolta-montato.glb",
+    "openModel": "/products/bomboniera-scienze-politiche-facolta-aperto.glb",
     "dimensions": [
       65,
       65,
       37
     ],
-    "assembly": "Tocco di laurea con base cilindrica, fascia e coperchio quadrato da 65 mm.",
+    "assembly": "Tocco da 65 × 65 mm con simbolo colorato incassato a filo del coperchio, senza rilievo.",
     "preset": {
       "structureColor": "#222222",
-      "middleColor": "#2458b8",
-      "lineColor": "#facc15",
+      "middleColor": "#dc2626",
+      "lineColor": "#dc2626",
       "text": "",
       "fontKey": "great-vibes",
-      "textColor": "#ffffff"
+      "textColor": "#dc2626"
     },
-    "modelVersion": "tocco-laurea-v1"
+    "modelVersion": "faculty-flush-v1",
+    "collection": "tocchi-di-facolta",
+    "symbol": "Edificio istituzionale"
   },
   {
     "slug": "bomboniera-veterinaria",
-    "name": "Bomboniera Laurea Veterinaria",
-    "description": "Bomboniera a forma di cappello di laurea con i colori della facoltà di Veterinaria. Configurazione predefinita ispirata ai colori accademici tradizionali.",
-    "kind": "cap",
-    "image": "/products/bomboniera-veterinaria.webp",
-    "model": "",
-    "openModel": "",
+    "name": "Tocco Veterinaria",
+    "description": "Impronta sulla faccia superiore, con un disegno a filo in colore a contrasto. Un tocco dedicato al tuo percorso di laurea.",
+    "kind": "faculty-cap",
+    "image": "/products/bomboniera-veterinaria-facolta.webp",
+    "model": "/products/bomboniera-veterinaria-facolta-montato.glb",
+    "openModel": "/products/bomboniera-veterinaria-facolta-aperto.glb",
     "dimensions": [
       65,
       65,
       37
     ],
-    "assembly": "Tocco di laurea con base cilindrica, fascia e coperchio quadrato da 65 mm.",
+    "assembly": "Tocco da 65 × 65 mm con simbolo colorato incassato a filo del coperchio, senza rilievo.",
     "preset": {
       "structureColor": "#222222",
-      "middleColor": "#808080",
-      "lineColor": "#808080",
+      "middleColor": "#dc2626",
+      "lineColor": "#dc2626",
       "text": "",
       "fontKey": "great-vibes",
-      "textColor": "#ffffff"
+      "textColor": "#dc2626"
     },
-    "modelVersion": "tocco-laurea-v1"
+    "modelVersion": "faculty-flush-v1",
+    "collection": "tocchi-di-facolta",
+    "symbol": "Impronta"
   },
   {
     "slug": "tocco-laurea",
@@ -345,6 +371,7 @@
       "fontKey": "great-vibes",
       "textColor": "#ffffff"
     },
-    "modelVersion": "tocco-laurea-v1"
+    "modelVersion": "tocco-laurea-v1",
+    "collection": "personalizzabili"
   }
 ]

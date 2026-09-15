@@ -1,0 +1,112 @@
+[
+  {
+    "faculty": "architettura",
+    "symbol": "Squadra e righello",
+    "topMm": 37,
+    "inlayBottomMm": 36.2,
+    "inlayDepthMm": 0.7999999999999972,
+    "minDesignedStrokeMm": 3.6,
+    "areaMm2": 676,
+    "lidTriangles": 2376,
+    "inlayTriangles": 36
+  },
+  {
+    "faculty": "economia",
+    "symbol": "Grafico in crescita",
+    "topMm": 37,
+    "inlayBottomMm": 36.2,
+    "inlayDepthMm": 0.7999999999999972,
+    "minDesignedStrokeMm": 3.6,
+    "areaMm2": 519.3463275156129,
+    "lidTriangles": 2516,
+    "inlayTriangles": 164
+  },
+  {
+    "faculty": "farmacia",
+    "symbol": "Capsula",
+    "topMm": 37,
+    "inlayBottomMm": 36.2,
+    "inlayDepthMm": 0.7999999999999972,
+    "minDesignedStrokeMm": 3.6,
+    "areaMm2": 443.5767628292857,
+    "lidTriangles": 2680,
+    "inlayTriangles": 344
+  },
+  {
+    "faculty": "giurisprudenza",
+    "symbol": "Bilancia",
+    "topMm": 37,
+    "inlayBottomMm": 36.2,
+    "inlayDepthMm": 0.7999999999999972,
+    "minDesignedStrokeMm": 3.6,
+    "areaMm2": 571.1999999999999,
+    "lidTriangles": 2464,
+    "inlayTriangles": 124
+  },
+  {
+    "faculty": "ingegneria",
+    "symbol": "Ingranaggio",
+    "topMm": 37,
+    "inlayBottomMm": 36.2,
+    "inlayDepthMm": 0.7999999999999972,
+    "minDesignedStrokeMm": 3.6,
+    "areaMm2": 645.5911644308621,
+    "lidTriangles": 2656,
+    "inlayTriangles": 320
+  },
+  {
+    "faculty": "lettere",
+    "symbol": "Libro aperto",
+    "topMm": 37,
+    "inlayBottomMm": 36.2,
+    "inlayDepthMm": 0.7999999999999972,
+    "minDesignedStrokeMm": 3.6,
+    "areaMm2": 944,
+    "lidTriangles": 2368,
+    "inlayTriangles": 24
+  },
+  {
+    "faculty": "medicina",
+    "symbol": "Croce",
+    "topMm": 37,
+    "inlayBottomMm": 36.2,
+    "inlayDepthMm": 0.7999999999999972,
+    "minDesignedStrokeMm": 3.6,
+    "areaMm2": 620,
+    "lidTriangles": 2384,
+    "inlayTriangles": 44
+  },
+  {
+    "faculty": "psicologia",
+    "symbol": "Cervello stilizzato",
+    "topMm": 37,
+    "inlayBottomMm": 36.2,
+    "inlayDepthMm": 0.7999999999999972,
+    "minDesignedStrokeMm": 3.6,
+    "areaMm2": 867.3527218475515,
+    "lidTriangles": 3160,
+    "inlayTriangles": 816
+  },
+  {
+    "faculty": "scienze-politiche",
+    "symbol": "Edificio istituzionale",
+    "topMm": 37,
+    "inlayBottomMm": 36.2,
+    "inlayDepthMm": 0.7999999999999972,
+    "minDesignedStrokeMm": 3.6,
+    "areaMm2": 804,
+    "lidTriangles": 2428,
+    "inlayTriangles": 92
+  },
+  {
+    "faculty": "veterinaria",
+    "symbol": "Impronta",
+    "topMm": 37,
+    "inlayBottomMm": 36.2,
+    "inlayDepthMm": 0.7999999999999972,
+    "minDesignedStrokeMm": 3.6,
+    "areaMm2": 693.262860576544,
+    "lidTriangles": 3140,
+    "inlayTriangles": 784
+  }
+]

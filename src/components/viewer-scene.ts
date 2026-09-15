@@ -44,7 +44,7 @@ export async function createScene(
   renderer.setClearColor(0xf0efed, 1);
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.5;
+  renderer.toneMappingExposure = 1.1;
   host.appendChild(renderer.domElement);
   renderer.domElement.setAttribute(
     "aria-label",
@@ -52,11 +52,11 @@ export async function createScene(
   );
   renderer.domElement.setAttribute("role", "img");
   const scene = new THREE.Scene();
-  scene.add(new THREE.HemisphereLight(0xffffff, 0x606860, 3));
-  const light = new THREE.DirectionalLight(0xffffff, 4);
+  scene.add(new THREE.HemisphereLight(0xffffff, 0x444444, 1.5));
+  const light = new THREE.DirectionalLight(0xffffff, 2.5);
   light.position.set(3, 5, 4);
   scene.add(light);
-  const fill = new THREE.DirectionalLight(0xffffff, 2);
+  const fill = new THREE.DirectionalLight(0xffffff, 1.2);
   fill.position.set(-3, 2, -2);
   scene.add(fill);
   const model = gltf.scene;
@@ -73,13 +73,24 @@ export async function createScene(
         ? [attribute.getX(0), attribute.getY(0), attribute.getZ(0)]
         : undefined
     );
-    if (role === "fixed") return;
+    if (role === "fixed") {
+      const materials = Array.isArray(object.material)
+        ? object.material
+        : [object.material];
+      materials.forEach((material) => {
+        if ("metalness" in material) material.metalness = 0.05;
+        if ("roughness" in material) material.roughness = 0.45;
+      });
+      return;
+    }
     const materials = Array.isArray(object.material)
       ? object.material
       : [object.material];
     const copies = materials.map((original) => {
       const material = original.clone() as THREE.MeshStandardMaterial;
       material.vertexColors = false;
+      material.metalness = 0.05;
+      material.roughness = 0.45;
       colored.push({ material, role });
       return material;
     });

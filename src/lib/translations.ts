@@ -13,7 +13,7 @@ const dictionary: Record<string, string> = {
   "Back to shopping cart": "Torna al carrello",
   Search: "Cerca",
   "Announcement Bar":
-    "Stampa 3D, personalità infinita — creata per il tuo traguardo",
+    "Rendi indimenticabile il giorno della tua laurea",
   "Home Title": "Il tuo traguardo, in 3D",
   Featured: "In evidenza",
   "Previous products": "Prodotti precedenti",
@@ -23,8 +23,8 @@ const dictionary: Record<string, string> = {
   "Hero Eyebrow": "Bomboniere di laurea in stampa 3D",
   "Hero Title Line 1": "Il tuo traguardo.",
   "Hero Title Lead": "Il tuo",
-  "Hero Title Subject": "traguardo.",
-  "Hero Title Line 2": "In 3D.",
+  "Hero Title Subject": "traguardo",
+  "Hero Title Line 2": "In 3D",
   "Hero Description New":
     "Trasforma il giorno della laurea in un ricordo che parla davvero di te: scegli, personalizza e crea il tuo dettaglio unico.",
   "Create Yours": "Crea la tua",
@@ -45,24 +45,24 @@ const dictionary: Record<string, string> = {
   "Simple process": "Un processo semplice",
   "From idea to memory": "Dall'idea al ricordo",
   "Process Intro":
-    "Una bomboniera che custodisce il tuo giorno: basta avvicinare il telefono per ritrovare ogni ricordo, oggi e per sempre.",
-  "Process 1 Title": "Crea l'album",
+    "Scegli il ricordo che vuoi collegare alla tua bomboniera. Quando avvicini il telefono, si apre subito; se vorrai, potrai cambiarlo in qualsiasi momento.",
+  "Process 1 Title": "Scegli il ricordo",
   "Process 1 Text":
-    "Prima dell'ordine crea il tuo album condiviso e inviaci il link. Consigliamo Google Foto: è semplice e funziona sia con Android sia con iPhone.",
-  "Process 2 Title": "Scriviamo il tag",
+    "Scegli una pagina o un album condiviso, come Google Foto, dove raccogliere le immagini della laurea.",
+  "Process 2 Title": "Collegalo alla bomboniera",
   "Process 2 Text":
-    "Inseriamo il link nel tag NFC della tua bomboniera: è il piccolo gesto che la trasforma in una porta verso il vostro giorno.",
-  "Process 3 Title": "Condividi",
+    "Dal tuo spazio personale scegli cosa deve aprirsi quando avvicini il telefono. Potrai sostituirlo quando vuoi.",
+  "Process 3 Title": "Avvicina e condividi",
   "Process 3 Text":
-    "Durante la festa, chi avvicina il proprio telefono può aprire l'album e aggiungere le foto scattate in quel momento.",
-  "Process 4 Title": "Rivivi",
+    "Durante la festa, basta avvicinare uno smartphone alla bomboniera per aprire l'album e aggiungere nuove foto.",
+  "Process 4 Title": "Rivivi ogni momento",
   "Process 4 Text":
-    "Quando arrivano anche le foto del fotografo, le aggiungi all'album. Ogni tocco sul tag riporta a quei ricordi, per sempre.",
-  "Video caption": "Un gesto semplice, tutti i ricordi del tuo giorno.",
+    "Dopo la festa puoi continuare ad arricchire l'album. La bomboniera riporterà sempre al ricordo che hai scelto.",
+  "Video caption": "Avvicina il telefono. Il tuo ricordo si apre.",
   "Video unsupported": "Il tuo browser non supporta il video HTML5.",
   "Start now": "Inizia ora",
   "Why 3Degree": "Perché 3Degree",
-  "Not a favor": "Non una bomboniera. La tua.",
+  "Not a favor": "Non una bomboniera\nLa tua",
   "Value Intro":
     "La tecnologia è il punto di partenza. Il risultato è un oggetto personale, curato e capace di ricordare un momento irripetibile.",
   "Value 1 Title": "Davvero personale",
@@ -100,19 +100,19 @@ Object.assign(dictionary, {
   "Create Yours": "Scopri i modelli",
   "Made to order": "Creato con cura",
   "Secure checkout": "Design italiano",
-  "Start now": "Esplora la collezione",
+  "Start now": "Esplora le collezioni",
   "Process 1 Text":
-    "Un album condiviso raccoglie le foto del tuo giorno. Il suo link è il punto di partenza per un ricordo da ritrovare con un gesto.",
+    "Scegli una pagina o un album condiviso, come Google Foto, dove raccogliere le immagini della laurea.",
   "Process Intro":
-    "Scopri l’idea dietro le bomboniere con NFC: un oggetto che può collegare il tuo giorno ai ricordi di chi lo ha vissuto.",
+    "Scegli il ricordo che vuoi collegare alla tua bomboniera. Quando avvicini il telefono, si apre subito; se vorrai, potrai cambiarlo in qualsiasi momento.",
   "Process 2 Text":
-    "Il link può essere associato a un tag NFC, per collegare la bomboniera all’album. Il video racconta questo concetto; le anteprime della collezione mostrano modelli digitali.",
+    "Dal tuo spazio personale scegli cosa deve aprirsi quando avvicini il telefono. Potrai sostituirlo quando vuoi.",
   "FAQ 1 Question": "Posso acquistare da questo sito?",
   "FAQ 1 Answer":
-    "Questo sito è una vetrina illustrativa: presenta i modelli e le loro caratteristiche, senza vendita online.",
+    "Questo sito è una vetrina illustrativa: presenta i modelli e le loro caratteristiche, senza vendita online diretta. Per richiedere informazioni, disponibilità o preventivi per la tua laurea, scrivici nei DM su Instagram (@3degree_lab), TikTok (@3degree.lab) oppure via email a support@3degreelab.com.",
   "FAQ 2 Question": "Cosa mostrano le anteprime?",
   "FAQ 2 Answer":
-    "Le immagini e le viste 3D mostrano modelli digitali. I sei portaconfetti a tema si esplorano aperti e chiusi, cambiando struttura e dettagli. Sui tocchi puoi provare colori, testi, font e logo. Colori e finiture fisiche possono differire.",
+    "Le immagini e le viste 3D mostrano modelli digitali. Forme di laurea e Tocchi di facoltà si esplorano aperti e chiusi, cambiando i colori. Nella collezione Personalizzabili puoi aggiungere testi e logo. Colori e finiture fisiche possono differire.",
   "FAQ 3 Question": "Come scelgo il modello da esplorare?",
   "FAQ 3 Answer":
     "Esplora i portaconfetti a tema oppure scegli un tocco per facoltà. Per una composizione libera, apri Costruisci la tua bomboniera. Ogni configurazione è solo illustrativa e non richiede un account.",
