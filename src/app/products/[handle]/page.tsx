@@ -100,6 +100,16 @@ export default async function Product({ params }: Props) {
                 {p.kind === "coaster" ? "Stampa 3D multicolore, superficie piana" : p.kind === "faculty-cap" ? "Stampa 3D multicolore, simbolo a filo della superficie" : "Stampa 3D, componenti separati da assemblare"}
               </dd>
             </div>
+            {p.kind === "coaster" && (
+              <div className="py-5">
+                <dt className="text-sm font-bold uppercase tracking-wider">
+                  Il ricordo digitale
+                </dt>
+                <dd className="mt-2 leading-relaxed">
+                  Il tag NFC è integrato nel sottobicchiere, proprio come nelle bomboniere 3Degree. Avvicina lo smartphone per aprire le foto e i ricordi della laurea.
+                </dd>
+              </div>
+            )}
           </dl>
           <p className="mt-6 text-sm leading-relaxed text-brand-dark/70">
             Prototipo digitale a scopo illustrativo. Le immagini non sono

@@ -403,7 +403,7 @@
   {
     "slug": "sottobicchiere-110-vodka",
     "name": "110 e vodka",
-    "description": "Sottobicchiere di laurea con la frase “110 e vodka”. Una piccola provocazione da portare al brindisi.",
+    "description": "Sottobicchiere di laurea con la frase “110 e vodka” e tag NFC integrato. Avvicina lo smartphone per aprire le foto e i ricordi della laurea.",
     "kind": "coaster",
     "collection": "sottobicchieri-laurea",
     "dimensions": [
@@ -411,7 +411,7 @@
       100,
       4
     ],
-    "assembly": "Sottobicchiere rotondo con scritta e grafica a filo della superficie.",
+    "assembly": "Sottobicchiere rotondo con scritta e grafica a filo della superficie e tag NFC integrato.",
     "image": "/products/sottobicchiere-110-vodka.webp",
     "model": "/products/sottobicchiere-110-vodka.glb",
     "openModel": "/products/sottobicchiere-110-vodka.glb",
@@ -423,7 +423,7 @@
   {
     "slug": "sottobicchiere-laureato-per-sbaglio",
     "name": "Laureato per sbaglio",
-    "description": "Sottobicchiere di laurea con la frase “Laureato per sbaglio”. Una piccola provocazione da portare al brindisi.",
+    "description": "Sottobicchiere di laurea con la frase “Laureato per sbaglio” e tag NFC integrato. Avvicina lo smartphone per aprire le foto e i ricordi della laurea.",
     "kind": "coaster",
     "collection": "sottobicchieri-laurea",
     "dimensions": [
@@ -431,7 +431,7 @@
       100,
       4
     ],
-    "assembly": "Sottobicchiere rotondo con scritta e grafica a filo della superficie.",
+    "assembly": "Sottobicchiere rotondo con scritta e grafica a filo della superficie e tag NFC integrato.",
     "image": "/products/sottobicchiere-laureato-per-sbaglio.webp",
     "model": "/products/sottobicchiere-laureato-per-sbaglio.glb",
     "openModel": "/products/sottobicchiere-laureato-per-sbaglio.glb",
@@ -443,7 +443,7 @@
   {
     "slug": "sottobicchiere-dottore-linkedin",
     "name": "Dottore su LinkedIn",
-    "description": "Sottobicchiere di laurea con la frase “Dottore su LinkedIn”. Una piccola provocazione da portare al brindisi.",
+    "description": "Sottobicchiere di laurea con la frase “Dottore su LinkedIn” e tag NFC integrato. Avvicina lo smartphone per aprire le foto e i ricordi della laurea.",
     "kind": "coaster",
     "collection": "sottobicchieri-laurea",
     "dimensions": [
@@ -451,7 +451,7 @@
       100,
       4
     ],
-    "assembly": "Sottobicchiere rotondo con scritta e grafica a filo della superficie.",
+    "assembly": "Sottobicchiere rotondo con scritta e grafica a filo della superficie e tag NFC integrato.",
     "image": "/products/sottobicchiere-dottore-linkedin.webp",
     "model": "/products/sottobicchiere-dottore-linkedin.glb",
     "openModel": "/products/sottobicchiere-dottore-linkedin.glb",
@@ -463,7 +463,7 @@
   {
     "slug": "sottobicchiere-finalmente-disoccupato",
     "name": "Finalmente disoccupato",
-    "description": "Sottobicchiere di laurea con la frase “Finalmente disoccupato”. Una piccola provocazione da portare al brindisi.",
+    "description": "Sottobicchiere di laurea con la frase “Finalmente disoccupato” e tag NFC integrato. Avvicina lo smartphone per aprire le foto e i ricordi della laurea.",
     "kind": "coaster",
     "collection": "sottobicchieri-laurea",
     "dimensions": [
@@ -471,7 +471,7 @@
       100,
       4
     ],
-    "assembly": "Sottobicchiere rotondo con scritta e grafica a filo della superficie.",
+    "assembly": "Sottobicchiere rotondo con scritta e grafica a filo della superficie e tag NFC integrato.",
     "image": "/products/sottobicchiere-finalmente-disoccupato.webp",
     "model": "/products/sottobicchiere-finalmente-disoccupato.glb",
     "openModel": "/products/sottobicchiere-finalmente-disoccupato.glb",
@@ -483,7 +483,7 @@
   {
     "slug": "sottobicchiere-missione-compiuta",
     "name": "Missione compiuta. Più o meno.",
-    "description": "Sottobicchiere di laurea con la frase “Missione compiuta. Più o meno.”. Una piccola provocazione da portare al brindisi.",
+    "description": "Sottobicchiere di laurea con la frase “Missione compiuta. Più o meno.” e tag NFC integrato. Avvicina lo smartphone per aprire le foto e i ricordi della laurea.",
     "kind": "coaster",
     "collection": "sottobicchieri-laurea",
     "dimensions": [
@@ -491,7 +491,7 @@
       100,
       4
     ],
-    "assembly": "Sottobicchiere rotondo con scritta e grafica a filo della superficie.",
+    "assembly": "Sottobicchiere rotondo con scritta e grafica a filo della superficie e tag NFC integrato.",
     "image": "/products/sottobicchiere-missione-compiuta.webp",
     "model": "/products/sottobicchiere-missione-compiuta.glb",
     "openModel": "/products/sottobicchiere-missione-compiuta.glb",
@@ -503,7 +503,7 @@
   {
     "slug": "sottobicchiere-ctrl-alt-laurea",
     "name": "CTRL + ALT + LAUREA",
-    "description": "Sottobicchiere di laurea con la frase “CTRL + ALT + LAUREA”. Una piccola provocazione da portare al brindisi.",
+    "description": "Sottobicchiere di laurea con la frase “CTRL + ALT + LAUREA” e tag NFC integrato. Avvicina lo smartphone per aprire le foto e i ricordi della laurea.",
     "kind": "coaster",
     "collection": "sottobicchieri-laurea",
     "dimensions": [
@@ -511,7 +511,7 @@
       100,
       4
     ],
-    "assembly": "Sottobicchiere rotondo con scritta e grafica a filo della superficie.",
+    "assembly": "Sottobicchiere rotondo con scritta e grafica a filo della superficie e tag NFC integrato.",
     "image": "/products/sottobicchiere-ctrl-alt-laurea.webp",
     "model": "/products/sottobicchiere-ctrl-alt-laurea.glb",
     "openModel": "/products/sottobicchiere-ctrl-alt-laurea.glb",
@@ -523,7 +523,7 @@
   {
     "slug": "sottobicchiere-achievement-dottore",
     "name": "Achievement unlocked: Dottore",
-    "description": "Sottobicchiere di laurea con la frase “Achievement unlocked: Dottore”. Una piccola provocazione da portare al brindisi.",
+    "description": "Sottobicchiere di laurea con la frase “Achievement unlocked: Dottore” e tag NFC integrato. Avvicina lo smartphone per aprire le foto e i ricordi della laurea.",
     "kind": "coaster",
     "collection": "sottobicchieri-laurea",
     "dimensions": [
@@ -531,7 +531,7 @@
       100,
       4
     ],
-    "assembly": "Sottobicchiere rotondo con scritta e grafica a filo della superficie.",
+    "assembly": "Sottobicchiere rotondo con scritta e grafica a filo della superficie e tag NFC integrato.",
     "image": "/products/sottobicchiere-achievement-dottore.webp",
     "model": "/products/sottobicchiere-achievement-dottore.glb",
     "openModel": "/products/sottobicchiere-achievement-dottore.glb",
@@ -543,7 +543,7 @@
   {
     "slug": "sottobicchiere-game-over-universita",
     "name": "Game Over: Università",
-    "description": "Sottobicchiere di laurea con la frase “Game Over: Università”. Una piccola provocazione da portare al brindisi.",
+    "description": "Sottobicchiere di laurea con la frase “Game Over: Università” e tag NFC integrato. Avvicina lo smartphone per aprire le foto e i ricordi della laurea.",
     "kind": "coaster",
     "collection": "sottobicchieri-laurea",
     "dimensions": [
@@ -551,7 +551,7 @@
       100,
       4
     ],
-    "assembly": "Sottobicchiere rotondo con scritta e grafica a filo della superficie.",
+    "assembly": "Sottobicchiere rotondo con scritta e grafica a filo della superficie e tag NFC integrato.",
     "image": "/products/sottobicchiere-game-over-universita.webp",
     "model": "/products/sottobicchiere-game-over-universita.glb",
     "openModel": "/products/sottobicchiere-game-over-universita.glb",
@@ -563,7 +563,7 @@
   {
     "slug": "sottobicchiere-respawn-lavoro",
     "name": "Respawn: mondo del lavoro",
-    "description": "Sottobicchiere di laurea con la frase “Respawn: mondo del lavoro”. Una piccola provocazione da portare al brindisi.",
+    "description": "Sottobicchiere di laurea con la frase “Respawn: mondo del lavoro” e tag NFC integrato. Avvicina lo smartphone per aprire le foto e i ricordi della laurea.",
     "kind": "coaster",
     "collection": "sottobicchieri-laurea",
     "dimensions": [
@@ -571,7 +571,7 @@
       100,
       4
     ],
-    "assembly": "Sottobicchiere rotondo con scritta e grafica a filo della superficie.",
+    "assembly": "Sottobicchiere rotondo con scritta e grafica a filo della superficie e tag NFC integrato.",
     "image": "/products/sottobicchiere-respawn-lavoro.webp",
     "model": "/products/sottobicchiere-respawn-lavoro.glb",
     "openModel": "/products/sottobicchiere-respawn-lavoro.glb",
@@ -583,7 +583,7 @@
   {
     "slug": "sottobicchiere-laureato-exe",
     "name": "Laureato.exe ha smesso di funzionare",
-    "description": "Sottobicchiere di laurea con la frase “Laureato.exe ha smesso di funzionare”. Una piccola provocazione da portare al brindisi.",
+    "description": "Sottobicchiere di laurea con la frase “Laureato.exe ha smesso di funzionare” e tag NFC integrato. Avvicina lo smartphone per aprire le foto e i ricordi della laurea.",
     "kind": "coaster",
     "collection": "sottobicchieri-laurea",
     "dimensions": [
@@ -591,7 +591,7 @@
       100,
       4
     ],
-    "assembly": "Sottobicchiere rotondo con scritta e grafica a filo della superficie.",
+    "assembly": "Sottobicchiere rotondo con scritta e grafica a filo della superficie e tag NFC integrato.",
     "image": "/products/sottobicchiere-laureato-exe.webp",
     "model": "/products/sottobicchiere-laureato-exe.glb",
     "openModel": "/products/sottobicchiere-laureato-exe.glb",
@@ -603,7 +603,7 @@
   {
     "slug": "sottobicchiere-chatgpt-ce-labbiamo-fatta",
     "name": "ChatGPT ce l’abbiamo fatta",
-    "description": "Sottobicchiere di laurea con la frase “ChatGPT ce l’abbiamo fatta”. Una piccola provocazione da portare al brindisi.",
+    "description": "Sottobicchiere di laurea con la frase “ChatGPT ce l’abbiamo fatta” e tag NFC integrato. Avvicina lo smartphone per aprire le foto e i ricordi della laurea.",
     "kind": "coaster",
     "collection": "sottobicchieri-laurea",
     "dimensions": [
@@ -611,7 +611,7 @@
       100,
       4
     ],
-    "assembly": "Sottobicchiere rotondo con scritta e grafica a filo della superficie.",
+    "assembly": "Sottobicchiere rotondo con scritta e grafica a filo della superficie e tag NFC integrato.",
     "image": "/products/sottobicchiere-chatgpt-ce-labbiamo-fatta.webp",
     "model": "/products/sottobicchiere-chatgpt-ce-labbiamo-fatta.glb",
     "openModel": "/products/sottobicchiere-chatgpt-ce-labbiamo-fatta.glb",
@@ -623,7 +623,7 @@
   {
     "slug": "sottobicchiere-3-anni-in-7",
     "name": "3 anni in 7 comodi anni",
-    "description": "Sottobicchiere di laurea con la frase “3 anni in 7 comodi anni”. Una piccola provocazione da portare al brindisi.",
+    "description": "Sottobicchiere di laurea con la frase “3 anni in 7 comodi anni” e tag NFC integrato. Avvicina lo smartphone per aprire le foto e i ricordi della laurea.",
     "kind": "coaster",
     "collection": "sottobicchieri-laurea",
     "dimensions": [
@@ -631,7 +631,7 @@
       100,
       4
     ],
-    "assembly": "Sottobicchiere rotondo con scritta e grafica a filo della superficie.",
+    "assembly": "Sottobicchiere rotondo con scritta e grafica a filo della superficie e tag NFC integrato.",
     "image": "/products/sottobicchiere-3-anni-in-7.webp",
     "model": "/products/sottobicchiere-3-anni-in-7.glb",
     "openModel": "/products/sottobicchiere-3-anni-in-7.glb",
@@ -643,7 +643,7 @@
   {
     "slug": "sottobicchiere-sotto-pressione",
     "name": "Studiavo meglio sotto pressione",
-    "description": "Sottobicchiere di laurea con la frase “Studiavo meglio sotto pressione”. Una piccola provocazione da portare al brindisi.",
+    "description": "Sottobicchiere di laurea con la frase “Studiavo meglio sotto pressione” e tag NFC integrato. Avvicina lo smartphone per aprire le foto e i ricordi della laurea.",
     "kind": "coaster",
     "collection": "sottobicchieri-laurea",
     "dimensions": [
@@ -651,7 +651,7 @@
       100,
       4
     ],
-    "assembly": "Sottobicchiere rotondo con scritta e grafica a filo della superficie.",
+    "assembly": "Sottobicchiere rotondo con scritta e grafica a filo della superficie e tag NFC integrato.",
     "image": "/products/sottobicchiere-sotto-pressione.webp",
     "model": "/products/sottobicchiere-sotto-pressione.glb",
     "openModel": "/products/sottobicchiere-sotto-pressione.glb",
@@ -663,7 +663,7 @@
   {
     "slug": "sottobicchiere-tesi-mai-sentita",
     "name": "Tesi? Mai sentita.",
-    "description": "Sottobicchiere di laurea con la frase “Tesi? Mai sentita.”. Una piccola provocazione da portare al brindisi.",
+    "description": "Sottobicchiere di laurea con la frase “Tesi? Mai sentita.” e tag NFC integrato. Avvicina lo smartphone per aprire le foto e i ricordi della laurea.",
     "kind": "coaster",
     "collection": "sottobicchieri-laurea",
     "dimensions": [
@@ -671,7 +671,7 @@
       100,
       4
     ],
-    "assembly": "Sottobicchiere rotondo con scritta e grafica a filo della superficie.",
+    "assembly": "Sottobicchiere rotondo con scritta e grafica a filo della superficie e tag NFC integrato.",
     "image": "/products/sottobicchiere-tesi-mai-sentita.webp",
     "model": "/products/sottobicchiere-tesi-mai-sentita.glb",
     "openModel": "/products/sottobicchiere-tesi-mai-sentita.glb",
@@ -683,7 +683,7 @@
   {
     "slug": "sottobicchiere-caffe-ansia",
     "name": "Powered by caffè e ansia",
-    "description": "Sottobicchiere di laurea con la frase “Powered by caffè e ansia”. Una piccola provocazione da portare al brindisi.",
+    "description": "Sottobicchiere di laurea con la frase “Powered by caffè e ansia” e tag NFC integrato. Avvicina lo smartphone per aprire le foto e i ricordi della laurea.",
     "kind": "coaster",
     "collection": "sottobicchieri-laurea",
     "dimensions": [
@@ -691,7 +691,7 @@
       100,
       4
     ],
-    "assembly": "Sottobicchiere rotondo con scritta e grafica a filo della superficie.",
+    "assembly": "Sottobicchiere rotondo con scritta e grafica a filo della superficie e tag NFC integrato.",
     "image": "/products/sottobicchiere-caffe-ansia.webp",
     "model": "/products/sottobicchiere-caffe-ansia.glb",
     "openModel": "/products/sottobicchiere-caffe-ansia.glb",
@@ -703,7 +703,7 @@
   {
     "slug": "sottobicchiere-ctrl-c-ctrl-v",
     "name": "Laureato con CTRL+C / CTRL+V",
-    "description": "Sottobicchiere di laurea con la frase “Laureato con CTRL+C / CTRL+V”. Una piccola provocazione da portare al brindisi.",
+    "description": "Sottobicchiere di laurea con la frase “Laureato con CTRL+C / CTRL+V” e tag NFC integrato. Avvicina lo smartphone per aprire le foto e i ricordi della laurea.",
     "kind": "coaster",
     "collection": "sottobicchieri-laurea",
     "dimensions": [
@@ -711,7 +711,7 @@
       100,
       4
     ],
-    "assembly": "Sottobicchiere rotondo con scritta e grafica a filo della superficie.",
+    "assembly": "Sottobicchiere rotondo con scritta e grafica a filo della superficie e tag NFC integrato.",
     "image": "/products/sottobicchiere-ctrl-c-ctrl-v.webp",
     "model": "/products/sottobicchiere-ctrl-c-ctrl-v.glb",
     "openModel": "/products/sottobicchiere-ctrl-c-ctrl-v.glb",
