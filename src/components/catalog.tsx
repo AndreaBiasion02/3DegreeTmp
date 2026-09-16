@@ -27,7 +27,7 @@ export default function Catalog({
                 <ResponsiveImage
                   src={p.image}
                   alt={
-                    p.kind === "faculty-cap"
+                    p.kind === "coaster" ? `Sottobicchiere di laurea: ${p.name}` : p.kind === "faculty-cap"
                       ? `${p.name}: ${p.symbol} a filo del coperchio`
                       : p.kind === "cap"
                       ? `${p.name}: anteprima del tocco nei colori iniziali`

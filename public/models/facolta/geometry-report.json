@@ -108,5 +108,16 @@
     "areaMm2": 693.262860576544,
     "lidTriangles": 3140,
     "inlayTriangles": 784
+  },
+  {
+    "faculty": "laurea-alloro",
+    "symbol": "Corona d’alloro",
+    "topMm": 37,
+    "inlayBottomMm": 36.2,
+    "inlayDepthMm": 0.7999999999999972,
+    "minDesignedStrokeMm": 3.6,
+    "areaMm2": 418.714273256356,
+    "lidTriangles": 6700,
+    "inlayTriangles": 4356
   }
 ]

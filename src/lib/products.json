@@ -373,5 +373,351 @@
     },
     "modelVersion": "tocco-laurea-v1",
     "collection": "personalizzabili"
+  },
+  {
+    "slug": "bomboniera-laurea-alloro",
+    "dimensions": [
+      65,
+      65,
+      37
+    ],
+    "preset": {
+      "structureColor": "#222222",
+      "text": "",
+      "fontKey": "great-vibes",
+      "middleColor": "#dc2626",
+      "lineColor": "#dc2626",
+      "textColor": "#dc2626"
+    },
+    "kind": "faculty-cap",
+    "collection": "tocchi-di-facolta",
+    "name": "Tocco Laurea Alloro",
+    "description": "Corona d’alloro sulla faccia superiore, con un disegno a filo in colore a contrasto. Un tocco dedicato al tuo percorso di laurea.",
+    "assembly": "Tocco da 65 × 65 mm con simbolo colorato incassato a filo del coperchio, senza rilievo.",
+    "image": "/products/bomboniera-laurea-alloro-facolta.webp",
+    "model": "/products/bomboniera-laurea-alloro-facolta-montato.glb",
+    "openModel": "/products/bomboniera-laurea-alloro-facolta-aperto.glb",
+    "symbol": "Corona d’alloro",
+    "modelVersion": "faculty-flush-v1"
+  },
+  {
+    "slug": "sottobicchiere-110-vodka",
+    "name": "110 e vodka",
+    "description": "Sottobicchiere di laurea con la frase “110 e vodka”. Una piccola provocazione da portare al brindisi.",
+    "kind": "coaster",
+    "collection": "sottobicchieri-laurea",
+    "dimensions": [
+      100,
+      100,
+      4
+    ],
+    "assembly": "Sottobicchiere rotondo con scritta e grafica a filo della superficie.",
+    "image": "/products/sottobicchiere-110-vodka.webp",
+    "model": "/products/sottobicchiere-110-vodka.glb",
+    "openModel": "/products/sottobicchiere-110-vodka.glb",
+    "colors": {
+      "structure": "#dc2626",
+      "accent": "#ffffff"
+    }
+  },
+  {
+    "slug": "sottobicchiere-laureato-per-sbaglio",
+    "name": "Laureato per sbaglio",
+    "description": "Sottobicchiere di laurea con la frase “Laureato per sbaglio”. Una piccola provocazione da portare al brindisi.",
+    "kind": "coaster",
+    "collection": "sottobicchieri-laurea",
+    "dimensions": [
+      100,
+      100,
+      4
+    ],
+    "assembly": "Sottobicchiere rotondo con scritta e grafica a filo della superficie.",
+    "image": "/products/sottobicchiere-laureato-per-sbaglio.webp",
+    "model": "/products/sottobicchiere-laureato-per-sbaglio.glb",
+    "openModel": "/products/sottobicchiere-laureato-per-sbaglio.glb",
+    "colors": {
+      "structure": "#facc15",
+      "accent": "#222222"
+    }
+  },
+  {
+    "slug": "sottobicchiere-dottore-linkedin",
+    "name": "Dottore su LinkedIn",
+    "description": "Sottobicchiere di laurea con la frase “Dottore su LinkedIn”. Una piccola provocazione da portare al brindisi.",
+    "kind": "coaster",
+    "collection": "sottobicchieri-laurea",
+    "dimensions": [
+      100,
+      100,
+      4
+    ],
+    "assembly": "Sottobicchiere rotondo con scritta e grafica a filo della superficie.",
+    "image": "/products/sottobicchiere-dottore-linkedin.webp",
+    "model": "/products/sottobicchiere-dottore-linkedin.glb",
+    "openModel": "/products/sottobicchiere-dottore-linkedin.glb",
+    "colors": {
+      "structure": "#2458b8",
+      "accent": "#ffffff"
+    }
+  },
+  {
+    "slug": "sottobicchiere-finalmente-disoccupato",
+    "name": "Finalmente disoccupato",
+    "description": "Sottobicchiere di laurea con la frase “Finalmente disoccupato”. Una piccola provocazione da portare al brindisi.",
+    "kind": "coaster",
+    "collection": "sottobicchieri-laurea",
+    "dimensions": [
+      100,
+      100,
+      4
+    ],
+    "assembly": "Sottobicchiere rotondo con scritta e grafica a filo della superficie.",
+    "image": "/products/sottobicchiere-finalmente-disoccupato.webp",
+    "model": "/products/sottobicchiere-finalmente-disoccupato.glb",
+    "openModel": "/products/sottobicchiere-finalmente-disoccupato.glb",
+    "colors": {
+      "structure": "#803fa1",
+      "accent": "#ffffff"
+    }
+  },
+  {
+    "slug": "sottobicchiere-missione-compiuta",
+    "name": "Missione compiuta. Più o meno.",
+    "description": "Sottobicchiere di laurea con la frase “Missione compiuta. Più o meno.”. Una piccola provocazione da portare al brindisi.",
+    "kind": "coaster",
+    "collection": "sottobicchieri-laurea",
+    "dimensions": [
+      100,
+      100,
+      4
+    ],
+    "assembly": "Sottobicchiere rotondo con scritta e grafica a filo della superficie.",
+    "image": "/products/sottobicchiere-missione-compiuta.webp",
+    "model": "/products/sottobicchiere-missione-compiuta.glb",
+    "openModel": "/products/sottobicchiere-missione-compiuta.glb",
+    "colors": {
+      "structure": "#218c45",
+      "accent": "#ffffff"
+    }
+  },
+  {
+    "slug": "sottobicchiere-ctrl-alt-laurea",
+    "name": "CTRL + ALT + LAUREA",
+    "description": "Sottobicchiere di laurea con la frase “CTRL + ALT + LAUREA”. Una piccola provocazione da portare al brindisi.",
+    "kind": "coaster",
+    "collection": "sottobicchieri-laurea",
+    "dimensions": [
+      100,
+      100,
+      4
+    ],
+    "assembly": "Sottobicchiere rotondo con scritta e grafica a filo della superficie.",
+    "image": "/products/sottobicchiere-ctrl-alt-laurea.webp",
+    "model": "/products/sottobicchiere-ctrl-alt-laurea.glb",
+    "openModel": "/products/sottobicchiere-ctrl-alt-laurea.glb",
+    "colors": {
+      "structure": "#222222",
+      "accent": "#facc15"
+    }
+  },
+  {
+    "slug": "sottobicchiere-achievement-dottore",
+    "name": "Achievement unlocked: Dottore",
+    "description": "Sottobicchiere di laurea con la frase “Achievement unlocked: Dottore”. Una piccola provocazione da portare al brindisi.",
+    "kind": "coaster",
+    "collection": "sottobicchieri-laurea",
+    "dimensions": [
+      100,
+      100,
+      4
+    ],
+    "assembly": "Sottobicchiere rotondo con scritta e grafica a filo della superficie.",
+    "image": "/products/sottobicchiere-achievement-dottore.webp",
+    "model": "/products/sottobicchiere-achievement-dottore.glb",
+    "openModel": "/products/sottobicchiere-achievement-dottore.glb",
+    "colors": {
+      "structure": "#803fa1",
+      "accent": "#ffffff"
+    }
+  },
+  {
+    "slug": "sottobicchiere-game-over-universita",
+    "name": "Game Over: Università",
+    "description": "Sottobicchiere di laurea con la frase “Game Over: Università”. Una piccola provocazione da portare al brindisi.",
+    "kind": "coaster",
+    "collection": "sottobicchieri-laurea",
+    "dimensions": [
+      100,
+      100,
+      4
+    ],
+    "assembly": "Sottobicchiere rotondo con scritta e grafica a filo della superficie.",
+    "image": "/products/sottobicchiere-game-over-universita.webp",
+    "model": "/products/sottobicchiere-game-over-universita.glb",
+    "openModel": "/products/sottobicchiere-game-over-universita.glb",
+    "colors": {
+      "structure": "#222222",
+      "accent": "#ffffff"
+    }
+  },
+  {
+    "slug": "sottobicchiere-respawn-lavoro",
+    "name": "Respawn: mondo del lavoro",
+    "description": "Sottobicchiere di laurea con la frase “Respawn: mondo del lavoro”. Una piccola provocazione da portare al brindisi.",
+    "kind": "coaster",
+    "collection": "sottobicchieri-laurea",
+    "dimensions": [
+      100,
+      100,
+      4
+    ],
+    "assembly": "Sottobicchiere rotondo con scritta e grafica a filo della superficie.",
+    "image": "/products/sottobicchiere-respawn-lavoro.webp",
+    "model": "/products/sottobicchiere-respawn-lavoro.glb",
+    "openModel": "/products/sottobicchiere-respawn-lavoro.glb",
+    "colors": {
+      "structure": "#2458b8",
+      "accent": "#ffffff"
+    }
+  },
+  {
+    "slug": "sottobicchiere-laureato-exe",
+    "name": "Laureato.exe ha smesso di funzionare",
+    "description": "Sottobicchiere di laurea con la frase “Laureato.exe ha smesso di funzionare”. Una piccola provocazione da portare al brindisi.",
+    "kind": "coaster",
+    "collection": "sottobicchieri-laurea",
+    "dimensions": [
+      100,
+      100,
+      4
+    ],
+    "assembly": "Sottobicchiere rotondo con scritta e grafica a filo della superficie.",
+    "image": "/products/sottobicchiere-laureato-exe.webp",
+    "model": "/products/sottobicchiere-laureato-exe.glb",
+    "openModel": "/products/sottobicchiere-laureato-exe.glb",
+    "colors": {
+      "structure": "#222222",
+      "accent": "#ffffff"
+    }
+  },
+  {
+    "slug": "sottobicchiere-chatgpt-ce-labbiamo-fatta",
+    "name": "ChatGPT ce l’abbiamo fatta",
+    "description": "Sottobicchiere di laurea con la frase “ChatGPT ce l’abbiamo fatta”. Una piccola provocazione da portare al brindisi.",
+    "kind": "coaster",
+    "collection": "sottobicchieri-laurea",
+    "dimensions": [
+      100,
+      100,
+      4
+    ],
+    "assembly": "Sottobicchiere rotondo con scritta e grafica a filo della superficie.",
+    "image": "/products/sottobicchiere-chatgpt-ce-labbiamo-fatta.webp",
+    "model": "/products/sottobicchiere-chatgpt-ce-labbiamo-fatta.glb",
+    "openModel": "/products/sottobicchiere-chatgpt-ce-labbiamo-fatta.glb",
+    "colors": {
+      "structure": "#218c45",
+      "accent": "#ffffff"
+    }
+  },
+  {
+    "slug": "sottobicchiere-3-anni-in-7",
+    "name": "3 anni in 7 comodi anni",
+    "description": "Sottobicchiere di laurea con la frase “3 anni in 7 comodi anni”. Una piccola provocazione da portare al brindisi.",
+    "kind": "coaster",
+    "collection": "sottobicchieri-laurea",
+    "dimensions": [
+      100,
+      100,
+      4
+    ],
+    "assembly": "Sottobicchiere rotondo con scritta e grafica a filo della superficie.",
+    "image": "/products/sottobicchiere-3-anni-in-7.webp",
+    "model": "/products/sottobicchiere-3-anni-in-7.glb",
+    "openModel": "/products/sottobicchiere-3-anni-in-7.glb",
+    "colors": {
+      "structure": "#f97316",
+      "accent": "#222222"
+    }
+  },
+  {
+    "slug": "sottobicchiere-sotto-pressione",
+    "name": "Studiavo meglio sotto pressione",
+    "description": "Sottobicchiere di laurea con la frase “Studiavo meglio sotto pressione”. Una piccola provocazione da portare al brindisi.",
+    "kind": "coaster",
+    "collection": "sottobicchieri-laurea",
+    "dimensions": [
+      100,
+      100,
+      4
+    ],
+    "assembly": "Sottobicchiere rotondo con scritta e grafica a filo della superficie.",
+    "image": "/products/sottobicchiere-sotto-pressione.webp",
+    "model": "/products/sottobicchiere-sotto-pressione.glb",
+    "openModel": "/products/sottobicchiere-sotto-pressione.glb",
+    "colors": {
+      "structure": "#dc2626",
+      "accent": "#ffffff"
+    }
+  },
+  {
+    "slug": "sottobicchiere-tesi-mai-sentita",
+    "name": "Tesi? Mai sentita.",
+    "description": "Sottobicchiere di laurea con la frase “Tesi? Mai sentita.”. Una piccola provocazione da portare al brindisi.",
+    "kind": "coaster",
+    "collection": "sottobicchieri-laurea",
+    "dimensions": [
+      100,
+      100,
+      4
+    ],
+    "assembly": "Sottobicchiere rotondo con scritta e grafica a filo della superficie.",
+    "image": "/products/sottobicchiere-tesi-mai-sentita.webp",
+    "model": "/products/sottobicchiere-tesi-mai-sentita.glb",
+    "openModel": "/products/sottobicchiere-tesi-mai-sentita.glb",
+    "colors": {
+      "structure": "#facc15",
+      "accent": "#222222"
+    }
+  },
+  {
+    "slug": "sottobicchiere-caffe-ansia",
+    "name": "Powered by caffè e ansia",
+    "description": "Sottobicchiere di laurea con la frase “Powered by caffè e ansia”. Una piccola provocazione da portare al brindisi.",
+    "kind": "coaster",
+    "collection": "sottobicchieri-laurea",
+    "dimensions": [
+      100,
+      100,
+      4
+    ],
+    "assembly": "Sottobicchiere rotondo con scritta e grafica a filo della superficie.",
+    "image": "/products/sottobicchiere-caffe-ansia.webp",
+    "model": "/products/sottobicchiere-caffe-ansia.glb",
+    "openModel": "/products/sottobicchiere-caffe-ansia.glb",
+    "colors": {
+      "structure": "#222222",
+      "accent": "#ffffff"
+    }
+  },
+  {
+    "slug": "sottobicchiere-ctrl-c-ctrl-v",
+    "name": "Laureato con CTRL+C / CTRL+V",
+    "description": "Sottobicchiere di laurea con la frase “Laureato con CTRL+C / CTRL+V”. Una piccola provocazione da portare al brindisi.",
+    "kind": "coaster",
+    "collection": "sottobicchieri-laurea",
+    "dimensions": [
+      100,
+      100,
+      4
+    ],
+    "assembly": "Sottobicchiere rotondo con scritta e grafica a filo della superficie.",
+    "image": "/products/sottobicchiere-ctrl-c-ctrl-v.webp",
+    "model": "/products/sottobicchiere-ctrl-c-ctrl-v.glb",
+    "openModel": "/products/sottobicchiere-ctrl-c-ctrl-v.glb",
+    "colors": {
+      "structure": "#2458b8",
+      "accent": "#ffffff"
+    }
   }
 ]

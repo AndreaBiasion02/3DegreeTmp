@@ -16,7 +16,7 @@ export default function ResponsiveImage({
   sizes?: string;
 }) {
   const src2x = src.replace(/\.webp$/, "@2x.webp");
-  const src4x = src.includes("-facolta.webp") ? src.replace(/\.webp$/, "@4x.webp") : null;
+  const src4x = src.includes("-facolta.webp") || src.includes("/sottobicchiere-") ? src.replace(/\.webp$/, "@4x.webp") : null;
   return (
     <img
       src={src}

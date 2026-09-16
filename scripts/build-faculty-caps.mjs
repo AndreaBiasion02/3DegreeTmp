@@ -37,9 +37,29 @@ const head = poly([
   [3,-12],[3,-20],
 ]);
 const psi = diff(head,disk(-3,7,6));
+// Botanical laurel: curved stems, alternating lanceolate leaves and open gaps.
+const laurelParts=[];
+function laurelLeaf(x,y,dx,dy,length=5.7,width=3){
+ const d=Math.hypot(dx,dy),u=[dx/d,dy/d],n=[-u[1],u[0]];
+ const p=(along,across)=>[x+u[0]*along+n[0]*across,y+u[1]*along+n[1]*across];
+ return poly([...curve(p(0,0),p(length*.25,width*.68),p(length*.72,width*.64),p(length,0)),...curve(p(length,0),p(length*.68,-width*.58),p(length*.24,-width*.62),p(0,0))]);
+}
+for(const side of [-1,1]){
+ const branch=a=>[side*17*Math.cos(a),16*Math.sin(a)];
+ laurelParts.push(stroke(Array.from({length:49},(_,i)=>branch((-85+i*3)*Math.PI/180)),1.4));
+ for(const degrees of [-76,-57,-38,-19,0,19,38,57]){
+  const a=degrees*Math.PI/180,[x,y]=branch(a);
+  const tangent=[-side*Math.sin(a),Math.cos(a)],out=[side*Math.cos(a),Math.sin(a)];
+  laurelParts.push(laurelLeaf(x,y,tangent[0]*.85+out[0]*.7,tangent[1]*.85+out[1]*.7));
+  const b=a+.08,[ix,iy]=branch(b);
+  laurelParts.push(laurelLeaf(ix,iy,-side*Math.sin(b)*.75-side*Math.cos(b)*.7,Math.cos(b)*.75-Math.sin(b)*.7,5.2,3));
+ }
+}
+const laurel=union(...laurelParts,stroke([[-5,-18.5],[2,-15.8]],1.4),stroke([[5,-18.5],[-2,-15.8]],1.4));
 const temple = union(poly([[-20,10],[0,20],[20,10]]),rect(-18,5,36,4),rect(-16,-13,5,19),rect(-2.5,-13,5,19),rect(11,-13,5,19),rect(-19,-18,38,5));
 const paw = union(disk(-13,9,5),disk(-4,15,5),disk(7,14,5),disk(15,5,5),poly([[-13,-13],[-11,-5],[-5,2],[2,3],[10,-4],[14,-13],[9,-17],[2,-15],[-6,-18]]));
 const symbols = {
+  'laurea-alloro': {label:'Corona d’alloro', shape:laurel},
   architettura: {label:'Portale architettonico', shape:arch},
   economia: {label:'Grafico in crescita', shape:economics},
   farmacia: {label:'Capsula', shape:mortar},
@@ -52,7 +72,7 @@ const symbols = {
   veterinaria: {label:'Impronta', shape:paw},
 };
 const rgb = hex => [1,3,5].map(i=>parseInt(hex.slice(i,i+2),16));
-const cleanRing = ring => {const r=ring.slice();if(r[0][0]===r.at(-1)[0]&&r[0][1]===r.at(-1)[1])r.pop();return r;};
+const cleanRing = ring => {const r=ring.map(p=>p.map(v=>Math.round(v*1e6)/1e6)).filter((p,i,a)=>!i||Math.hypot(p[0]-a[i-1][0],p[1]-a[i-1][1])>1e-5);if(r.length>1&&Math.hypot(r[0][0]-r.at(-1)[0],r[0][1]-r.at(-1)[1])<1e-5)r.pop();return r;};
 function faceTriangles(shape,z,reverse=false) {
   const result=[];
   for(const polygon of shape){const rings=polygon.map(cleanRing),points=rings.flat();for(const t of ShapeUtils.triangulateShape(rings[0].map(p=>new Vector2(...p)),rings.slice(1).map(r=>r.map(p=>new Vector2(...p))))){const tri=t.map(i=>[...points[i],z]);const a=tri[0],b=tri[1],c=tri[2];if(((b[0]-a[0])*(c[1]-a[1])-(b[1]-a[1])*(c[0]-a[0])>0)===reverse)tri.reverse();result.push(tri);}}
@@ -82,7 +102,8 @@ async function render(meshes,file){const W=1860,H=1420,pixels=Buffer.alloc(W*H*3
  for(const [suffix,w,h] of [['',465,355],['@2x',930,710],['@4x',1860,1420]])await sharp(pixels,{raw:{width:W,height:H,channels:3}}).resize(w,h).webp({quality:92}).toFile(`${file}${suffix}.webp`);
 }
 const products=JSON.parse(fs.readFileSync('src/lib/products.json','utf8')),report=[];
-for(const p of products){if(!p.slug.startsWith('bomboniera-')){p.collection=p.kind==='cap'?'personalizzabili':'forme-di-laurea';continue;}const key=p.slug.slice(11),symbol=symbols[key];if(!symbol)throw Error(`Missing design ${key}`);
+if(!products.some(p=>p.slug==='bomboniera-laurea-alloro'))products.push({slug:'bomboniera-laurea-alloro',dimensions:[65,65,37],preset:{structureColor:'#222222',text:'',fontKey:'great-vibes'}});
+for(const p of products){if(p.kind==='coaster')continue;if(!p.slug.startsWith('bomboniera-')){p.collection=p.kind==='cap'?'personalizzabili':'forme-di-laurea';continue;}const key=p.slug.slice(11),symbol=symbols[key];if(!symbol)throw Error(`Missing design ${key}`);
  const shape=union(symbol.shape),cut=diff(topShape,shape);if(Math.abs(area(topShape)-area(cut)-area(shape))>1e-5)throw Error(`Inset outside lid: ${key}`);
  const lid=[...body,...faceTriangles(cut,TOP),...faceTriangles(shape,FLOOR),...walls(shape,FLOOR,TOP,true)];
  const inlay=[...faceTriangles(shape,TOP),...faceTriangles(shape,FLOOR,true),...walls(shape,FLOOR,TOP)];
@@ -96,4 +117,4 @@ for(const p of products){if(!p.slug.startsWith('bomboniera-')){p.collection=p.ki
 }
 fs.writeFileSync('src/lib/products.json',JSON.stringify(products,null,2)+'\n');fs.writeFileSync('public/models/facolta/geometry-report.json',JSON.stringify(report,null,2)+'\n');
 const thumbs=await Promise.all(products.filter(p=>p.kind==='faculty-cap').map(p=>sharp('public'+p.image).resize(372,284).toBuffer()));
-await sharp({create:{width:1860,height:568,channels:3,background:'#f0efed'}}).composite(thumbs.map((input,i)=>({input,left:(i%5)*372,top:Math.floor(i/5)*284}))).png().toFile('public/models/facolta/anteprima-collezione.png');
+await sharp({create:{width:1860,height:Math.ceil(thumbs.length/5)*284,channels:3,background:'#f0efed'}}).composite(thumbs.map((input,i)=>({input,left:(i%5)*372,top:Math.floor(i/5)*284}))).png().toFile('public/models/facolta/anteprima-collezione.png');

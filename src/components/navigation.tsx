@@ -152,8 +152,8 @@ export function Footer() {
               3DEGREE
             </a>
             <p className="mt-7 max-w-md leading-relaxed">
-              Bomboniere di laurea personalizzate, progettate con cura e
-              realizzate attraverso la stampa 3D.
+              Bomboniere e sottobicchieri di laurea, progettati con cura e
+              realizzati attraverso la stampa 3D.
             </p>
             <a
               href="/collections/laurea/"
@@ -184,8 +184,8 @@ export function Footer() {
               Il progetto
             </h2>
             <p className="mt-6 leading-relaxed">
-              Forme originali, tocchi di facoltà e bomboniere personalizzabili.
-              Tre modi di raccontare il tuo traguardo.
+              Forme originali, tocchi di facoltà, bomboniere personalizzabili e sottobicchieri ironici.
+              Quattro modi di raccontare il tuo traguardo.
             </p>
             <p className="mt-4 text-sm text-brand-light/75">
               Vetrina illustrativa, senza vendita online diretta.

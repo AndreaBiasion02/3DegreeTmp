@@ -17,7 +17,7 @@ export async function generateMetadata({ params }: Props) {
   const p = products.find((p) => p.slug === handle);
   if (!p) return {};
   return meta(
-    `Bomboniera laurea ${p.name} in 3D`,
+    `${p.kind === "coaster" ? "Sottobicchiere" : "Bomboniera laurea"} ${p.name} in 3D`,
     p.description,
     `/products/${p.slug}/`,
     p.image
@@ -70,9 +70,9 @@ export default async function Product({ params }: Props) {
           <dl className="mt-8 divide-y divide-brand-primary/15 border-y border-brand-primary/15">
             <div className="py-5">
               <dt className="text-sm font-bold uppercase tracking-wider">
-                Dimensioni del modello montato
+                {p.kind === "coaster" ? "Dimensioni del sottobicchiere" : "Dimensioni del modello montato"}
               </dt>
-              <dd className="mt-2">{dimensions} mm</dd>
+              <dd className="mt-2">{p.kind === "coaster" ? "Ø 100 mm · spessore 4 mm" : `${dimensions} mm`}</dd>
             </div>
             <div className="py-5">
               <dt className="text-sm font-bold uppercase tracking-wider">
@@ -97,7 +97,7 @@ export default async function Product({ params }: Props) {
                 Tecnica prevista
               </dt>
               <dd className="mt-2">
-                {p.kind === "faculty-cap" ? "Stampa 3D multicolore, simbolo a filo della superficie" : "Stampa 3D, componenti separati da assemblare"}
+                {p.kind === "coaster" ? "Stampa 3D multicolore, superficie piana" : p.kind === "faculty-cap" ? "Stampa 3D multicolore, simbolo a filo della superficie" : "Stampa 3D, componenti separati da assemblare"}
               </dd>
             </div>
           </dl>
@@ -127,11 +127,11 @@ export default async function Product({ params }: Props) {
         data={{
           "@context": "https://schema.org",
           "@type": "Product",
-          name: `Portaconfetti laurea ${p.name}`,
+          name: `${p.kind === "coaster" ? "Sottobicchiere" : "Portaconfetti laurea"} ${p.name}`,
           description: p.description,
           image: absolute(p.image),
           url: absolute(`/products/${p.slug}/`),
-          category: "Bomboniere di laurea",
+          category: p.kind === "coaster" ? "Sottobicchieri di laurea" : "Bomboniere di laurea",
           brand: { "@type": "Brand", name: "3Degree" },
           additionalProperty: [
             {

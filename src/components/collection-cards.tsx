@@ -4,7 +4,7 @@ import ResponsiveImage from "./responsive-image";
 
 export default function CollectionCards() {
   return (
-    <div className="grid gap-8 small:grid-cols-3">
+    <div className="grid gap-8 small:grid-cols-2">
       {collections.map((collection) => (
         <a key={collection.slug} href={`/collections/${collection.slug}/`} className="group flex min-w-0 flex-col overflow-hidden rounded-[1.75rem] border border-brand-primary/15 bg-brand-paper">
           <ResponsiveImage src={collection.image} alt={collection.name} width={465} height={355} className="w-full transition-transform duration-500 group-hover:scale-[1.03]" />

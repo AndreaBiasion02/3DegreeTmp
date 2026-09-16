@@ -7,8 +7,9 @@
     "build": "next build",
     "preview": "node scripts/serve.mjs",
     "check": "tsc --noEmit",
-    "test": "node --test scripts/catalog.test.mjs scripts/faculty-caps.test.mjs",
-    "generate:faculty": "node scripts/build-faculty-caps.mjs"
+    "test": "node --test scripts/catalog.test.mjs scripts/faculty-caps.test.mjs scripts/coasters.test.mjs",
+    "generate:faculty": "node scripts/build-faculty-caps.mjs",
+    "generate:coasters": "node scripts/build-coasters.mjs"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.7",

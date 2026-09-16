@@ -14,6 +14,7 @@ type Product = {
   model: string;
   openModel: string;
   kind?: string;
+  colors?: ModelColors;
 };
 export default function Viewer({ product }: { product: Product }) {
   const [enabled, setEnabled] = useState(false);
@@ -22,7 +23,8 @@ export default function Viewer({ product }: { product: Product }) {
     "loading"
   );
   const [retry, setRetry] = useState(0);
-  const [colors, setColors] = useState<ModelColors>(defaultColors);
+  const initialColors = product.colors ?? defaultColors;
+  const [colors, setColors] = useState<ModelColors>(initialColors);
   const colorsRef = useRef(colors);
   useEffect(() => {
     colorsRef.current = colors;
@@ -72,7 +74,7 @@ export default function Viewer({ product }: { product: Product }) {
         {(!enabled || status !== "ready") && (
           <ResponsiveImage
             src={product.image}
-            alt={product.kind === "faculty-cap" ? `${product.name}, simbolo a filo del coperchio` : `Prototipo digitale del portaconfetti ${product.name}, con coperchio separato`}
+            alt={product.kind === "coaster" ? `Sottobicchiere ${product.name}, grafica a filo della superficie` : product.kind === "faculty-cap" ? `${product.name}, simbolo a filo del coperchio` : `Prototipo digitale del portaconfetti ${product.name}, con coperchio separato`}
             width={930}
             height={710}
             priority
@@ -160,13 +162,13 @@ export default function Viewer({ product }: { product: Product }) {
         <button
           type="button"
           className="text-sm underline"
-          onClick={() => setColors(defaultColors)}
+          onClick={() => setColors(initialColors)}
         >
           Ripristina i colori originali
         </button>
         <p className="text-sm text-brand-dark/70">
           I colori a schermo sono
-          indicativi. La scelta resta applicata anche aprendo il modello.
+          indicativi. {product.kind !== "coaster" && "La scelta resta applicata anche aprendo il modello."}
         </p>
       </fieldset>
       {enabled && (
@@ -174,7 +176,7 @@ export default function Viewer({ product }: { product: Product }) {
           className="mt-4 flex flex-wrap gap-2"
           aria-label="Controlli del modello 3D"
         >
-          <button
+          {product.kind !== "coaster" && <><button
             className="viewer-control"
             aria-pressed={!opened}
             onClick={() => setOpened(false)}
@@ -187,7 +189,7 @@ export default function Viewer({ product }: { product: Product }) {
             onClick={() => setOpened(true)}
           >
             Aperto
-          </button>
+          </button></>}
           <button
             className="viewer-control"
             disabled={status !== "ready"}
@@ -228,6 +230,7 @@ export default function Viewer({ product }: { product: Product }) {
       <figcaption className="mt-4 text-sm leading-relaxed text-brand-dark/70">
         {enabled
           ? "Trascina per ruotare, usa due dita per lo zoom oppure i pulsanti. Vista del prototipo digitale."
+          : product.kind === "coaster" ? "Attiva il 3D per ruotare il sottobicchiere e provare i colori."
           : product.kind === "faculty-cap"
             ? "Attiva il 3D per ruotare il tocco e scoprirlo aperto o chiuso."
             : "Anteprima illustrativa con coperchio separato. Attiva il 3D per ruotare il modello e scoprirlo aperto o chiuso."}

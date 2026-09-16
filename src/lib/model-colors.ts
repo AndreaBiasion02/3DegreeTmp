@@ -13,6 +13,8 @@ export function colorRole(
   rgb?: number[]
 ): "structure" | "accent" | "fixed" {
   if (/chip/i.test(name)) return "fixed";
+  if (name === "coaster_base") return "structure";
+  if (name === "coaster_ink") return "accent";
   if (rgb)
     return rgb[0] > rgb[1] * 1.5 && rgb[0] > rgb[2] * 1.5
       ? "accent"
