@@ -67,8 +67,8 @@ export const SOCIAL_LINKS = [
   },
   {
     name: "Email",
-    handle: "support@3degreelab.com",
-    url: "mailto:support@3degreelab.com",
+    handle: "info@3degreelab.com",
+    url: "mailto:info@3degreelab.com",
     icon: MailIcon,
     description: "Scrivici via email per ogni informazione",
   },

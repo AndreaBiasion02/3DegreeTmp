@@ -165,7 +165,7 @@ export default function Viewer({ product }: { product: Product }) {
           Ripristina i colori originali
         </button>
         <p className="text-sm text-brand-dark/70">
-          Solo colori della palette ELEGOO PLA Basic. I colori a schermo sono
+          I colori a schermo sono
           indicativi. La scelta resta applicata anche aprendo il modello.
         </p>
       </fieldset>

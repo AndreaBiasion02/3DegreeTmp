@@ -34,7 +34,7 @@ export default function RootLayout({
             name: "3Degree",
             url: siteUrl,
             logo: absolute("/logo.png"),
-            email: "support@3degreelab.com",
+            email: "info@3degreelab.com",
             sameAs: [
               "https://www.instagram.com/3degree_lab/",
               "https://www.tiktok.com/@3degree.lab",

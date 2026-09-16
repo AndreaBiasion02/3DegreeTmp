@@ -24,7 +24,7 @@ export default async function Collection({ params }: Props) {
       <nav aria-label="Percorso" className="mb-10 flex flex-wrap gap-2 text-sm"><a href="/" className="underline">Home</a><span>/</span><a href="/collections/laurea/" className="underline">Collezioni</a><span>/</span><span>{collection.name}</span></nav>
       <header className="mb-12 max-w-3xl">
         <span className="brand-kicker">Collezione 3Degree</span>
-        <h1 className="brand-heading mt-5 text-5xl xsmall:text-7xl">{collection.name}</h1>
+        <h1 className="brand-heading mt-5 text-3xl xsmall:text-5xl small:text-7xl">{collection.name}</h1>
         <p className="mt-7 text-lg leading-relaxed text-brand-dark/70">{collection.description}</p>
         {handle === "personalizzabili" && <a className="brand-button mt-7" href="/products/tocco-laurea/">Crea la tua bomboniera ↗</a>}
       </header>

@@ -56,7 +56,7 @@ export default function CapExplorer({
         </div>
       )}
       <p className="mt-4 text-sm text-brand-dark/70">
-        Solo colori della palette ELEGOO PLA Basic; le tonalità a schermo sono
+        Le tonalità a schermo sono
         indicative. Simulazione illustrativa, senza acquisto. Testi e logo sono
         elaborati solo sul tuo dispositivo e non vengono inviati a un server.
         Ricaricando la pagina riparti dalla configurazione iniziale.

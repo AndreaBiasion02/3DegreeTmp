@@ -74,10 +74,10 @@ export function Nav() {
               <TikTokIcon className="h-4 w-4" />
             </a>
             <a
-              href="mailto:support@3degreelab.com"
-              aria-label="Email support@3degreelab.com"
+              href="mailto:info@3degreelab.com"
+              aria-label="Email info@3degreelab.com"
               className="grid h-9 w-9 place-items-center rounded-full border border-brand-primary/20 text-brand-primary transition-all hover:scale-105 hover:border-brand-primary hover:bg-brand-primary hover:text-brand-light"
-              title="Email support@3degreelab.com"
+              title="Email info@3degreelab.com"
             >
               <MailIcon className="h-4 w-4" />
             </a>
@@ -121,11 +121,11 @@ export function Nav() {
                   </a>
                 </div>
                 <a
-                  href="mailto:support@3degreelab.com"
+                  href="mailto:info@3degreelab.com"
                   className="mt-3 inline-flex items-center gap-2 text-xs font-bold text-brand-primary underline"
                 >
                   <MailIcon className="h-3.5 w-3.5" />
-                  support@3degreelab.com
+                  info@3degreelab.com
                 </a>
               </div>
             </div>
@@ -228,10 +228,10 @@ export function Footer() {
           <p className="normal-case">
             Per informazioni o richieste:{" "}
             <a
-              href="mailto:support@3degreelab.com"
+              href="mailto:info@3degreelab.com"
               className="text-brand-light underline hover:text-brand-gold"
             >
-              support@3degreelab.com
+              info@3degreelab.com
             </a>
           </p>
         </div>
