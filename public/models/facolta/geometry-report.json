@@ -1,14 +1,14 @@
 [
   {
     "faculty": "architettura",
-    "symbol": "Squadra e righello",
+    "symbol": "Portale architettonico",
     "topMm": 37,
     "inlayBottomMm": 36.2,
     "inlayDepthMm": 0.7999999999999972,
     "minDesignedStrokeMm": 3.6,
-    "areaMm2": 676,
-    "lidTriangles": 2376,
-    "inlayTriangles": 36
+    "areaMm2": 1047.7558859749781,
+    "lidTriangles": 2492,
+    "inlayTriangles": 156
   },
   {
     "faculty": "economia",
@@ -78,14 +78,14 @@
   },
   {
     "faculty": "psicologia",
-    "symbol": "Cervello stilizzato",
+    "symbol": "Profilo e mente",
     "topMm": 37,
     "inlayBottomMm": 36.2,
     "inlayDepthMm": 0.7999999999999972,
     "minDesignedStrokeMm": 3.6,
-    "areaMm2": 867.3527218475515,
-    "lidTriangles": 3160,
-    "inlayTriangles": 816
+    "areaMm2": 848.5146052075047,
+    "lidTriangles": 2804,
+    "inlayTriangles": 468
   },
   {
     "faculty": "scienze-politiche",

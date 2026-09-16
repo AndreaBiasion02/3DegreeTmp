@@ -12,7 +12,10 @@ const disk = (x,y,r,n=48) => poly(Array.from({length:n},(_,i)=>[x+r*Math.cos(i*2
 const union = (...shapes) => pc.union(...shapes);
 const diff = (a,b) => pc.difference(a,b);
 const stroke = (points,width=3.6) => union(...points.slice(1).map((b,i)=>{const a=points[i],dx=b[0]-a[0],dy=b[1]-a[1],s=width/2/Math.hypot(dx,dy),n=[-dy*s,dx*s];return poly([[a[0]+n[0],a[1]+n[1]],[b[0]+n[0],b[1]+n[1]],[b[0]-n[0],b[1]-n[1]],[a[0]-n[0],a[1]-n[1]]]);}),...points.slice(1,-1).map(p=>disk(...p,width/2)));
-const arch = union(diff(poly([[-18,-12],[15,-12],[-18,21]]),poly([[-12,-6],[1,-6],[-12,7]])),rect(-18,-22,36,6));
+// A monumental portal: a semicircular void framed by a square facade.
+// Broad piers and a continuous lintel keep the icon clear at actual size.
+const portalVoid = union(rect(-8,-20,16,20),disk(0,0,8));
+const arch = union(diff(rect(-16,-16,32,32),portalVoid),rect(-19,16,38,5),rect(-19,-21,38,5));
 const economics = union(rect(-17,-17,7,9),rect(-5,-17,7,15),rect(7,-17,7,21),stroke([[-17,0],[-8,8],[0,5],[9,13]],4),poly([[4,16],[17,19],[14,6]]));
 const capsuleOuter = union(rect(-9,-9,18,18),disk(-9,0,9),disk(9,0,9));
 const capsuleOutline = diff(capsuleOuter,union(rect(-9,-5,18,10),disk(-9,0,5),disk(9,0,5)));
@@ -22,19 +25,29 @@ const scales = union(rect(-2,-16,4,32),rect(-12,-19,24,4),rect(-18,9,36,4),rect(
 const gearOutline = poly(Array.from({length:32},(_,i)=>{const angle=(i+.5)*Math.PI/16,r=i%4===0||i%4===3?18:14;return [r*Math.cos(angle),r*Math.sin(angle)];}));
 const book = union(poly([[-19,-13],[-3,-17],[-3,12],[-19,17]]),poly([[3,-17],[19,-13],[19,17],[3,12]]));
 const cross = union(rect(-5,-18,10,36),rect(-18,-5,36,10));
-const brainHalf = diff(union(disk(-8,12,7),disk(-13,5,7),disk(-13,-4,7),disk(-8,-12,7)),union(rect(-2,-24,25,48),rect(-22,1,10,4),rect(-10,-10,10,4)));
-const psi = union(brainHalf,brainHalf.map(p=>p.map(r=>r.map(([x,y])=>[-x,y]))));
+// A single calm profile, with one generous circular opening for the mind.
+// Cubic curves avoid the scalloped, fragmented look of the previous brain.
+function curve(a,b,c,d,n=16){return Array.from({length:n},(_,i)=>{const t=i/n,u=1-t;return [0,1].map(k=>u*u*u*a[k]+3*u*u*t*b[k]+3*u*t*t*c[k]+t*t*t*d[k]);});}
+const head = poly([
+  ...curve([-10,-20],[-10,-10],[-10,-10],[-14,-5]),
+  ...curve([-14,-5],[-24,10],[-12,24],[2,20]),
+  ...curve([2,20],[10,18],[12,13],[12,8]),
+  [12,8],[18,0],[12,-2],[12,-8],
+  ...curve([12,-8],[12,-12],[7,-12],[3,-12]),
+  [3,-12],[3,-20],
+]);
+const psi = diff(head,disk(-3,7,6));
 const temple = union(poly([[-20,10],[0,20],[20,10]]),rect(-18,5,36,4),rect(-16,-13,5,19),rect(-2.5,-13,5,19),rect(11,-13,5,19),rect(-19,-18,38,5));
 const paw = union(disk(-13,9,5),disk(-4,15,5),disk(7,14,5),disk(15,5,5),poly([[-13,-13],[-11,-5],[-5,2],[2,3],[10,-4],[14,-13],[9,-17],[2,-15],[-6,-18]]));
 const symbols = {
-  architettura: {label:'Squadra e righello', shape:arch},
+  architettura: {label:'Portale architettonico', shape:arch},
   economia: {label:'Grafico in crescita', shape:economics},
   farmacia: {label:'Capsula', shape:mortar},
   giurisprudenza: {label:'Bilancia', shape:scales},
   ingegneria: {label:'Ingranaggio', shape:diff(gearOutline,disk(0,0,7))},
   lettere: {label:'Libro aperto', shape:book},
   medicina: {label:'Croce', shape:cross},
-  psicologia: {label:'Cervello stilizzato', shape:psi},
+  psicologia: {label:'Profilo e mente', shape:psi},
   'scienze-politiche': {label:'Edificio istituzionale', shape:temple},
   veterinaria: {label:'Impronta', shape:paw},
 };

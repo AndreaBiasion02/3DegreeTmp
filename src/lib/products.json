@@ -92,7 +92,7 @@
   {
     "slug": "bomboniera-architettura",
     "name": "Tocco Architettura",
-    "description": "Squadra e righello sulla faccia superiore, con un disegno a filo in colore a contrasto. Un tocco dedicato al tuo percorso di laurea.",
+    "description": "Portale architettonico sulla faccia superiore, con un disegno a filo in colore a contrasto. Un tocco dedicato al tuo percorso di laurea.",
     "kind": "faculty-cap",
     "image": "/products/bomboniera-architettura-facolta.webp",
     "model": "/products/bomboniera-architettura-facolta-montato.glb",
@@ -113,7 +113,7 @@
     },
     "modelVersion": "faculty-flush-v1",
     "collection": "tocchi-di-facolta",
-    "symbol": "Squadra e righello"
+    "symbol": "Portale architettonico"
   },
   {
     "slug": "bomboniera-economia",
@@ -274,7 +274,7 @@
   {
     "slug": "bomboniera-psicologia",
     "name": "Tocco Psicologia",
-    "description": "Cervello stilizzato sulla faccia superiore, con un disegno a filo in colore a contrasto. Un tocco dedicato al tuo percorso di laurea.",
+    "description": "Profilo e mente sulla faccia superiore, con un disegno a filo in colore a contrasto. Un tocco dedicato al tuo percorso di laurea.",
     "kind": "faculty-cap",
     "image": "/products/bomboniera-psicologia-facolta.webp",
     "model": "/products/bomboniera-psicologia-facolta-montato.glb",
@@ -295,7 +295,7 @@
     },
     "modelVersion": "faculty-flush-v1",
     "collection": "tocchi-di-facolta",
-    "symbol": "Cervello stilizzato"
+    "symbol": "Profilo e mente"
   },
   {
     "slug": "bomboniera-scienze-politiche",
