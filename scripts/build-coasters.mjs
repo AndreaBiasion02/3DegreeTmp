@@ -24,6 +24,7 @@ const entries=[
  ['tesi-mai-sentita','Tesi? Mai sentita.',['TESI?','Mai sentita.'],'chat','#facc15','#222222'],
  ['caffe-ansia','Powered by caffè e ansia',['Powered by','CAFFÈ','e ansia'],'coffee','#222222','#ffffff'],
  ['ctrl-c-ctrl-v','Laureato con CTRL+C / CTRL+V',['Laureato con','CTRL+C','/ CTRL+V'],'keys','#2458b8','#ffffff'],
+ ...JSON.parse(fs.readFileSync(new URL('./coasters-extra.json',import.meta.url),'utf8')),
 ];
 const poly=p=>[p],rect=(x,y,w,h)=>poly([[x,y],[x+w,y],[x+w,y+h],[x,y+h],[x,y]]);
 const circle=(x,y,r,n=96)=>poly(Array.from({length:n+1},(_,i)=>[x+r*Math.cos(i*2*Math.PI/n),y+r*Math.sin(i*2*Math.PI/n)]));
@@ -48,7 +49,21 @@ function icon(style,y){
 function design(lines,style){
  let parts=style==='window'?[]:[ring(44,1.1)];
  const tech=['keys','window','game'].includes(style);
- if(style==='window'){
+ if(style.startsWith('new-')){
+  const toast=style==='new-toast',loading=style==='new-loading';
+  const ys=lines.length===4?[18,6,-6,-18]:lines.length===3?(toast?[9,-5,-19]:[15,0,-15]):toast?[1,-17]:loading?[12,-4]:[10,-10];
+  if(toast)parts.push(icon('toast',28));
+  lines.forEach((t,i)=>{
+   const y=ys[i],size=t==='DOTT.'?23:t==='NO.'?20:lines.length===4?10.5:13;
+   const maxWidth=2*Math.sqrt(38**2-(Math.abs(y)+7)**2);
+   let glyphs=textShape(t,y,size,maxWidth,style==='new-terminal'||loading?'mono':'bold');
+   // Keep a measurable clear gap from the circular border even on long lines.
+   while(glyphs.flat(2).some(([x,Y])=>Math.hypot(x,Y)>38))glyphs=glyphs.map(p=>p.map(r=>r.map(([x,Y])=>[x*.98,y+(Y-y)*.98])));
+   parts.push(glyphs);
+  });
+  if(loading)parts.push(diff(rect(-25,-25,50,7),rect(-23.5,-23.5,47,4)),rect(-22,-23,15,3));
+  else if(!toast)parts.push(line([-10,-30],[10,-30],1.3));
+ }else if(style==='window'){
   parts.push(diff(rect(-37,-23,74,50),rect(-35.5,-21.5,71,47)),rect(-36,16,72,1.3),circle(-31,21,1.1),circle(-26,21,1.1),circle(-21,21,1.1));
   lines.forEach((t,i)=>parts.push(textShape(t,8-i*11,9,65,'mono')));
  }else if(style==='numbers'){
@@ -88,4 +103,6 @@ for(const [slug,phrase,lines,style,bg,fg] of entries){
 fs.writeFileSync('src/lib/products.json',JSON.stringify(products,null,2)+'\n');
 fs.writeFileSync('public/models/sottobicchieri/geometry-report.json',JSON.stringify(report,null,2)+'\n');
 const thumbs=await Promise.all(products.filter(p=>p.kind==='coaster').map(p=>sharp('public'+p.image).resize(465,355).toBuffer()));
-await sharp({create:{width:1860,height:1420,channels:3,background:'#f0efed'}}).composite(thumbs.map((input,i)=>({input,left:i%4*465,top:Math.floor(i/4)*355}))).png().toFile('public/models/sottobicchieri/anteprima-collezione.png');
+await sharp({create:{width:1860,height:Math.ceil(thumbs.length/4)*355,channels:3,background:'#f0efed'}}).composite(thumbs.map((input,i)=>({input,left:i%4*465,top:Math.floor(i/4)*355}))).png().toFile('public/models/sottobicchieri/anteprima-collezione.png');
+const newThumbs=thumbs.slice(16);
+await sharp({create:{width:1860,height:Math.ceil(newThumbs.length/4)*355,channels:3,background:'#f0efed'}}).composite(newThumbs.map((input,i)=>({input,left:i%4*465,top:Math.floor(i/4)*355}))).png().toFile('public/models/sottobicchieri/anteprima-nuovi-modelli.png');

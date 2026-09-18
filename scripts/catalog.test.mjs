@@ -52,9 +52,9 @@ test("Every catalog page has crawlable content, one H1 and unique canonical meta
     }
   }
 });
-test("All 34 products have valid assets across favors and coasters", async () => {
-  assert.equal(products.length, 34);
-  assert.equal(products.filter((p) => p.kind === "coaster").length, 16);
+test("All 60 products have valid assets across favors and coasters", async () => {
+  assert.equal(products.length, 60);
+  assert.equal(products.filter((p) => p.kind === "coaster").length, 42);
   assert.equal(products.filter((p) => p.kind === "cap").length, 1);
   assert.equal(products.filter((p) => p.kind === "faculty-cap").length, 11);
   for (const p of products) {

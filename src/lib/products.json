@@ -719,5 +719,525 @@
       "structure": "#2458b8",
       "accent": "#ffffff"
     }
+  },
+  {
+    "slug": "sottobicchiere-prima-titolo-poi-spritz",
+    "name": "Prima il titolo, poi lo spritz",
+    "description": "Sottobicchiere di laurea con la frase “Prima il titolo, poi lo spritz” e tag NFC integrato. Avvicina lo smartphone per aprire le foto e i ricordi della laurea.",
+    "kind": "coaster",
+    "collection": "sottobicchieri-laurea",
+    "dimensions": [
+      100,
+      100,
+      4
+    ],
+    "assembly": "Sottobicchiere rotondo con scritta e grafica a filo della superficie e tag NFC integrato.",
+    "image": "/products/sottobicchiere-prima-titolo-poi-spritz.webp",
+    "model": "/products/sottobicchiere-prima-titolo-poi-spritz.glb",
+    "openModel": "/products/sottobicchiere-prima-titolo-poi-spritz.glb",
+    "colors": {
+      "structure": "#f97316",
+      "accent": "#222222"
+    }
+  },
+  {
+    "slug": "sottobicchiere-brindisi-neo-disoccupato",
+    "name": "Un brindisi al neo-disoccupato",
+    "description": "Sottobicchiere di laurea con la frase “Un brindisi al neo-disoccupato” e tag NFC integrato. Avvicina lo smartphone per aprire le foto e i ricordi della laurea.",
+    "kind": "coaster",
+    "collection": "sottobicchieri-laurea",
+    "dimensions": [
+      100,
+      100,
+      4
+    ],
+    "assembly": "Sottobicchiere rotondo con scritta e grafica a filo della superficie e tag NFC integrato.",
+    "image": "/products/sottobicchiere-brindisi-neo-disoccupato.webp",
+    "model": "/products/sottobicchiere-brindisi-neo-disoccupato.glb",
+    "openModel": "/products/sottobicchiere-brindisi-neo-disoccupato.glb",
+    "colors": {
+      "structure": "#803fa1",
+      "accent": "#ffffff"
+    }
+  },
+  {
+    "slug": "sottobicchiere-dottore-giorno-disastro-notte",
+    "name": "Dottore di giorno, disastro di notte",
+    "description": "Sottobicchiere di laurea con la frase “Dottore di giorno, disastro di notte” e tag NFC integrato. Avvicina lo smartphone per aprire le foto e i ricordi della laurea.",
+    "kind": "coaster",
+    "collection": "sottobicchieri-laurea",
+    "dimensions": [
+      100,
+      100,
+      4
+    ],
+    "assembly": "Sottobicchiere rotondo con scritta e grafica a filo della superficie e tag NFC integrato.",
+    "image": "/products/sottobicchiere-dottore-giorno-disastro-notte.webp",
+    "model": "/products/sottobicchiere-dottore-giorno-disastro-notte.glb",
+    "openModel": "/products/sottobicchiere-dottore-giorno-disastro-notte.glb",
+    "colors": {
+      "structure": "#222222",
+      "accent": "#facc15"
+    }
+  },
+  {
+    "slug": "sottobicchiere-laurea-presa-dignita",
+    "name": "Laurea presa. Dignità vediamo.",
+    "description": "Sottobicchiere di laurea con la frase “Laurea presa. Dignità vediamo.” e tag NFC integrato. Avvicina lo smartphone per aprire le foto e i ricordi della laurea.",
+    "kind": "coaster",
+    "collection": "sottobicchieri-laurea",
+    "dimensions": [
+      100,
+      100,
+      4
+    ],
+    "assembly": "Sottobicchiere rotondo con scritta e grafica a filo della superficie e tag NFC integrato.",
+    "image": "/products/sottobicchiere-laurea-presa-dignita.webp",
+    "model": "/products/sottobicchiere-laurea-presa-dignita.glb",
+    "openModel": "/products/sottobicchiere-laurea-presa-dignita.glb",
+    "colors": {
+      "structure": "#dc2626",
+      "accent": "#ffffff"
+    }
+  },
+  {
+    "slug": "sottobicchiere-bevi-responsabilmente",
+    "name": "Bevi responsabilmente. Lui ha già dato.",
+    "description": "Sottobicchiere di laurea con la frase “Bevi responsabilmente. Lui ha già dato.” e tag NFC integrato. Avvicina lo smartphone per aprire le foto e i ricordi della laurea.",
+    "kind": "coaster",
+    "collection": "sottobicchieri-laurea",
+    "dimensions": [
+      100,
+      100,
+      4
+    ],
+    "assembly": "Sottobicchiere rotondo con scritta e grafica a filo della superficie e tag NFC integrato.",
+    "image": "/products/sottobicchiere-bevi-responsabilmente.webp",
+    "model": "/products/sottobicchiere-bevi-responsabilmente.glb",
+    "openModel": "/products/sottobicchiere-bevi-responsabilmente.glb",
+    "colors": {
+      "structure": "#218c45",
+      "accent": "#ffffff"
+    }
+  },
+  {
+    "slug": "sottobicchiere-oggi-dottore-domani-hangover",
+    "name": "Oggi Dottore, domani hangover",
+    "description": "Sottobicchiere di laurea con la frase “Oggi Dottore, domani hangover” e tag NFC integrato. Avvicina lo smartphone per aprire le foto e i ricordi della laurea.",
+    "kind": "coaster",
+    "collection": "sottobicchieri-laurea",
+    "dimensions": [
+      100,
+      100,
+      4
+    ],
+    "assembly": "Sottobicchiere rotondo con scritta e grafica a filo della superficie e tag NFC integrato.",
+    "image": "/products/sottobicchiere-oggi-dottore-domani-hangover.webp",
+    "model": "/products/sottobicchiere-oggi-dottore-domani-hangover.glb",
+    "openModel": "/products/sottobicchiere-oggi-dottore-domani-hangover.glb",
+    "colors": {
+      "structure": "#2458b8",
+      "accent": "#ffffff"
+    }
+  },
+  {
+    "slug": "sottobicchiere-110-lode-amaro",
+    "name": "110, lode e amaro",
+    "description": "Sottobicchiere di laurea con la frase “110, lode e amaro” e tag NFC integrato. Avvicina lo smartphone per aprire le foto e i ricordi della laurea.",
+    "kind": "coaster",
+    "collection": "sottobicchieri-laurea",
+    "dimensions": [
+      100,
+      100,
+      4
+    ],
+    "assembly": "Sottobicchiere rotondo con scritta e grafica a filo della superficie e tag NFC integrato.",
+    "image": "/products/sottobicchiere-110-lode-amaro.webp",
+    "model": "/products/sottobicchiere-110-lode-amaro.glb",
+    "openModel": "/products/sottobicchiere-110-lode-amaro.glb",
+    "colors": {
+      "structure": "#dc2626",
+      "accent": "#ffffff"
+    }
+  },
+  {
+    "slug": "sottobicchiere-cum-laude-cum-spritz",
+    "name": "Cum laude, cum spritz",
+    "description": "Sottobicchiere di laurea con la frase “Cum laude, cum spritz” e tag NFC integrato. Avvicina lo smartphone per aprire le foto e i ricordi della laurea.",
+    "kind": "coaster",
+    "collection": "sottobicchieri-laurea",
+    "dimensions": [
+      100,
+      100,
+      4
+    ],
+    "assembly": "Sottobicchiere rotondo con scritta e grafica a filo della superficie e tag NFC integrato.",
+    "image": "/products/sottobicchiere-cum-laude-cum-spritz.webp",
+    "model": "/products/sottobicchiere-cum-laude-cum-spritz.glb",
+    "openModel": "/products/sottobicchiere-cum-laude-cum-spritz.glb",
+    "colors": {
+      "structure": "#f97316",
+      "accent": "#222222"
+    }
+  },
+  {
+    "slug": "sottobicchiere-vero-esame-domani",
+    "name": "Il vero esame è domani mattina",
+    "description": "Sottobicchiere di laurea con la frase “Il vero esame è domani mattina” e tag NFC integrato. Avvicina lo smartphone per aprire le foto e i ricordi della laurea.",
+    "kind": "coaster",
+    "collection": "sottobicchieri-laurea",
+    "dimensions": [
+      100,
+      100,
+      4
+    ],
+    "assembly": "Sottobicchiere rotondo con scritta e grafica a filo della superficie e tag NFC integrato.",
+    "image": "/products/sottobicchiere-vero-esame-domani.webp",
+    "model": "/products/sottobicchiere-vero-esame-domani.glb",
+    "openModel": "/products/sottobicchiere-vero-esame-domani.glb",
+    "colors": {
+      "structure": "#803fa1",
+      "accent": "#ffffff"
+    }
+  },
+  {
+    "slug": "sottobicchiere-discussione-superata",
+    "name": "Discussione superata. Ora si beve.",
+    "description": "Sottobicchiere di laurea con la frase “Discussione superata. Ora si beve.” e tag NFC integrato. Avvicina lo smartphone per aprire le foto e i ricordi della laurea.",
+    "kind": "coaster",
+    "collection": "sottobicchieri-laurea",
+    "dimensions": [
+      100,
+      100,
+      4
+    ],
+    "assembly": "Sottobicchiere rotondo con scritta e grafica a filo della superficie e tag NFC integrato.",
+    "image": "/products/sottobicchiere-discussione-superata.webp",
+    "model": "/products/sottobicchiere-discussione-superata.glb",
+    "openModel": "/products/sottobicchiere-discussione-superata.glb",
+    "colors": {
+      "structure": "#218c45",
+      "accent": "#ffffff"
+    }
+  },
+  {
+    "slug": "sottobicchiere-proclamazione-pre-serata",
+    "name": "La proclamazione era solo il pre-serata",
+    "description": "Sottobicchiere di laurea con la frase “La proclamazione era solo il pre-serata” e tag NFC integrato. Avvicina lo smartphone per aprire le foto e i ricordi della laurea.",
+    "kind": "coaster",
+    "collection": "sottobicchieri-laurea",
+    "dimensions": [
+      100,
+      100,
+      4
+    ],
+    "assembly": "Sottobicchiere rotondo con scritta e grafica a filo della superficie e tag NFC integrato.",
+    "image": "/products/sottobicchiere-proclamazione-pre-serata.webp",
+    "model": "/products/sottobicchiere-proclamazione-pre-serata.glb",
+    "openModel": "/products/sottobicchiere-proclamazione-pre-serata.glb",
+    "colors": {
+      "structure": "#222222",
+      "accent": "#facc15"
+    }
+  },
+  {
+    "slug": "sottobicchiere-tesi-finita-fegato",
+    "name": "La tesi è finita. Il fegato no.",
+    "description": "Sottobicchiere di laurea con la frase “La tesi è finita. Il fegato no.” e tag NFC integrato. Avvicina lo smartphone per aprire le foto e i ricordi della laurea.",
+    "kind": "coaster",
+    "collection": "sottobicchieri-laurea",
+    "dimensions": [
+      100,
+      100,
+      4
+    ],
+    "assembly": "Sottobicchiere rotondo con scritta e grafica a filo della superficie e tag NFC integrato.",
+    "image": "/products/sottobicchiere-tesi-finita-fegato.webp",
+    "model": "/products/sottobicchiere-tesi-finita-fegato.glb",
+    "openModel": "/products/sottobicchiere-tesi-finita-fegato.glb",
+    "colors": {
+      "structure": "#dc2626",
+      "accent": "#ffffff"
+    }
+  },
+  {
+    "slug": "sottobicchiere-non-chiedete-tesi",
+    "name": "Non chiedetegli della tesi. Offritegli da bere.",
+    "description": "Sottobicchiere di laurea con la frase “Non chiedetegli della tesi. Offritegli da bere.” e tag NFC integrato. Avvicina lo smartphone per aprire le foto e i ricordi della laurea.",
+    "kind": "coaster",
+    "collection": "sottobicchieri-laurea",
+    "dimensions": [
+      100,
+      100,
+      4
+    ],
+    "assembly": "Sottobicchiere rotondo con scritta e grafica a filo della superficie e tag NFC integrato.",
+    "image": "/products/sottobicchiere-non-chiedete-tesi.webp",
+    "model": "/products/sottobicchiere-non-chiedete-tesi.glb",
+    "openModel": "/products/sottobicchiere-non-chiedete-tesi.glb",
+    "colors": {
+      "structure": "#facc15",
+      "accent": "#222222"
+    }
+  },
+  {
+    "slug": "sottobicchiere-dott-in-teoria",
+    "name": "DOTT. (in teoria)",
+    "description": "Sottobicchiere di laurea con la frase “DOTT. (in teoria)” e tag NFC integrato. Avvicina lo smartphone per aprire le foto e i ricordi della laurea.",
+    "kind": "coaster",
+    "collection": "sottobicchieri-laurea",
+    "dimensions": [
+      100,
+      100,
+      4
+    ],
+    "assembly": "Sottobicchiere rotondo con scritta e grafica a filo della superficie e tag NFC integrato.",
+    "image": "/products/sottobicchiere-dott-in-teoria.webp",
+    "model": "/products/sottobicchiere-dott-in-teoria.glb",
+    "openModel": "/products/sottobicchiere-dott-in-teoria.glb",
+    "colors": {
+      "structure": "#2458b8",
+      "accent": "#ffffff"
+    }
+  },
+  {
+    "slug": "sottobicchiere-trust-me-dottore",
+    "name": "Trust me, sono Dottore",
+    "description": "Sottobicchiere di laurea con la frase “Trust me, sono Dottore” e tag NFC integrato. Avvicina lo smartphone per aprire le foto e i ricordi della laurea.",
+    "kind": "coaster",
+    "collection": "sottobicchieri-laurea",
+    "dimensions": [
+      100,
+      100,
+      4
+    ],
+    "assembly": "Sottobicchiere rotondo con scritta e grafica a filo della superficie e tag NFC integrato.",
+    "image": "/products/sottobicchiere-trust-me-dottore.webp",
+    "model": "/products/sottobicchiere-trust-me-dottore.glb",
+    "openModel": "/products/sottobicchiere-trust-me-dottore.glb",
+    "colors": {
+      "structure": "#218c45",
+      "accent": "#ffffff"
+    }
+  },
+  {
+    "slug": "sottobicchiere-fonte-laureato",
+    "name": "Fonte: mi sono laureato",
+    "description": "Sottobicchiere di laurea con la frase “Fonte: mi sono laureato” e tag NFC integrato. Avvicina lo smartphone per aprire le foto e i ricordi della laurea.",
+    "kind": "coaster",
+    "collection": "sottobicchieri-laurea",
+    "dimensions": [
+      100,
+      100,
+      4
+    ],
+    "assembly": "Sottobicchiere rotondo con scritta e grafica a filo della superficie e tag NFC integrato.",
+    "image": "/products/sottobicchiere-fonte-laureato.webp",
+    "model": "/products/sottobicchiere-fonte-laureato.glb",
+    "openModel": "/products/sottobicchiere-fonte-laureato.glb",
+    "colors": {
+      "structure": "#222222",
+      "accent": "#ffffff"
+    }
+  },
+  {
+    "slug": "sottobicchiere-sbagliare-con-titolo",
+    "name": "Ora posso sbagliare con un titolo",
+    "description": "Sottobicchiere di laurea con la frase “Ora posso sbagliare con un titolo” e tag NFC integrato. Avvicina lo smartphone per aprire le foto e i ricordi della laurea.",
+    "kind": "coaster",
+    "collection": "sottobicchieri-laurea",
+    "dimensions": [
+      100,
+      100,
+      4
+    ],
+    "assembly": "Sottobicchiere rotondo con scritta e grafica a filo della superficie e tag NFC integrato.",
+    "image": "/products/sottobicchiere-sbagliare-con-titolo.webp",
+    "model": "/products/sottobicchiere-sbagliare-con-titolo.glb",
+    "openModel": "/products/sottobicchiere-sbagliare-con-titolo.glb",
+    "colors": {
+      "structure": "#803fa1",
+      "accent": "#ffffff"
+    }
+  },
+  {
+    "slug": "sottobicchiere-mamma-pezzo-carta",
+    "name": "Mamma, ho preso un pezzo di carta",
+    "description": "Sottobicchiere di laurea con la frase “Mamma, ho preso un pezzo di carta” e tag NFC integrato. Avvicina lo smartphone per aprire le foto e i ricordi della laurea.",
+    "kind": "coaster",
+    "collection": "sottobicchieri-laurea",
+    "dimensions": [
+      100,
+      100,
+      4
+    ],
+    "assembly": "Sottobicchiere rotondo con scritta e grafica a filo della superficie e tag NFC integrato.",
+    "image": "/products/sottobicchiere-mamma-pezzo-carta.webp",
+    "model": "/products/sottobicchiere-mamma-pezzo-carta.glb",
+    "openModel": "/products/sottobicchiere-mamma-pezzo-carta.glb",
+    "colors": {
+      "structure": "#facc15",
+      "accent": "#222222"
+    }
+  },
+  {
+    "slug": "sottobicchiere-costo-laurea",
+    "name": "Costo laurea: non ne voglio parlare",
+    "description": "Sottobicchiere di laurea con la frase “Costo laurea: non ne voglio parlare” e tag NFC integrato. Avvicina lo smartphone per aprire le foto e i ricordi della laurea.",
+    "kind": "coaster",
+    "collection": "sottobicchieri-laurea",
+    "dimensions": [
+      100,
+      100,
+      4
+    ],
+    "assembly": "Sottobicchiere rotondo con scritta e grafica a filo della superficie e tag NFC integrato.",
+    "image": "/products/sottobicchiere-costo-laurea.webp",
+    "model": "/products/sottobicchiere-costo-laurea.glb",
+    "openModel": "/products/sottobicchiere-costo-laurea.glb",
+    "colors": {
+      "structure": "#2458b8",
+      "accent": "#ffffff"
+    }
+  },
+  {
+    "slug": "sottobicchiere-ral-loading",
+    "name": "RAL: loading…",
+    "description": "Sottobicchiere di laurea con la frase “RAL: loading…” e tag NFC integrato. Avvicina lo smartphone per aprire le foto e i ricordi della laurea.",
+    "kind": "coaster",
+    "collection": "sottobicchieri-laurea",
+    "dimensions": [
+      100,
+      100,
+      4
+    ],
+    "assembly": "Sottobicchiere rotondo con scritta e grafica a filo della superficie e tag NFC integrato.",
+    "image": "/products/sottobicchiere-ral-loading.webp",
+    "model": "/products/sottobicchiere-ral-loading.glb",
+    "openModel": "/products/sottobicchiere-ral-loading.glb",
+    "colors": {
+      "structure": "#222222",
+      "accent": "#facc15"
+    }
+  },
+  {
+    "slug": "sottobicchiere-esperienza-titolo",
+    "name": "Esperienza: 0 / Titolo: 1",
+    "description": "Sottobicchiere di laurea con la frase “Esperienza: 0 / Titolo: 1” e tag NFC integrato. Avvicina lo smartphone per aprire le foto e i ricordi della laurea.",
+    "kind": "coaster",
+    "collection": "sottobicchieri-laurea",
+    "dimensions": [
+      100,
+      100,
+      4
+    ],
+    "assembly": "Sottobicchiere rotondo con scritta e grafica a filo della superficie e tag NFC integrato.",
+    "image": "/products/sottobicchiere-esperienza-titolo.webp",
+    "model": "/products/sottobicchiere-esperienza-titolo.glb",
+    "openModel": "/products/sottobicchiere-esperienza-titolo.glb",
+    "colors": {
+      "structure": "#218c45",
+      "accent": "#ffffff"
+    }
+  },
+  {
+    "slug": "sottobicchiere-linkedin-prima-proclamazione",
+    "name": "LinkedIn aggiornato prima della proclamazione",
+    "description": "Sottobicchiere di laurea con la frase “LinkedIn aggiornato prima della proclamazione” e tag NFC integrato. Avvicina lo smartphone per aprire le foto e i ricordi della laurea.",
+    "kind": "coaster",
+    "collection": "sottobicchieri-laurea",
+    "dimensions": [
+      100,
+      100,
+      4
+    ],
+    "assembly": "Sottobicchiere rotondo con scritta e grafica a filo della superficie e tag NFC integrato.",
+    "image": "/products/sottobicchiere-linkedin-prima-proclamazione.webp",
+    "model": "/products/sottobicchiere-linkedin-prima-proclamazione.glb",
+    "openModel": "/products/sottobicchiere-linkedin-prima-proclamazione.glb",
+    "colors": {
+      "structure": "#2458b8",
+      "accent": "#ffffff"
+    }
+  },
+  {
+    "slug": "sottobicchiere-dottore-senza-pazienti",
+    "name": "Dottore senza pazienti",
+    "description": "Sottobicchiere di laurea con la frase “Dottore senza pazienti” e tag NFC integrato. Avvicina lo smartphone per aprire le foto e i ricordi della laurea.",
+    "kind": "coaster",
+    "collection": "sottobicchieri-laurea",
+    "dimensions": [
+      100,
+      100,
+      4
+    ],
+    "assembly": "Sottobicchiere rotondo con scritta e grafica a filo della superficie e tag NFC integrato.",
+    "image": "/products/sottobicchiere-dottore-senza-pazienti.webp",
+    "model": "/products/sottobicchiere-dottore-senza-pazienti.glb",
+    "openModel": "/products/sottobicchiere-dottore-senza-pazienti.glb",
+    "colors": {
+      "structure": "#dc2626",
+      "accent": "#ffffff"
+    }
+  },
+  {
+    "slug": "sottobicchiere-chiamatemi-dottore",
+    "name": "Chiamatemi Dottore. Almeno stasera.",
+    "description": "Sottobicchiere di laurea con la frase “Chiamatemi Dottore. Almeno stasera.” e tag NFC integrato. Avvicina lo smartphone per aprire le foto e i ricordi della laurea.",
+    "kind": "coaster",
+    "collection": "sottobicchieri-laurea",
+    "dimensions": [
+      100,
+      100,
+      4
+    ],
+    "assembly": "Sottobicchiere rotondo con scritta e grafica a filo della superficie e tag NFC integrato.",
+    "image": "/products/sottobicchiere-chiamatemi-dottore.webp",
+    "model": "/products/sottobicchiere-chiamatemi-dottore.glb",
+    "openModel": "/products/sottobicchiere-chiamatemi-dottore.glb",
+    "colors": {
+      "structure": "#803fa1",
+      "accent": "#ffffff"
+    }
+  },
+  {
+    "slug": "sottobicchiere-laurea-nessuna-idea",
+    "name": "Ho una laurea e nessuna idea di cosa fare",
+    "description": "Sottobicchiere di laurea con la frase “Ho una laurea e nessuna idea di cosa fare” e tag NFC integrato. Avvicina lo smartphone per aprire le foto e i ricordi della laurea.",
+    "kind": "coaster",
+    "collection": "sottobicchieri-laurea",
+    "dimensions": [
+      100,
+      100,
+      4
+    ],
+    "assembly": "Sottobicchiere rotondo con scritta e grafica a filo della superficie e tag NFC integrato.",
+    "image": "/products/sottobicchiere-laurea-nessuna-idea.webp",
+    "model": "/products/sottobicchiere-laurea-nessuna-idea.glb",
+    "openModel": "/products/sottobicchiere-laurea-nessuna-idea.glb",
+    "colors": {
+      "structure": "#f97316",
+      "accent": "#222222"
+    }
+  },
+  {
+    "slug": "sottobicchiere-non-domande-difficili",
+    "name": "Laureato. Non fate domande difficili.",
+    "description": "Sottobicchiere di laurea con la frase “Laureato. Non fate domande difficili.” e tag NFC integrato. Avvicina lo smartphone per aprire le foto e i ricordi della laurea.",
+    "kind": "coaster",
+    "collection": "sottobicchieri-laurea",
+    "dimensions": [
+      100,
+      100,
+      4
+    ],
+    "assembly": "Sottobicchiere rotondo con scritta e grafica a filo della superficie e tag NFC integrato.",
+    "image": "/products/sottobicchiere-non-domande-difficili.webp",
+    "model": "/products/sottobicchiere-non-domande-difficili.glb",
+    "openModel": "/products/sottobicchiere-non-domande-difficili.glb",
+    "colors": {
+      "structure": "#222222",
+      "accent": "#ffffff"
+    }
   }
 ]

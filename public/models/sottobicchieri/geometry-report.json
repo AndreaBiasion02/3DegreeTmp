@@ -126,5 +126,213 @@
     "heightMm": 4,
     "inlayDepthMm": 0.6,
     "triangles": 24984
+  },
+  {
+    "slug": "sottobicchiere-prima-titolo-poi-spritz",
+    "phrase": "Prima il titolo, poi lo spritz",
+    "diameterMm": 100,
+    "heightMm": 4,
+    "inlayDepthMm": 0.6,
+    "triangles": 12872
+  },
+  {
+    "slug": "sottobicchiere-brindisi-neo-disoccupato",
+    "phrase": "Un brindisi al neo-disoccupato",
+    "diameterMm": 100,
+    "heightMm": 4,
+    "inlayDepthMm": 0.6,
+    "triangles": 17036
+  },
+  {
+    "slug": "sottobicchiere-dottore-giorno-disastro-notte",
+    "phrase": "Dottore di giorno, disastro di notte",
+    "diameterMm": 100,
+    "heightMm": 4,
+    "inlayDepthMm": 0.6,
+    "triangles": 18612
+  },
+  {
+    "slug": "sottobicchiere-laurea-presa-dignita",
+    "phrase": "Laurea presa. Dignità vediamo.",
+    "diameterMm": 100,
+    "heightMm": 4,
+    "inlayDepthMm": 0.6,
+    "triangles": 16052
+  },
+  {
+    "slug": "sottobicchiere-bevi-responsabilmente",
+    "phrase": "Bevi responsabilmente. Lui ha già dato.",
+    "diameterMm": 100,
+    "heightMm": 4,
+    "inlayDepthMm": 0.6,
+    "triangles": 21812
+  },
+  {
+    "slug": "sottobicchiere-oggi-dottore-domani-hangover",
+    "phrase": "Oggi Dottore, domani hangover",
+    "diameterMm": 100,
+    "heightMm": 4,
+    "inlayDepthMm": 0.6,
+    "triangles": 16068
+  },
+  {
+    "slug": "sottobicchiere-110-lode-amaro",
+    "phrase": "110, lode e amaro",
+    "diameterMm": 100,
+    "heightMm": 4,
+    "inlayDepthMm": 0.6,
+    "triangles": 8092
+  },
+  {
+    "slug": "sottobicchiere-cum-laude-cum-spritz",
+    "phrase": "Cum laude, cum spritz",
+    "diameterMm": 100,
+    "heightMm": 4,
+    "inlayDepthMm": 0.6,
+    "triangles": 12172
+  },
+  {
+    "slug": "sottobicchiere-vero-esame-domani",
+    "phrase": "Il vero esame è domani mattina",
+    "diameterMm": 100,
+    "heightMm": 4,
+    "inlayDepthMm": 0.6,
+    "triangles": 15544
+  },
+  {
+    "slug": "sottobicchiere-discussione-superata",
+    "phrase": "Discussione superata. Ora si beve.",
+    "diameterMm": 100,
+    "heightMm": 4,
+    "inlayDepthMm": 0.6,
+    "triangles": 19072
+  },
+  {
+    "slug": "sottobicchiere-proclamazione-pre-serata",
+    "phrase": "La proclamazione era solo il pre-serata",
+    "diameterMm": 100,
+    "heightMm": 4,
+    "inlayDepthMm": 0.6,
+    "triangles": 19568
+  },
+  {
+    "slug": "sottobicchiere-tesi-finita-fegato",
+    "phrase": "La tesi è finita. Il fegato no.",
+    "diameterMm": 100,
+    "heightMm": 4,
+    "inlayDepthMm": 0.6,
+    "triangles": 14416
+  },
+  {
+    "slug": "sottobicchiere-non-chiedete-tesi",
+    "phrase": "Non chiedetegli della tesi. Offritegli da bere.",
+    "diameterMm": 100,
+    "heightMm": 4,
+    "inlayDepthMm": 0.6,
+    "triangles": 20560
+  },
+  {
+    "slug": "sottobicchiere-dott-in-teoria",
+    "phrase": "DOTT. (in teoria)",
+    "diameterMm": 100,
+    "heightMm": 4,
+    "inlayDepthMm": 0.6,
+    "triangles": 8512
+  },
+  {
+    "slug": "sottobicchiere-trust-me-dottore",
+    "phrase": "Trust me, sono Dottore",
+    "diameterMm": 100,
+    "heightMm": 4,
+    "inlayDepthMm": 0.6,
+    "triangles": 12232
+  },
+  {
+    "slug": "sottobicchiere-fonte-laureato",
+    "phrase": "Fonte: mi sono laureato",
+    "diameterMm": 100,
+    "heightMm": 4,
+    "inlayDepthMm": 0.6,
+    "triangles": 21540
+  },
+  {
+    "slug": "sottobicchiere-sbagliare-con-titolo",
+    "phrase": "Ora posso sbagliare con un titolo",
+    "diameterMm": 100,
+    "heightMm": 4,
+    "inlayDepthMm": 0.6,
+    "triangles": 17808
+  },
+  {
+    "slug": "sottobicchiere-mamma-pezzo-carta",
+    "phrase": "Mamma, ho preso un pezzo di carta",
+    "diameterMm": 100,
+    "heightMm": 4,
+    "inlayDepthMm": 0.6,
+    "triangles": 16988
+  },
+  {
+    "slug": "sottobicchiere-costo-laurea",
+    "phrase": "Costo laurea: non ne voglio parlare",
+    "diameterMm": 100,
+    "heightMm": 4,
+    "inlayDepthMm": 0.6,
+    "triangles": 30904
+  },
+  {
+    "slug": "sottobicchiere-ral-loading",
+    "phrase": "RAL: loading…",
+    "diameterMm": 100,
+    "heightMm": 4,
+    "inlayDepthMm": 0.6,
+    "triangles": 13132
+  },
+  {
+    "slug": "sottobicchiere-esperienza-titolo",
+    "phrase": "Esperienza: 0 / Titolo: 1",
+    "diameterMm": 100,
+    "heightMm": 4,
+    "inlayDepthMm": 0.6,
+    "triangles": 19664
+  },
+  {
+    "slug": "sottobicchiere-linkedin-prima-proclamazione",
+    "phrase": "LinkedIn aggiornato prima della proclamazione",
+    "diameterMm": 100,
+    "heightMm": 4,
+    "inlayDepthMm": 0.6,
+    "triangles": 41904
+  },
+  {
+    "slug": "sottobicchiere-dottore-senza-pazienti",
+    "phrase": "Dottore senza pazienti",
+    "diameterMm": 100,
+    "heightMm": 4,
+    "inlayDepthMm": 0.6,
+    "triangles": 12620
+  },
+  {
+    "slug": "sottobicchiere-chiamatemi-dottore",
+    "phrase": "Chiamatemi Dottore. Almeno stasera.",
+    "diameterMm": 100,
+    "heightMm": 4,
+    "inlayDepthMm": 0.6,
+    "triangles": 20420
+  },
+  {
+    "slug": "sottobicchiere-laurea-nessuna-idea",
+    "phrase": "Ho una laurea e nessuna idea di cosa fare",
+    "diameterMm": 100,
+    "heightMm": 4,
+    "inlayDepthMm": 0.6,
+    "triangles": 20688
+  },
+  {
+    "slug": "sottobicchiere-non-domande-difficili",
+    "phrase": "Laureato. Non fate domande difficili.",
+    "diameterMm": 100,
+    "heightMm": 4,
+    "inlayDepthMm": 0.6,
+    "triangles": 16160
   }
 ]
