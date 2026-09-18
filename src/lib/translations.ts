@@ -109,7 +109,7 @@ Object.assign(dictionary, {
     "Dal tuo spazio personale scegli cosa deve aprirsi quando avvicini il telefono. Potrai sostituirlo quando vuoi.",
   "FAQ 1 Question": "Posso acquistare da questo sito?",
   "FAQ 1 Answer":
-    "Questo sito è una vetrina illustrativa: presenta i modelli e le loro caratteristiche, senza vendita online diretta. Per richiedere informazioni, disponibilità o preventivi per la tua laurea, scrivici nei DM su Instagram (@3degree_lab), TikTok (@3degree.lab) oppure via email a info@3degreelab.com.",
+    "Questo sito è una vetrina illustrativa: presenta i modelli e le loro caratteristiche, senza vendita online diretta. Per richiedere informazioni, disponibilità o preventivi per la tua laurea, scrivici nei DM su Instagram (@3degree_lab), TikTok (@3degreelab) oppure via email a info@3degreelab.com.",
   "FAQ 2 Question": "Cosa mostrano le anteprime?",
   "FAQ 2 Answer":
     "Le immagini e le viste 3D mostrano modelli digitali. Forme di laurea e Tocchi di facoltà si esplorano aperti e chiusi, cambiando i colori. Nella collezione Personalizzabili puoi aggiungere testi e logo. Colori e finiture fisiche possono differire.",

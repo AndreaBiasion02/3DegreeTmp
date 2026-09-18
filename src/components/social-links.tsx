@@ -60,8 +60,8 @@ export const SOCIAL_LINKS = [
   },
   {
     name: "TikTok",
-    handle: "@3degree.lab",
-    url: "https://www.tiktok.com/@3degree.lab",
+    handle: "@3degreelab",
+    url: "https://www.tiktok.com/@3degreelab",
     icon: TikTokIcon,
     description: "Seguici su TikTok e scrivici in chat",
   },

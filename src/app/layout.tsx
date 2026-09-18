@@ -37,7 +37,7 @@ export default function RootLayout({
             email: "info@3degreelab.com",
             sameAs: [
               "https://www.instagram.com/3degree_lab/",
-              "https://www.tiktok.com/@3degree.lab",
+              "https://www.tiktok.com/@3degreelab",
             ],
           }}
         />

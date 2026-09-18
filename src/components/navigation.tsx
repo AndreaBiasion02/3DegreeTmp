@@ -64,12 +64,12 @@ export function Nav() {
               <InstagramIcon className="h-4 w-4" />
             </a>
             <a
-              href="https://www.tiktok.com/@3degree.lab"
+              href="https://www.tiktok.com/@3degreelab"
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="TikTok @3degree.lab"
+              aria-label="TikTok @3degreelab"
               className="grid h-9 w-9 place-items-center rounded-full border border-brand-primary/20 text-brand-primary transition-all hover:scale-105 hover:border-brand-primary hover:bg-brand-primary hover:text-brand-light"
-              title="TikTok @3degree.lab"
+              title="TikTok @3degreelab"
             >
               <TikTokIcon className="h-4 w-4" />
             </a>
@@ -111,13 +111,13 @@ export function Nav() {
                     <span>@3degree_lab</span>
                   </a>
                   <a
-                    href="https://www.tiktok.com/@3degree.lab"
+                    href="https://www.tiktok.com/@3degreelab"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 rounded-full border border-brand-primary/25 px-3 py-1.5 text-xs font-bold hover:bg-brand-primary hover:text-brand-light"
                   >
                     <TikTokIcon className="h-3.5 w-3.5" />
-                    <span>@3degree.lab</span>
+                    <span>@3degreelab</span>
                   </a>
                 </div>
                 <a
