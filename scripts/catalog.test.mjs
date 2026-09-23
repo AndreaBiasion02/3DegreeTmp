@@ -38,6 +38,10 @@ test("Every catalog page has crawlable content, one H1 and unique canonical meta
       if (!href.startsWith("/") || href.startsWith("//")) continue;
       const [target, anchor] = href.split("#");
       const resolved = target || route;
+      if (resolved.startsWith('/models/sottobicchieri/') && resolved.endsWith('.svg')) {
+        assert((await fs.stat(path.join('out', resolved))).isFile(), `${route}: missing SVG ${href}`);
+        continue;
+      }
       assert(pages.includes(resolved), `${route}: broken link ${href}`);
       if (anchor)
         assert((await readPage(resolved)).includes(`id="${anchor}"`), href);

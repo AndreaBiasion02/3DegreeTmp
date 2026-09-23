@@ -6,3 +6,6 @@ dist/
 .env*
 !.env.example
 .wrangler/
+.local/
+.dev.vars*
+outputs/

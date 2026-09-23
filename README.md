@@ -22,6 +22,24 @@ npm run preview
 
 ## Contenuti
 
+### Sottobicchieri con AI
+
+La collezione `/collections/sottobicchieri-laurea/#crea-con-ai` include un laboratorio: descrizione della persona, tono e tre grafiche vettoriali originali progettate da GPT-6 Luna. Il modello decide battuta, gerarchia tipografica, posizioni e tracciati decorativi senza selezionare un layout predefinito. Le proposte sono mostrate su un fondale grigio con bordo e ombra illustrativi, come le immagini del catalogo; si possono correggere le scritte e scegliere due colori PLA. Bordo e ombra non entrano nello SVG per la stampa. Si scaricano l’SVG da 70 × 70 mm con scritte convertite in tracciati e il progetto JSON. La grafica non è uno STL pronto per la stampa. Le proposte restano in memoria nella pagina e si perdono ricaricandola: scaricare il JSON per conservarle (importazione non ancora disponibile).
+
+Per attivare la generazione locale, copiare `.env.example` in `.env.local` e inserire `OPENAI_API_KEY`, quindi avviare `npm run dev` (o build e `npm run preview`). La chiave resta sul server. Modello configurabile con `OPENAI_MODEL` (predefinito `gpt-6-luna`). Senza chiave l'editor manuale funziona e la generazione restituisce un messaggio di servizio non ancora attivo. Non sono mostrate risposte simulate come se fossero AI.
+
+`POST /api/coaster-ideas` accetta `{ brief, tone, avoid? }`: descrizione 10–600 caratteri, uno dei quattro toni dell'interfaccia, fino a tre frasi precedenti. Una chiamata OpenAI GPT-6 Luna produce tre composizioni vettoriali strutturate, validate prima di restituirle. Timeout 60 secondi, massimo 5000 token di output, nessun retry automatico. Il brief viene inviato a OpenAI; l'applicazione non lo salva sul server.
+
+Limiti configurabili da variabili d'ambiente:
+- `COASTER_DAILY_LIMIT`: tentativi massimi al giorno (UTC) complessivi su tutti gli utenti (predefinito: 300, impostare `0` per disabilitare completamente le chiamate AI).
+- `COASTER_HOURLY_LIMIT`: tentativi massimi all'ora per singolo indirizzo IP (predefinito: 10).
+- `COASTER_COOLDOWN_SECONDS` (oppure `COASTER_COOLDOWN_MS`): intervallo minimo di attesa tra richieste consecutive dello stesso client IP (predefinito: 10 secondi, impostare `0` per disabilitare il cooldown).
+I tentativi falliti del provider concorrono al conteggio per proteggere da abusi e costi imprevisti. Gli IP sono memorizzati come hash nei contatori, senza brief. La quota Node è persistente in `.local/coaster-quota.json` ed è pensata per **un singolo processo**; non avviare più repliche con questo archivio. Dietro reverse proxy configurare `COASTER_ALLOWED_ORIGIN` con l'origine pubblica esatta; Node non si fida di header IP arbitrari, quindi gli utenti dietro lo stesso proxy condividono il limite.
+
+Per Cloudflare, `wrangler.jsonc` collega gli asset statici al Worker `server/worker.mjs` e a un Durable Object con quota globale persistente e prenotazione atomica. Configurare il secret con `npx wrangler secret put OPENAI_API_KEY` prima di pubblicare. In sviluppo Wrangler usare `.dev.vars` (ignorato da Git). La chiave non deve mai essere una variabile `NEXT_PUBLIC_*`. Non è stata eseguita alcuna pubblicazione automatica.
+
+Il catalogo resta esportabile staticamente. **Pubblicare solo `out` non abilita l'AI**: servire anche l'endpoint tramite Worker oppure tramite il server Node di anteprima dietro proxy. Il client usa un URL relativo sulla stessa origine. Test API e limiti: `node --test scripts/coaster-ai.test.mjs` (provider simulato, nessuna spesa).
+
 ### Collezioni attuali
 
 Il catalogo è diviso in **Forme di laurea** (6 forme originali), **Tocchi di facoltà** (10 simboli a filo del coperchio) e **Personalizzabili** (il configuratore libero). Le pagine e il footer usano `src/lib/collections.json`.
@@ -57,3 +75,12 @@ Un’anteprima privata non è indicizzabile. Sul dominio pubblico verificare ass
 ## Verifiche automatiche
 
 `npm test` verifica sull’HTML esportato titoli/canonical unici, H1, link interni e ancore, metadati e JSON-LD, sitemap completa, assenza di percorsi di acquisto, validità GLB e peso delle immagini. `npm run check` controlla TypeScript. Nessuna credenziale dello shop viene importata.
+
+### SVG in scala e simboli
+
+Tutti i 42 modelli del catalogo vengono rigenerati a 70 mm su X/Y, mantenendo spessore 4 mm e intarsio 0,6 mm; GLB, STL, metadati e SVG sono allineati. Ogni scheda offre il download `/models/sottobicchieri/<slug>.svg`: vista dall'alto, `width="70mm" height="70mm"`, scritte in tracciati e nessuna ombra.
+
+Il laboratorio AI esporta la stessa grafica vista dall'alto a 70 × 70 mm. I font locali Noto Sans, Noto Serif e Roboto Mono vengono convertiti in tracciati con opentype.js al download: nessun font o servizio esterno è necessario per aprire lo SVG. Stampare al 100%, senza adattamento alla pagina. L'esportazione SVG è una grafica bidimensionale, non un STL; tratti piccoli e leggibilità vanno verificati per la produzione.
+
+Luna genera direttamente forme vettoriali pertinenti alla battuta. Il server accetta solo coordinate, testo e comandi di tracciato consentiti; non vengono inseriti SVG grezzi o immagini remote nella pagina. I font locali Noto Sans, Noto Serif e Roboto Mono vengono convertiti in tracciati durante il download.
+

@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import collections from "@/lib/collections.json";
 import { products } from "@/lib/catalog";
 import Catalog from "@/components/catalog";
+import CoasterStudio from "@/components/coaster-art-studio";
 import Schema from "@/components/schema";
 import { metadata as meta, absolute } from "@/lib/seo";
 
@@ -31,6 +32,7 @@ export default async function Collection({ params }: Props) {
       <nav aria-label="Scegli collezione" className="mb-12 flex flex-wrap gap-3">
         {collections.map(c => <a key={c.slug} href={`/collections/${c.slug}/`} aria-current={c.slug === handle ? "page" : undefined} className={c.slug === handle ? "brand-button" : "brand-button-secondary"}>{c.name}</a>)}
       </nav>
+      {handle === "sottobicchieri-laurea" && <CoasterStudio />}
       <Catalog collection={handle} />
       <Schema data={{"@context":"https://schema.org","@type":"CollectionPage",name:collection.name,url:absolute(`/collections/${handle}/`),mainEntity:{"@type":"ItemList",numberOfItems:items.length,itemListElement:items.map((p,i)=>({"@type":"ListItem",position:i+1,name:p.name,url:absolute(`/products/${p.slug}/`)}))}}} />
     </div>

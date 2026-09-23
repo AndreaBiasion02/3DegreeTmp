@@ -331,3 +331,7 @@ body {
     transform: none;
   }
 }
+
+@font-face { font-family: "Coaster Sans"; src: url("/fonts/coaster-noto-sans.woff") format("woff"); font-weight: 700 900; font-display: swap; }
+@font-face { font-family: "Coaster Serif"; src: url("/fonts/coaster-noto-serif.woff") format("woff"); font-weight: 700 900; font-display: swap; }
+@font-face { font-family: "Coaster Mono"; src: url("/fonts/coaster-roboto-mono.woff") format("woff"); font-weight: 700 900; font-display: swap; }

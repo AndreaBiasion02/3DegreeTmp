@@ -83,21 +83,22 @@ function design(lines,style){
 }
 const rgb=hex=>[1,3,5].map(i=>parseInt(hex.slice(i,i+2),16));
 const pathData=shape=>shape.map(p=>p.map(r=>'M'+r.map(([x,y])=>`${x.toFixed(4)},${(-y).toFixed(4)}`).join('L')+'Z').join('')).join('');
-const base=union(circle(0,0,50,160)),products=JSON.parse(fs.readFileSync('src/lib/products.json','utf8')).filter(p=>p.kind!=='coaster');
+const base=union(circle(0,0,35,160)),products=JSON.parse(fs.readFileSync('src/lib/products.json','utf8')).filter(p=>p.kind!=='coaster');
 fs.mkdirSync('public/models/sottobicchieri',{recursive:true});
 const report=[];
 for(const [slug,phrase,lines,style,bg,fg] of entries){
- const art=design(lines,style),top=diff(base,art),pname='sottobicchiere-'+slug;
+ const art=design(lines,style).map(p=>p.map(r=>r.map(([x,y])=>[x*.7,y*.7]))),top=diff(base,art),pname='sottobicchiere-'+slug;
  if(pc.difference(art,base).length)throw Error('Artwork outside coaster: '+slug);
  const baseTris=[...faceTriangles(top,4),...faceTriangles(art,3.4),...walls(art,3.4,4,true),...walls(base,0,4),...faceTriangles(base,0,true)];
  const inkTris=[...faceTriangles(art,4),...faceTriangles(art,3.4,true),...walls(art,3.4,4)];
  writeGlb([{name:'coaster_base',tris:baseTris,color:rgb(bg)},{name:'coaster_ink',tris:inkTris,color:rgb(fg)}],`public/products/${pname}.glb`);
  writeStl(baseTris,`public/models/sottobicchieri/${slug}-base.stl`);writeStl(inkTris,`public/models/sottobicchieri/${slug}-grafica.stl`);
+ fs.writeFileSync(`public/models/sottobicchieri/${slug}.svg`, `<svg xmlns="http://www.w3.org/2000/svg" width="70mm" height="70mm" viewBox="-35 -35 70 70"><title>${phrase.replaceAll('&','&amp;').replaceAll('<','&lt;')}</title><circle r="35" fill="${bg}"/><path d="${pathData(art)}" fill="${fg}" fill-rule="evenodd"/></svg>`);
  // Render the very same polygons as the 3D inlay, with a slight tilt to reveal thickness.
- const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="1860" height="1420" viewBox="0 0 465 355"><rect width="465" height="355" fill="#f0efed"/><ellipse cx="235" cy="302" rx="141" ry="12" fill="#222222" opacity=".10"/><g transform="translate(232.5 177) scale(2.78 2.65)"><circle cy="3" r="50" fill="#222222"/><circle r="50" fill="${bg}"/><path d="${pathData(art)}" fill="${fg}" fill-rule="evenodd"/></g></svg>`;
+ const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="1860" height="1420" viewBox="0 0 465 355"><rect width="465" height="355" fill="#f0efed"/><ellipse cx="235" cy="302" rx="141" ry="12" fill="#222222" opacity=".10"/><g transform="translate(232.5 177) scale(3.97142857 3.78571429)"><circle cy="3" r="35" fill="#222222"/><circle r="35" fill="${bg}"/><path d="${pathData(art)}" fill="${fg}" fill-rule="evenodd"/></g></svg>`;
  for(const [suffix,width] of [['',465],['@2x',930],['@4x',1860]])await sharp(Buffer.from(svg)).resize(width).webp({quality:95}).toFile(`public/products/${pname}${suffix}.webp`);
- products.push({slug:pname,name:phrase,description:`Sottobicchiere di laurea con la frase “${phrase}” e tag NFC integrato. Avvicina lo smartphone per aprire le foto e i ricordi della laurea.`,kind:'coaster',collection:'sottobicchieri-laurea',dimensions:[100,100,4],assembly:'Sottobicchiere rotondo con scritta e grafica a filo della superficie e tag NFC integrato.',image:`/products/${pname}.webp`,model:`/products/${pname}.glb`,openModel:`/products/${pname}.glb`,colors:{structure:bg,accent:fg}});
- report.push({slug:pname,phrase,diameterMm:100,heightMm:4,inlayDepthMm:.6,triangles:baseTris.length+inkTris.length});
+ products.push({slug:pname,name:phrase,description:`Sottobicchiere di laurea con la frase “${phrase}” e tag NFC integrato. Avvicina lo smartphone per aprire le foto e i ricordi della laurea.`,kind:'coaster',collection:'sottobicchieri-laurea',dimensions:[70,70,4],assembly:'Sottobicchiere rotondo con scritta e grafica a filo della superficie e tag NFC integrato.',image:`/products/${pname}.webp`,model:`/products/${pname}.glb`,openModel:`/products/${pname}.glb`,colors:{structure:bg,accent:fg}});
+ report.push({slug:pname,phrase,diameterMm:70,heightMm:4,inlayDepthMm:.6,triangles:baseTris.length+inkTris.length});
  console.log(phrase);
 }
 fs.writeFileSync('src/lib/products.json',JSON.stringify(products,null,2)+'\n');

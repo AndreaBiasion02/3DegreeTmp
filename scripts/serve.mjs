@@ -1,8 +1,11 @@
 import http from "node:http";
 import fs from "node:fs/promises";
 import path from "node:path";
+import { serveCoasterApi } from "../server/node-api.mjs";
 const root = path.resolve("out");
 const types = {
+  ".svg": "image/svg+xml",
+  ".woff": "font/woff",
   ".html": "text/html; charset=utf-8",
   ".css": "text/css",
   ".js": "text/javascript",
@@ -19,6 +22,7 @@ const types = {
 http
   .createServer(async (req, res) => {
     try {
+      if (await serveCoasterApi(req, res)) return;
       if (!["GET", "HEAD"].includes(req.method)) {
         res.writeHead(405);
         res.end();

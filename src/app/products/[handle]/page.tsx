@@ -72,7 +72,7 @@ export default async function Product({ params }: Props) {
               <dt className="text-sm font-bold uppercase tracking-wider">
                 {p.kind === "coaster" ? "Dimensioni del sottobicchiere" : "Dimensioni del modello montato"}
               </dt>
-              <dd className="mt-2">{p.kind === "coaster" ? "Ø 100 mm · spessore 4 mm" : `${dimensions} mm`}</dd>
+              <dd className="mt-2">{p.kind === "coaster" ? "Ø 70 mm · spessore 4 mm" : `${dimensions} mm`}</dd>
             </div>
             <div className="py-5">
               <dt className="text-sm font-bold uppercase tracking-wider">
@@ -122,6 +122,8 @@ export default async function Product({ params }: Props) {
           >
             Scopri la collezione ↗
           </a>
+          {p.kind === "coaster" && <a href={`/models/sottobicchieri/${p.slug.replace('sottobicchiere-', '')}.svg`} download className="brand-button-secondary mt-3">Scarica SVG dall’alto · 70 mm ↓</a>}
+          {p.kind === "coaster" && <a href="/collections/sottobicchieri-laurea/#crea-con-ai" className="brand-button mt-3">Inventa il tuo con l’AI ↗</a>}
         </article>
       </div>
       {p.kind === "cap" && p.preset && (

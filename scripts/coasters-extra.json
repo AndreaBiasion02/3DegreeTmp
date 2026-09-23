@@ -24,5 +24,17 @@
  ["dottore-senza-pazienti","Dottore senza pazienti",["DOTTORE","senza pazienti"],"new-bold","#dc2626","#ffffff"],
  ["chiamatemi-dottore","Chiamatemi Dottore. Almeno stasera.",["Chiamatemi","DOTTORE.","Almeno stasera."],"new-bold","#803fa1","#ffffff"],
  ["laurea-nessuna-idea","Ho una laurea e nessuna idea di cosa fare",["Ho una laurea","e NESSUNA IDEA","di cosa fare"],"new-bold","#f97316","#222222"],
- ["non-domande-difficili","Laureato. Non fate domande difficili.",["LAUREATO.","Non fate","domande difficili."],"new-bold","#222222","#ffffff"]
+ ["non-domande-difficili","Laureato. Non fate domande difficili.",["LAUREATO.","Non fate","domande difficili."],"new-bold","#222222","#ffffff"],
+ ["commissione-sopravvissuta","Commissione sopravvissuta. Io quasi.",["Commissione","SOPRAVVISSUTA","io quasi."],"new-bold","#803fa1","#ffffff"],
+ ["voto-segreto","Il voto è segreto. La festa no.",["Il voto è SEGRETO.","La festa NO."],"new-toast","#dc2626","#ffffff"],
+ ["sudore-e-biblioteca","Sudore, lacrime e aria condizionata in biblioteca",["Sudore, lacrime","e aria condizionata","in biblioteca"],"new-bold","#2458b8","#ffffff"],
+ ["caffe-relatore-panico","Caffè, relatore e puro panico",["CAFFÈ, RELATORE","e puro PANICO"],"new-toast","#222222","#facc15"],
+ ["fuori-corso-dentro-party","Fuori corso, dentro al party",["FUORI CORSO","dentro al PARTY"],"new-toast","#f97316","#222222"],
+ ["tesi-tre-copie","La tesi in tre copie. Gli appunti in nessuna.",["La tesi in TRE copie.","Gli appunti in NESSUNA."],"new-bold","#218c45","#ffffff"],
+ ["non-chiamatemi-domani","Dottore sì. Reperibile da lunedì.",["DOTTORE sì.","Reperibile da lunedì."],"new-terminal","#2458b8","#ffffff"],
+ ["sessione-fuori-pericolo","Sessione finita. Pericolo: karaoke.",["SESSIONE FINITA.","Pericolo: KARAOKE."],"new-toast","#803fa1","#ffffff"],
+ ["brindisi-ai-fuori-corso","Un brindisi a chi diceva: un ultimo esame",["Un brindisi a chi","diceva: UN ULTIMO","ESAME"],"new-toast","#dc2626","#ffffff"],
+ ["laurea-con-riserva","Laurea con riserva di dormire",["LAUREA","con riserva","di dormire"],"new-bold","#222222","#facc15"],
+ ["dottore-ora-si-vede","Dottore. Ora si vede se funziona.",["DOTTORE.","Ora si vede se","funziona."],"new-bold","#218c45","#ffffff"],
+ ["festa-piano-studi","Piano di studi: brindare. Piano B: brindare.",["Piano di studi:","BRINDARE.","Piano B: BRINDARE."],"new-toast","#f97316","#222222"]
 ]
