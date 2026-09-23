@@ -1,14 +1,14 @@
 [
   {
     "faculty": "architettura",
-    "symbol": "Portale architettonico",
+    "symbol": "Compasso",
     "topMm": 37,
     "inlayBottomMm": 36.2,
     "inlayDepthMm": 0.7999999999999972,
     "minDesignedStrokeMm": 3.6,
-    "areaMm2": 1047.7558859749781,
-    "lidTriangles": 2492,
-    "inlayTriangles": 156
+    "areaMm2": 180.91621386554456,
+    "lidTriangles": 3260,
+    "inlayTriangles": 920
   },
   {
     "faculty": "economia",
@@ -17,9 +17,9 @@
     "inlayBottomMm": 36.2,
     "inlayDepthMm": 0.7999999999999972,
     "minDesignedStrokeMm": 3.6,
-    "areaMm2": 519.3463275156129,
-    "lidTriangles": 2516,
-    "inlayTriangles": 164
+    "areaMm2": 260.033517549825,
+    "lidTriangles": 2880,
+    "inlayTriangles": 520
   },
   {
     "faculty": "farmacia",
@@ -28,9 +28,9 @@
     "inlayBottomMm": 36.2,
     "inlayDepthMm": 0.7999999999999972,
     "minDesignedStrokeMm": 3.6,
-    "areaMm2": 443.5767628292857,
-    "lidTriangles": 2680,
-    "inlayTriangles": 344
+    "areaMm2": 230.94531688248375,
+    "lidTriangles": 2912,
+    "inlayTriangles": 580
   },
   {
     "faculty": "giurisprudenza",
@@ -39,9 +39,9 @@
     "inlayBottomMm": 36.2,
     "inlayDepthMm": 0.7999999999999972,
     "minDesignedStrokeMm": 3.6,
-    "areaMm2": 571.1999999999999,
-    "lidTriangles": 2464,
-    "inlayTriangles": 124
+    "areaMm2": 311.1827267584323,
+    "lidTriangles": 3548,
+    "inlayTriangles": 1216
   },
   {
     "faculty": "ingegneria",
@@ -50,9 +50,9 @@
     "inlayBottomMm": 36.2,
     "inlayDepthMm": 0.7999999999999972,
     "minDesignedStrokeMm": 3.6,
-    "areaMm2": 645.5911644308621,
-    "lidTriangles": 2656,
-    "inlayTriangles": 320
+    "areaMm2": 332.3431165890543,
+    "lidTriangles": 3624,
+    "inlayTriangles": 1300
   },
   {
     "faculty": "lettere",
@@ -61,9 +61,9 @@
     "inlayBottomMm": 36.2,
     "inlayDepthMm": 0.7999999999999972,
     "minDesignedStrokeMm": 3.6,
-    "areaMm2": 944,
-    "lidTriangles": 2368,
-    "inlayTriangles": 24
+    "areaMm2": 286.49036689640695,
+    "lidTriangles": 4184,
+    "inlayTriangles": 1852
   },
   {
     "faculty": "medicina",
@@ -72,20 +72,20 @@
     "inlayBottomMm": 36.2,
     "inlayDepthMm": 0.7999999999999972,
     "minDesignedStrokeMm": 3.6,
-    "areaMm2": 620,
-    "lidTriangles": 2384,
-    "inlayTriangles": 44
+    "areaMm2": 240.63284875732364,
+    "lidTriangles": 5600,
+    "inlayTriangles": 3264
   },
   {
     "faculty": "psicologia",
-    "symbol": "Profilo e mente",
+    "symbol": "Cervello",
     "topMm": 37,
     "inlayBottomMm": 36.2,
     "inlayDepthMm": 0.7999999999999972,
     "minDesignedStrokeMm": 3.6,
-    "areaMm2": 848.5146052075047,
-    "lidTriangles": 2804,
-    "inlayTriangles": 468
+    "areaMm2": 334.24003033000554,
+    "lidTriangles": 4704,
+    "inlayTriangles": 2376
   },
   {
     "faculty": "scienze-politiche",
@@ -94,9 +94,9 @@
     "inlayBottomMm": 36.2,
     "inlayDepthMm": 0.7999999999999972,
     "minDesignedStrokeMm": 3.6,
-    "areaMm2": 804,
-    "lidTriangles": 2428,
-    "inlayTriangles": 92
+    "areaMm2": 305.1361948168492,
+    "lidTriangles": 3502,
+    "inlayTriangles": 1148
   },
   {
     "faculty": "veterinaria",
@@ -105,9 +105,9 @@
     "inlayBottomMm": 36.2,
     "inlayDepthMm": 0.7999999999999972,
     "minDesignedStrokeMm": 3.6,
-    "areaMm2": 693.262860576544,
-    "lidTriangles": 3140,
-    "inlayTriangles": 784
+    "areaMm2": 261.01969245902853,
+    "lidTriangles": 4504,
+    "inlayTriangles": 2168
   },
   {
     "faculty": "laurea-alloro",
@@ -116,8 +116,8 @@
     "inlayBottomMm": 36.2,
     "inlayDepthMm": 0.7999999999999972,
     "minDesignedStrokeMm": 3.6,
-    "areaMm2": 418.714273256356,
-    "lidTriangles": 6700,
-    "inlayTriangles": 4356
+    "areaMm2": 423.70017329468226,
+    "lidTriangles": 6764,
+    "inlayTriangles": 4420
   }
 ]

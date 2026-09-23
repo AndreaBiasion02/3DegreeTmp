@@ -19,7 +19,7 @@ test('Every catalog coaster has a self-contained 70 mm top-view SVG and 70 mm ST
 });
 test('Forty-two coasters preserve the requested phrases and have high-resolution images',async()=>{
  const expected=['110 e vodka','Laureato per sbaglio','Dottore su LinkedIn','Finalmente disoccupato','Missione compiuta. Più o meno.','CTRL + ALT + LAUREA','Achievement unlocked: Dottore','Game Over: Università','Respawn: mondo del lavoro','Laureato.exe ha smesso di funzionare','ChatGPT ce l’abbiamo fatta','3 anni in 7 comodi anni','Studiavo meglio sotto pressione','Tesi? Mai sentita.','Powered by caffè e ansia','Laureato con CTRL+C / CTRL+V'];
- const extra=JSON.parse(fs.readFileSync('scripts/coasters-extra.json'));assert.equal(extra.length,26);
+ const extra=JSON.parse(fs.readFileSync('scripts/coasters-extra.json'));assert.equal(extra.length,38);
  assert.deepEqual(products.map(p=>p.name),[...expected,...extra.map(e=>e[1])]);assert(products.every(p=>/NFC integrato/.test(p.description)&&/NFC integrato/.test(p.assembly)));
  for(const p of products){const m=await sharp('public'+p.image.replace('.webp','@4x.webp')).metadata();assert.equal(m.width,1860);assert.equal(m.height,1420);const html=fs.readFileSync(`out/products/${p.slug}/index.html`,'utf8');const schemas=[...html.matchAll(/<script type="application\/ld\+json">(.*?)<\/script>/g)].map(m=>JSON.parse(m[1]));assert.equal(schemas.find(s=>s['@type']==='Product').category,'Sottobicchieri di laurea');}
 });

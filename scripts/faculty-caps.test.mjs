@@ -5,8 +5,8 @@ const products=JSON.parse(fs.readFileSync('src/lib/products.json'));
 const collections=JSON.parse(fs.readFileSync('src/lib/collections.json'));
 function glb(file){const b=fs.readFileSync('public'+file),length=b.readUInt32LE(12),j=JSON.parse(b.subarray(20,20+length)),bin=b.subarray(28+length);return {j,positions(name){const m=j.meshes.find(m=>m.name===name),a=j.accessors[m.primitives[0].attributes.POSITION],v=j.bufferViews[a.bufferView];return Array.from({length:a.count},(_,i)=>[0,1,2].map(c=>bin.readFloatLE((v.byteOffset||0)+i*12+c*4)));}};}
 function area(points,z){let area=0;for(let i=0;i<points.length;i+=3){const [a,b,c]=points.slice(i,i+3);if([a,b,c].every(p=>Math.abs(p[2]-z)<1e-4))area+=Math.abs((b[0]-a[0])*(c[1]-a[1])-(b[1]-a[1])*(c[0]-a[0]))/2;}return area;}
-test('Four disjoint collections contain every product and link to correct product lists',()=>{
- assert.equal(collections.length,4);assert.deepEqual(collections.map(c=>products.filter(p=>p.collection===c.slug).length),[6,11,1,42]);
+test('Three disjoint collections contain every product and link to correct product lists',()=>{
+ assert.equal(collections.length,3);assert.deepEqual(collections.map(c=>products.filter(p=>p.collection===c.slug).length),[6,12,54]);
  for(const p of products)assert(collections.some(c=>c.slug===p.collection));
  for(const c of collections){const html=fs.readFileSync(`out/collections/${c.slug}/index.html`,'utf8');const schema=[...html.matchAll(/<script type="application\/ld\+json">(.*?)<\/script>/g)].map(m=>JSON.parse(m[1])).find(s=>s['@type']==='CollectionPage');assert.deepEqual(schema.mainEntity.itemListElement.map(x=>x.name),products.filter(p=>p.collection===c.slug).map(p=>p.name));}
 });

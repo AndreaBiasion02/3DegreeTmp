@@ -8,6 +8,7 @@ export type Artwork = {
   texts: { text: string; x: number; y: number; size: number; maxWidth: number;
     font: 'sans' | 'serif' | 'mono'; anchor: 'start' | 'middle' | 'end'; inverse: boolean }[];
   paths: { d: string; fill: boolean; strokeWidth: number }[];
+  symbol?: string;
 };
 
 function measuredWidth(text: string, size: number, font: Artwork['texts'][number]['font']) {

@@ -1,4 +1,5 @@
 import { validLine } from './coaster-design.mjs';
+import { getCapSymbol, detectSymbolFromText } from './cap-symbols.mjs';
 
 const finite = (value, min, max) => typeof value === 'number' && Number.isFinite(value) && value >= min && value <= max;
 const pathPattern = /^[MmLlHhVvCcSsQqTtAaZz0-9.,\s+\-]+$/;
@@ -10,7 +11,7 @@ export function getPathBounds(d) {
   let currX = 50, currY = 49;
   while ((match = regex.exec(d)) !== null) {
     const cmd = match[1];
-    const nums = match[2].trim().match(/-?\d+(?:\.\d+)?(?:e[+-]?\d+)?/gi)?.map(Number) || [];
+    const nums = match[2].trim().match(/[-+]?(?:\d*\.\d+|\d+)(?:[eE][-+]?\d+)?/gi)?.map(Number) || [];
     const isRel = cmd === cmd.toLowerCase() && cmd !== 'z';
     const c = cmd.toUpperCase();
     if (c === 'H') {
@@ -58,7 +59,7 @@ export function transformPath(d, dx = 0, dy = 0, scale = 1, originX = 50, origin
   return d.replace(/([a-df-z])([^a-df-z]*)/gi, (match, cmd, numStr) => {
     const isRel = cmd === cmd.toLowerCase() && cmd !== 'z';
     const c = cmd.toUpperCase();
-    const nums = numStr.trim().match(/-?\d+(?:\.\d+)?(?:e[+-]?\d+)?/gi)?.map(Number) || [];
+    const nums = numStr.trim().match(/[-+]?(?:\d*\.\d+|\d+)(?:[eE][-+]?\d+)?/gi)?.map(Number) || [];
     if (!nums.length) return match;
     const transformed = [];
     if (c === 'H') {
@@ -102,8 +103,9 @@ export function measuredTextWidth(text, size, font) {
   return Math.max(1, units * size);
 }
 
-export function sanitizeArtworks(proposals, palette) {
+export function sanitizeArtworks(proposals, palette, options = {}) {
   if (!Array.isArray(proposals)) return proposals;
+  const isSquare = options?.shape === 'square' || options?.target === 'cap';
   const colors = new Set((palette || []).map(c => c.hex));
   const fallbackBg = palette?.[0]?.hex || '#222222';
   const fallbackFg = palette?.[1]?.hex || '#facc15';
@@ -111,14 +113,14 @@ export function sanitizeArtworks(proposals, palette) {
   const cleaned = proposals.slice(0, 3).map((art, index) => {
     if (!art || typeof art !== 'object') return art;
 
-    let background = colors.has(art.background) ? art.background : fallbackBg;
+    let background = isSquare ? '#222222' : (colors.has(art.background) ? art.background : fallbackBg);
     let foreground = colors.has(art.foreground) ? art.foreground : fallbackFg;
     if (background === foreground) {
       foreground = [...colors].find(c => c !== background) || fallbackFg;
     }
 
     const title = (typeof art.title === 'string' && art.title.trim().length > 0 ? art.title.trim() : `Idea ${index + 1}`).slice(0, 40);
-    const concept = (typeof art.concept === 'string' && art.concept.trim().length > 0 ? art.concept.trim() : 'Design originale per sottobicchiere').slice(0, 160);
+    const concept = (typeof art.concept === 'string' && art.concept.trim().length > 0 ? art.concept.trim() : (isSquare ? 'Design originale per tocco' : 'Design originale per sottobicchiere')).slice(0, 160);
 
     const texts = Array.isArray(art.texts) ? art.texts.slice(0, 5).map(t => {
       const copy = { ...t };
@@ -135,17 +137,19 @@ export function sanitizeArtworks(proposals, palette) {
 
       copy.x = Math.max(10, Math.min(90, copy.x));
       copy.size = Math.max(5, Math.min(22, copy.size));
-      copy.y = Math.max(14 + copy.size, Math.min(84, copy.y));
+      copy.y = Math.max((isSquare ? 11 : 14) + copy.size, Math.min(isSquare ? 87 : 84, copy.y));
       copy.maxWidth = Math.max(15, Math.min(80, copy.maxWidth));
 
-      const topDist = Math.abs(copy.y - copy.size - 49);
-      const bottomDist = Math.abs(copy.y + 2 - 49);
-      const dy = Math.max(topDist, bottomDist);
-      if (dy < 41.5) {
-        const safeHalfW = Math.sqrt(41.5 * 41.5 - dy * dy);
-        const maxSafeW = Math.floor(2 * safeHalfW * 10) / 10;
-        if (copy.maxWidth > maxSafeW) {
-          copy.maxWidth = Math.max(15, maxSafeW);
+      if (!isSquare) {
+        const topDist = Math.abs(copy.y - copy.size - 49);
+        const bottomDist = Math.abs(copy.y + 2 - 49);
+        const dy = Math.max(topDist, bottomDist);
+        if (dy < 41.5) {
+          const safeHalfW = Math.sqrt(41.5 * 41.5 - dy * dy);
+          const maxSafeW = Math.floor(2 * safeHalfW * 10) / 10;
+          if (copy.maxWidth > maxSafeW) {
+            copy.maxWidth = Math.max(15, maxSafeW);
+          }
         }
       }
       return copy;
@@ -205,13 +209,42 @@ export function sanitizeArtworks(proposals, palette) {
       return p;
     });
 
+    let symbol = art.symbol || null;
+    let finalPaths = paths;
+    if (isSquare) {
+      if (!symbol || symbol === 'auto') {
+        const fullContext = `${title} ${concept} ${texts.map(t => t.text).join(' ')}`;
+        symbol = detectSymbolFromText(fullContext) || (index === 0 ? 'laurea-alloro' : (index === 1 ? 'none' : 'laurea-alloro'));
+      }
+      const sym = getCapSymbol(symbol);
+      if (symbol !== 'none' && sym) {
+        finalPaths = [{ d: sym.topPath, fill: sym.fill ?? false, strokeWidth: sym.strokeWidth ?? 1.5 }];
+      } else {
+        symbol = 'none';
+        finalPaths = [];
+      }
+      if (symbol !== 'none' && texts.length >= 1) {
+        if (texts.length === 1) {
+          texts[0].y = Math.max(54, texts[0].y);
+        } else if (texts.length === 2) {
+          if (texts[0].y < 48) texts[0].y = 48;
+          if (texts[1].y < texts[0].y + 16) texts[1].y = Math.min(84, texts[0].y + 18);
+        } else if (texts.length >= 3) {
+          if (texts[0].y < 44) texts[0].y = 44;
+          if (texts[1].y < texts[0].y + 14) texts[1].y = texts[0].y + 14;
+          if (texts[2].y < texts[1].y + 14) texts[2].y = Math.min(84, texts[1].y + 14);
+        }
+      }
+    }
+
     return {
       title,
       concept,
       background,
       foreground,
       texts,
-      paths,
+      paths: finalPaths,
+      ...(isSquare ? { symbol } : {}),
     };
   });
 
@@ -237,8 +270,9 @@ export function sanitizeArtworks(proposals, palette) {
   return cleaned;
 }
 
-export function refineArtwork(art) {
+export function refineArtwork(art, options = {}) {
   if (!art || !Array.isArray(art.texts) || !Array.isArray(art.paths)) return art;
+  const isSquare = options?.shape === 'square' || options?.target === 'cap' || art.symbol !== undefined;
   const texts = art.texts.map(t => ({ ...t }));
   texts.sort((a, b) => a.y - b.y);
 
@@ -270,7 +304,7 @@ export function refineArtwork(art) {
     }
   }
 
-  if (!anyPathCollision && !anyTextOverlap && pathData.every(x => x.b.maxRadius <= 40.5)) {
+  if (!anyPathCollision && !anyTextOverlap && (isSquare || pathData.every(x => x.b.maxRadius <= 40.5))) {
     return art;
   }
 
@@ -384,7 +418,7 @@ export function refineArtwork(art) {
     }
 
     const newB = getPathBounds(newD);
-    if (newB && newB.maxRadius > 40.5) {
+    if (!isSquare && newB && newB.maxRadius > 40.5) {
       const scaleDown = 40 / newB.maxRadius;
       newD = transformPath(newD, 0, 0, scaleDown, 50, 49);
     }
@@ -403,8 +437,9 @@ export function refineArtwork(art) {
   return { ...art, texts, paths: refinedPaths };
 }
 
-export function validateArtworks(value, palette) {
+export function validateArtworks(value, palette, options = {}) {
   if (!Array.isArray(value) || value.length !== 3) throw new Error('Expected three artworks');
+  const isSquare = options?.shape === 'square' || options?.target === 'cap';
   const colors = new Set(palette.map(color => color.hex));
   const result = value.map(art => {
     if (!art || typeof art.title !== 'string' || art.title.trim().length < 1 || art.title.length > 40 ||
@@ -413,24 +448,35 @@ export function validateArtworks(value, palette) {
       !Array.isArray(art.texts) || art.texts.length < 1 || art.texts.length > 5 ||
       !Array.isArray(art.paths) || art.paths.length > 12) throw new Error('Invalid artwork');
     for (const t of art.texts) {
-      if (!validLine(t.text) || !finite(t.x, 10, 90) || !finite(t.y, 13, 86) || !finite(t.size, 5, 23) ||
+      if (!validLine(t.text) || !finite(t.x, 10, 90) || !finite(t.y, 11, 89) || !finite(t.size, 5, 23) ||
         !finite(t.maxWidth, 15, 82) || !['sans', 'serif', 'mono'].includes(t.font) ||
         !['start', 'middle', 'end'].includes(t.anchor) || typeof t.inverse !== 'boolean') throw new Error('Invalid text');
       const left = t.anchor === 'start' ? t.x : t.anchor === 'end' ? t.x - t.maxWidth : t.x - t.maxWidth / 2;
       const right = left + t.maxWidth;
-      if (left < 8 || right > 92 || t.y - t.size < 8 || t.y + 2 > 91) throw new Error('Text outside safe area');
-      for (const x of [left, right]) for (const y of [t.y - t.size, t.y + 2]) {
-        if (Math.hypot(x - 50, y - 49) > 43) throw new Error('Text outside circular safe area');
+      if (left < (isSquare ? 7 : 8) || right > (isSquare ? 93 : 92) || t.y - t.size < (isSquare ? 6 : 8) || t.y + 2 > (isSquare ? 93 : 91)) throw new Error('Text outside safe area');
+      if (!isSquare) {
+        for (const x of [left, right]) for (const y of [t.y - t.size, t.y + 2]) {
+          if (Math.hypot(x - 50, y - 49) > 43) throw new Error('Text outside circular safe area');
+        }
       }
     }
     for (const p of art.paths) {
-      if (typeof p.d !== 'string' || p.d.length < 4 || p.d.length > 600 || !pathPattern.test(p.d) ||
+      const maxPathLen = isSquare ? 15000 : 600;
+      if (typeof p.d !== 'string' || p.d.length < 4 || p.d.length > maxPathLen || !pathPattern.test(p.d) ||
         typeof p.fill !== 'boolean' || !finite(p.strokeWidth, 0, 3)) throw new Error('Invalid path');
     }
-    const clean = { title: art.title.trim(), concept: art.concept.trim(), background: art.background,
-      foreground: art.foreground, texts: art.texts.map(t => ({ ...t, text: t.text.trim() })), paths: art.paths };
-    return refineArtwork(clean);
+    const clean = {
+      title: art.title.trim(),
+      concept: art.concept.trim(),
+      background: art.background,
+      foreground: art.foreground,
+      texts: art.texts.map(t => ({ ...t, text: t.text.trim() })),
+      paths: art.paths,
+      ...(art.symbol ? { symbol: art.symbol } : {}),
+    };
+    return refineArtwork(clean, options);
   });
   if (new Set(result.map(art => art.texts.map(t => t.text).join(' ').toLocaleLowerCase('it'))).size !== 3) throw new Error('Duplicate artwork');
   return result;
 }
+

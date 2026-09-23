@@ -124,6 +124,7 @@ export default async function Product({ params }: Props) {
           </a>
           {p.kind === "coaster" && <a href={`/models/sottobicchieri/${p.slug.replace('sottobicchiere-', '')}.svg`} download className="brand-button-secondary mt-3">Scarica SVG dall’alto · 70 mm ↓</a>}
           {p.kind === "coaster" && <a href="/collections/sottobicchieri-laurea/#crea-con-ai" className="brand-button mt-3">Inventa il tuo con l’AI ↗</a>}
+          {p.kind === "faculty-cap" && <a href="/collections/tocchi-laurea/#crea-con-ai" className="brand-button mt-3">Inventa il tuo con l’AI ↗</a>}
         </article>
       </div>
       {p.kind === "cap" && p.preset && (

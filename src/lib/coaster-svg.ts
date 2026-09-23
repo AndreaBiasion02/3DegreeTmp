@@ -1,17 +1,20 @@
 import { fontFiles } from './coaster-design.mjs';
 
 /** Export the same top-view artwork at physical size, with self-contained text outlines. */
-export async function exportCoasterSvg(source: SVGSVGElement): Promise<string> {
+export async function exportCoasterSvg(source: SVGSVGElement, options?: { sizeMm?: number; viewBox?: string }): Promise<string> {
   const opentype = await import('opentype.js');
   const target = (source.matches('[data-export-svg]')
     ? source
     : (source.querySelector('[data-export-svg]') as SVGSVGElement | null)) || source;
   const copy = target.cloneNode(true) as SVGSVGElement;
-  copy.setAttribute('width', '70mm');
-  copy.setAttribute('height', '70mm');
-  copy.setAttribute('viewBox', '2 1 96 96');
+  const is65 = options?.sizeMm === 65 || target.getAttribute('width')?.includes('65') || source.getAttribute('data-cap-art') !== null;
+  const sizeMm = is65 ? 65 : 70;
+  copy.setAttribute('width', `${sizeMm}mm`);
+  copy.setAttribute('height', `${sizeMm}mm`);
+  copy.setAttribute('viewBox', options?.viewBox || (is65 ? '0 0 100 100' : '2 1 96 96'));
   copy.removeAttribute('class');
   copy.removeAttribute('data-export-svg');
+  copy.removeAttribute('data-cap-art');
   copy.querySelectorAll('rect[width="465"], ellipse[cx="235"]').forEach(el => el.remove());
   const texts = [...copy.querySelectorAll('text')];
   const families = [...new Set(texts.map(t => t.getAttribute('data-font') as keyof typeof fontFiles))];

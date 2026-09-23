@@ -163,3 +163,91 @@ test('Rejects deprecated improve action and unknown actions before reserving quo
     assert.equal(response.status, 400);
   }
 });
+
+test('Supports square tocco cap generation and allows square bounds', async () => {
+  const squareArtworks = [
+    {
+      title: 'Tocco 1', concept: 'Concept 1', background: '#222222', foreground: '#facc15',
+      texts: [{ text: 'DOTTORE', x: 50, y: 50, size: 18, maxWidth: 78, font: 'sans', anchor: 'middle', inverse: false }],
+      paths: [],
+    },
+    {
+      title: 'Tocco 2', concept: 'Concept 2', background: '#2458b8', foreground: '#ffffff',
+      texts: [{ text: 'INGEGNERE', x: 50, y: 50, size: 18, maxWidth: 78, font: 'sans', anchor: 'middle', inverse: false }],
+      paths: [],
+    },
+    {
+      title: 'Tocco 3', concept: 'Concept 3', background: '#218c45', foreground: '#ffffff',
+      texts: [{ text: 'MAGISTRALE', x: 50, y: 50, size: 18, maxWidth: 78, font: 'sans', anchor: 'middle', inverse: false }],
+      paths: [],
+    },
+  ];
+  const validated = validateArtworks(squareArtworks, palette, { target: 'cap', shape: 'square' });
+  assert.equal(validated.length, 3);
+
+  const response = await handleCoasterRequest(
+    request({ brief: 'Marco laureato in ingegneria civile', tone: 'elegante', target: 'cap', shape: 'square' }),
+    options({
+      fetcher: async () => new Response(JSON.stringify({
+        status: 'completed',
+        output: [{ type: 'message', content: [{ type: 'output_text', text: JSON.stringify({ proposals: squareArtworks }) }] }]
+      }), { status: 200, headers: { 'Content-Type': 'application/json' } })
+    })
+  );
+  assert.equal(response.status, 200);
+  const data = await response.json();
+  assert.equal(data.proposals.length, 3);
+});
+
+test('Supports official faculty and laurel symbols on tocco caps', async () => {
+  const { getCapSymbol, CAP_SYMBOLS } = await import('../src/lib/cap-symbols.mjs');
+  assert.equal(CAP_SYMBOLS.length, 13);
+  const cap = getCapSymbol('graduation-cap');
+  assert.ok(cap && cap.topPath);
+
+  const ingegneria = getCapSymbol('ingegneria');
+  assert.ok(ingegneria && ingegneria.topPath);
+
+  const crown = getCapSymbol('crown');
+  assert.ok(crown && crown.topPath);
+  assert.equal(crown.label, 'Corona d’alloro');
+  assert.equal(crown.fill, true);
+
+  // Test aliases
+  const laurelAlias = getCapSymbol('laurea-alloro');
+  assert.equal(laurelAlias.id, 'crown');
+  const alloroAlias = getCapSymbol('alloro');
+  assert.equal(alloroAlias.id, 'crown');
+
+  const artworksWithSymbols = [
+    {
+      title: 'Tocco Laurea', concept: 'Classico con corona d’alloro', background: '#222222', foreground: '#218c45',
+      symbol: 'crown',
+      texts: [{ text: '110 E LODE', x: 50, y: 55, size: 16, maxWidth: 70, font: 'sans', anchor: 'middle', inverse: false }],
+      paths: [{ d: crown.topPath, fill: true, strokeWidth: 0 }],
+    },
+    {
+      title: 'Tocco Ingegneria', concept: 'Ingegneria con ingranaggio', background: '#222222', foreground: '#2458b8',
+      symbol: 'ingegneria',
+      texts: [{ text: 'DOTTORE INGEGNERE', x: 50, y: 55, size: 14, maxWidth: 70, font: 'sans', anchor: 'middle', inverse: false }],
+      paths: [{ d: ingegneria.topPath, fill: false, strokeWidth: 1.5 }],
+    },
+    {
+      title: 'Tocco Solo Testo', concept: 'Minimalista puro', background: '#222222', foreground: '#dc2626',
+      symbol: 'none',
+      texts: [{ text: 'TESI FINITA', x: 50, y: 50, size: 18, maxWidth: 70, font: 'sans', anchor: 'middle', inverse: false }],
+      paths: [],
+    },
+  ];
+
+  const validated = validateArtworks(artworksWithSymbols, palette, { target: 'cap', shape: 'square' });
+  assert.equal(validated.length, 3);
+  assert.equal(validated[0].paths.length, 1);
+  assert.equal(validated[1].paths.length, 1);
+  assert.equal(validated[2].paths.length, 0);
+  assert.equal(validated[0].symbol, 'crown');
+  assert.equal(validated[1].symbol, 'ingegneria');
+  assert.equal(validated[2].symbol, 'none');
+});
+
+

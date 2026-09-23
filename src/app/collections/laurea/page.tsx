@@ -8,9 +8,9 @@ export default function Collections() {
     <div className="content-container py-10 small:py-20">
       <nav aria-label="Percorso" className="mb-10 text-sm"><a href="/" className="underline">Home</a> / Collezioni</nav>
       <header className="mb-14 max-w-3xl">
-        <span className="brand-kicker">Quattro collezioni, un traguardo</span>
+        <span className="brand-kicker">Tre collezioni, un traguardo</span>
         <h1 className="brand-heading mt-5 text-5xl xsmall:text-7xl">Il tuo modo<br />di ricordare</h1>
-        <p className="mt-7 text-lg leading-relaxed text-brand-dark/70">Una forma originale, il simbolo della tua facoltà, una creazione tutta tua o una battuta per il brindisi. Scegli da dove partire.</p>
+        <p className="mt-7 text-lg leading-relaxed text-brand-dark/70">Una forma originale, un tocco di laurea con i simboli di facoltà o personalizzato con l’AI, o un sottobicchiere per il brindisi. Scegli da dove partire.</p>
       </header>
       <CollectionCards />
     </div>

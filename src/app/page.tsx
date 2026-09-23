@@ -40,12 +40,12 @@ export default function Home() {
           <h2 className="brand-heading mb-9 mt-16 text-4xl small:text-5xl">
             Il simbolo della tua facoltà
           </h2>
-          <Catalog collection="tocchi-di-facolta" limit={3} />
+          <Catalog collection="tocchi-laurea" limit={3} />
           <a
-            href="/collections/tocchi-di-facolta/"
+            href="/collections/tocchi-laurea/"
             className="brand-button-secondary mt-9"
           >
-            Tutti i tocchi di facoltà ↗
+            Tutti i tocchi di laurea ↗
           </a>
         </div>
       </section>

@@ -1,89 +1,237 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import pc from 'polygon-clipping';
-import { ShapeUtils, Vector2, Vector3 } from 'three';
+import { ShapePath, ShapeUtils, Vector2, Vector3 } from 'three';
 import sharp from 'sharp';
 
 // All coordinates are millimetres. Inlays occupy 36.2–37 mm, exactly flush.
 const TOP = 37, FLOOR = 36.2;
 const poly = points => [points.map(p=>p.map(v=>Math.round(v*1e6)/1e6))];
 const rect = (x,y,w,h) => poly([[x,y],[x+w,y],[x+w,y+h],[x,y+h]]);
-const disk = (x,y,r,n=48) => poly(Array.from({length:n},(_,i)=>[x+r*Math.cos(i*2*Math.PI/n),y+r*Math.sin(i*2*Math.PI/n)]));
+const disk = (x,y,r,n=36) => poly(Array.from({length:n},(_,i)=>[x+r*Math.cos(i*2*Math.PI/n),y+r*Math.sin(i*2*Math.PI/n)]));
 const union = (...shapes) => pc.union(...shapes);
 const diff = (a,b) => pc.difference(a,b);
-const stroke = (points,width=3.6) => union(...points.slice(1).map((b,i)=>{const a=points[i],dx=b[0]-a[0],dy=b[1]-a[1],s=width/2/Math.hypot(dx,dy),n=[-dy*s,dx*s];return poly([[a[0]+n[0],a[1]+n[1]],[b[0]+n[0],b[1]+n[1]],[b[0]-n[0],b[1]-n[1]],[a[0]-n[0],a[1]-n[1]]]);}),...points.slice(1,-1).map(p=>disk(...p,width/2)));
-// A monumental portal: a semicircular void framed by a square facade.
-// Broad piers and a continuous lintel keep the icon clear at actual size.
-const portalVoid = union(rect(-8,-20,16,20),disk(0,0,8));
-const arch = union(diff(rect(-16,-16,32,32),portalVoid),rect(-19,16,38,5),rect(-19,-21,38,5));
-const economics = union(rect(-17,-17,7,9),rect(-5,-17,7,15),rect(7,-17,7,21),stroke([[-17,0],[-8,8],[0,5],[9,13]],4),poly([[4,16],[17,19],[14,6]]));
-const capsuleOuter = union(rect(-9,-9,18,18),disk(-9,0,9),disk(9,0,9));
-const capsuleOutline = diff(capsuleOuter,union(rect(-9,-5,18,10),disk(-9,0,5),disk(9,0,5)));
-const capsule = union(capsuleOutline,rect(2,-9,7,18),disk(9,0,9));
-const mortar = capsule.map(p=>p.map(r=>r.map(([x,y])=>[(x-y)*Math.SQRT1_2,(x+y)*Math.SQRT1_2])));
-const scales = union(rect(-2,-16,4,32),rect(-12,-19,24,4),rect(-18,9,36,4),rect(-14,-3,3.6,15),rect(10.4,-3,3.6,15),poly([[-20,-2],[-5,-2],[-8,-8],[-17,-8]]),poly([[5,-2],[20,-2],[17,-8],[8,-8]]));
-const gearOutline = poly(Array.from({length:32},(_,i)=>{const angle=(i+.5)*Math.PI/16,r=i%4===0||i%4===3?18:14;return [r*Math.cos(angle),r*Math.sin(angle)];}));
-const book = union(poly([[-19,-13],[-3,-17],[-3,12],[-19,17]]),poly([[3,-17],[19,-13],[19,17],[3,12]]));
-const cross = union(rect(-5,-18,10,36),rect(-18,-5,36,10));
-// A single calm profile, with one generous circular opening for the mind.
-// Cubic curves avoid the scalloped, fragmented look of the previous brain.
-function curve(a,b,c,d,n=16){return Array.from({length:n},(_,i)=>{const t=i/n,u=1-t;return [0,1].map(k=>u*u*u*a[k]+3*u*u*t*b[k]+3*u*t*t*c[k]+t*t*t*d[k]);});}
-const head = poly([
-  ...curve([-10,-20],[-10,-10],[-10,-10],[-14,-5]),
-  ...curve([-14,-5],[-24,10],[-12,24],[2,20]),
-  ...curve([2,20],[10,18],[12,13],[12,8]),
-  [12,8],[18,0],[12,-2],[12,-8],
-  ...curve([12,-8],[12,-12],[7,-12],[3,-12]),
-  [3,-12],[3,-20],
-]);
-const psi = diff(head,disk(-3,7,6));
-// Botanical laurel: curved stems, alternating lanceolate leaves and open gaps.
-const laurelParts=[];
-function laurelLeaf(x,y,dx,dy,length=5.7,width=3){
- const d=Math.hypot(dx,dy),u=[dx/d,dy/d],n=[-u[1],u[0]];
- const p=(along,across)=>[x+u[0]*along+n[0]*across,y+u[1]*along+n[1]*across];
- return poly([...curve(p(0,0),p(length*.25,width*.68),p(length*.72,width*.64),p(length,0)),...curve(p(length,0),p(length*.68,-width*.58),p(length*.24,-width*.62),p(0,0))]);
+function stroke(points, width = 1.6) {
+  if (points.length < 2) return [];
+  const segments = [];
+  for (let i = 0; i < points.length - 1; i++) {
+    const a = points[i], b = points[i + 1];
+    const dx = b[0] - a[0], dy = b[1] - a[1];
+    const len = Math.hypot(dx, dy);
+    if (len < 1e-4) continue;
+    const s = width / 2 / len, n = [-dy * s, dx * s];
+    segments.push(poly([
+      [a[0] + n[0], a[1] + n[1]],
+      [b[0] + n[0], b[1] + n[1]],
+      [b[0] - n[0], b[1] - n[1]],
+      [a[0] - n[0], a[1] - n[1]],
+    ]));
+  }
+  const joints = points.slice(1, -1).map(p => disk(p[0], p[1], width / 2, 16));
+  const caps = [
+    disk(points[0][0], points[0][1], width / 2, 16),
+    disk(points.at(-1)[0], points.at(-1)[1], width / 2, 16)
+  ];
+  return union(...segments, ...joints, ...caps);
 }
-for(const side of [-1,1]){
- const branch=a=>[side*17*Math.cos(a),16*Math.sin(a)];
- laurelParts.push(stroke(Array.from({length:49},(_,i)=>branch((-85+i*3)*Math.PI/180)),1.4));
- for(const degrees of [-76,-57,-38,-19,0,19,38,57]){
-  const a=degrees*Math.PI/180,[x,y]=branch(a);
-  const tangent=[-side*Math.sin(a),Math.cos(a)],out=[side*Math.cos(a),Math.sin(a)];
-  laurelParts.push(laurelLeaf(x,y,tangent[0]*.85+out[0]*.7,tangent[1]*.85+out[1]*.7));
-  const b=a+.08,[ix,iy]=branch(b);
-  laurelParts.push(laurelLeaf(ix,iy,-side*Math.sin(b)*.75-side*Math.cos(b)*.7,Math.cos(b)*.75-Math.sin(b)*.7,5.2,3));
- }
+
+const { CAP_SYMBOLS } = await import('../src/lib/cap-symbols.mjs');
+
+function arcToPoints(x1, y1, rx, ry, phiDeg, fA, fS, x2, y2, segments = 16) {
+  const phi = (phiDeg * Math.PI) / 180;
+  const cosPhi = Math.cos(phi), sinPhi = Math.sin(phi);
+  const dx = (x1 - x2) / 2, dy = (y1 - y2) / 2;
+  const x1p = cosPhi * dx + sinPhi * dy;
+  const y1p = -sinPhi * dx + cosPhi * dy;
+  let rxSq = rx * rx, rySq = ry * ry;
+  const x1pSq = x1p * x1p, y1pSq = y1p * y1p;
+  const lambda = (x1pSq / rxSq) + (y1pSq / rySq);
+  if (lambda > 1) {
+    const sqrtLambda = Math.sqrt(lambda);
+    rx *= sqrtLambda; ry *= sqrtLambda;
+    rxSq = rx * rx; rySq = ry * ry;
+  }
+  const sign = fA === fS ? -1 : 1;
+  const sq = Math.max(0, (rxSq * rySq - rxSq * y1pSq - rySq * x1pSq) / (rxSq * y1pSq + rySq * x1pSq));
+  const coef = sign * Math.sqrt(sq);
+  const cxp = coef * ((rx * y1p) / ry);
+  const cyp = coef * (-(ry * x1p) / rx);
+  const cx = cosPhi * cxp - sinPhi * cyp + (x1 + x2) / 2;
+  const cy = sinPhi * cxp + cosPhi * cyp + (y1 + y2) / 2;
+  function angle(u, v) {
+    const dot = u[0] * v[0] + u[1] * v[1];
+    const len = Math.hypot(...u) * Math.hypot(...v);
+    const s = (u[0] * v[1] - u[1] * v[0] < 0) ? -1 : 1;
+    return s * Math.acos(Math.max(-1, Math.min(1, dot / len)));
+  }
+  const theta1 = angle([1, 0], [(x1p - cxp) / rx, (y1p - cyp) / ry]);
+  let dTheta = angle([(x1p - cxp) / rx, (y1p - cyp) / ry], [(-x1p - cxp) / rx, (-y1p - cyp) / ry]);
+  if (!fS && dTheta > 0) dTheta -= 2 * Math.PI;
+  else if (fS && dTheta < 0) dTheta += 2 * Math.PI;
+  const points = [];
+  for (let i = 1; i <= segments; i++) {
+    const t = theta1 + (i / segments) * dTheta;
+    const px = rx * Math.cos(t), py = ry * Math.sin(t);
+    points.push([cosPhi * px - sinPhi * py + cx, sinPhi * px + cosPhi * py + cy]);
+  }
+  return points;
 }
-const laurel=union(...laurelParts,stroke([[-5,-18.5],[2,-15.8]],1.4),stroke([[5,-18.5],[-2,-15.8]],1.4));
-const temple = union(poly([[-20,10],[0,20],[20,10]]),rect(-18,5,36,4),rect(-16,-13,5,19),rect(-2.5,-13,5,19),rect(11,-13,5,19),rect(-19,-18,38,5));
-const paw = union(disk(-13,9,5),disk(-4,15,5),disk(7,14,5),disk(15,5,5),poly([[-13,-13],[-11,-5],[-5,2],[2,3],[10,-4],[14,-13],[9,-17],[2,-15],[-6,-18]]));
+
+function parseCenterPathToPolylines(d) {
+  const polylines = [];
+  let currentPolyline = [];
+  const regex = /([a-df-z])([^a-df-z]*)/gi;
+  let match, curX = 0, curY = 0, startX = 0, startY = 0;
+  while ((match = regex.exec(d)) !== null) {
+    const cmd = match[1].toUpperCase();
+    const nums = match[2].trim().match(/[-+]?(?:\d*\.\d+|\d+)(?:[eE][-+]?\d+)?/gi)?.map(Number) || [];
+    if (cmd === 'M') {
+      if (currentPolyline.length > 1) polylines.push(currentPolyline);
+      curX = nums[0]; curY = nums[1];
+      startX = curX; startY = curY;
+      currentPolyline = [[curX, curY]];
+    } else if (cmd === 'L') {
+      for (let i = 0; i + 1 < nums.length; i += 2) {
+        curX = nums[i]; curY = nums[i + 1];
+        currentPolyline.push([curX, curY]);
+      }
+    } else if (cmd === 'H') {
+      for (const x of nums) { curX = x; currentPolyline.push([curX, curY]); }
+    } else if (cmd === 'V') {
+      for (const y of nums) { curY = y; currentPolyline.push([curX, curY]); }
+    } else if (cmd === 'A') {
+      for (let i = 0; i + 6 < nums.length; i += 7) {
+        const [rx, ry, rot, large, sweep, targetX, targetY] = nums.slice(i, i + 7);
+        const arcPts = arcToPoints(curX, curY, rx, ry, rot, large, sweep, targetX, targetY, 12);
+        currentPolyline.push(...arcPts);
+        curX = targetX; curY = targetY;
+      }
+    } else if (cmd === 'Z') {
+      currentPolyline.push([startX, startY]);
+      if (currentPolyline.length > 1) polylines.push(currentPolyline);
+      currentPolyline = [];
+    }
+  }
+  if (currentPolyline.length > 1) polylines.push(currentPolyline);
+  return polylines;
+}
+
+function getSymbolShape(id) {
+  const sym = CAP_SYMBOLS.find(s => s.id === id);
+  if (!sym) throw new Error(`Unknown symbol ${id}`);
+  const lines = parseCenterPathToPolylines(sym.centerPath);
+  const strokeParts = lines.map(line => stroke(line.map(([x, y]) => [x - 50, -(y - 50)]), 2.25));
+  return union(...strokeParts);
+}
+
+// 11. Laurea Alloro: Botanical Laurel Wreath
+function curve(a, b, c, d, n = 16) {
+  return Array.from({ length: n + 1 }, (_, i) => {
+    const t = i / n, u = 1 - t;
+    return [0, 1].map(k => u * u * u * a[k] + 3 * u * u * t * b[k] + 3 * u * t * t * c[k] + t * t * t * d[k]);
+  });
+}
+const laurelParts = [];
+function laurelLeaf(x, y, dx, dy, length = 5.7, width = 3) {
+  const d = Math.hypot(dx, dy), u = [dx / d, dy / d], n = [-u[1], u[0]];
+  const p = (along, across) => [x + u[0] * along + n[0] * across, y + u[1] * along + n[1] * across];
+  return poly([
+    ...curve(p(0, 0), p(length * 0.25, width * 0.68), p(length * 0.72, width * 0.64), p(length, 0)),
+    ...curve(p(length, 0), p(length * 0.68, -width * 0.58), p(length * 0.24, -width * 0.62), p(0, 0)),
+  ]);
+}
+for (const side of [-1, 1]) {
+  const branch = a => [side * 17 * Math.cos(a), 16 * Math.sin(a)];
+  laurelParts.push(stroke(Array.from({ length: 49 }, (_, i) => branch((-85 + i * 3) * Math.PI / 180)), 1.4));
+  for (const degrees of [-76, -57, -38, -19, 0, 19, 38, 57]) {
+    const a = degrees * Math.PI / 180, [x, y] = branch(a);
+    const tangent = [-side * Math.sin(a), Math.cos(a)], out = [side * Math.cos(a), Math.sin(a)];
+    laurelParts.push(laurelLeaf(x, y, tangent[0] * 0.85 + out[0] * 0.7, tangent[1] * 0.85 + out[1] * 0.7));
+    const b = a + 0.08, [ix, iy] = branch(b);
+    laurelParts.push(laurelLeaf(ix, iy, -side * Math.sin(b) * 0.75 - side * Math.cos(b) * 0.7, Math.cos(b) * 0.75 - Math.sin(b) * 0.7, 5.2, 3));
+  }
+}
+const laurel = union(
+  ...laurelParts,
+  stroke([[-4.5, -18.5], [0, -16], [4.5, -18.5]], 1.5),
+  disk(0, -16, 1.8)
+);
+
 const symbols = {
-  'laurea-alloro': {label:'Corona d’alloro', shape:laurel},
-  architettura: {label:'Portale architettonico', shape:arch},
-  economia: {label:'Grafico in crescita', shape:economics},
-  farmacia: {label:'Capsula', shape:mortar},
-  giurisprudenza: {label:'Bilancia', shape:scales},
-  ingegneria: {label:'Ingranaggio', shape:diff(gearOutline,disk(0,0,7))},
-  lettere: {label:'Libro aperto', shape:book},
-  medicina: {label:'Croce', shape:cross},
-  psicologia: {label:'Profilo e mente', shape:psi},
-  'scienze-politiche': {label:'Edificio istituzionale', shape:temple},
-  veterinaria: {label:'Impronta', shape:paw},
+  'laurea-alloro': { label: 'Corona d’alloro', shape: laurel },
+  architettura: { label: 'Compasso', shape: getSymbolShape('architettura') },
+  economia: { label: 'Grafico in crescita', shape: getSymbolShape('economia') },
+  farmacia: { label: 'Capsula', shape: getSymbolShape('farmacia') },
+  giurisprudenza: { label: 'Bilancia', shape: getSymbolShape('giurisprudenza') },
+  ingegneria: { label: 'Ingranaggio', shape: getSymbolShape('ingegneria') },
+  lettere: { label: 'Libro aperto', shape: getSymbolShape('lettere') },
+  medicina: { label: 'Croce', shape: getSymbolShape('medicina') },
+  psicologia: { label: 'Cervello', shape: getSymbolShape('psicologia') },
+  'scienze-politiche': { label: 'Edificio istituzionale', shape: getSymbolShape('scienze-politiche') },
+  veterinaria: { label: 'Impronta', shape: getSymbolShape('veterinaria') },
 };
 const rgb = hex => [1,3,5].map(i=>parseInt(hex.slice(i,i+2),16));
-const cleanRing = ring => {const r=ring.map(p=>p.map(v=>Math.round(v*1e6)/1e6)).filter((p,i,a)=>!i||Math.hypot(p[0]-a[i-1][0],p[1]-a[i-1][1])>1e-5);if(r.length>1&&Math.hypot(r[0][0]-r.at(-1)[0],r[0][1]-r.at(-1)[1])<1e-5)r.pop();return r;};
-function faceTriangles(shape,z,reverse=false) {
-  const result=[];
-  for(const polygon of shape){const rings=polygon.map(cleanRing),points=rings.flat();for(const t of ShapeUtils.triangulateShape(rings[0].map(p=>new Vector2(...p)),rings.slice(1).map(r=>r.map(p=>new Vector2(...p))))){const tri=t.map(i=>[...points[i],z]);const a=tri[0],b=tri[1],c=tri[2];if(((b[0]-a[0])*(c[1]-a[1])-(b[1]-a[1])*(c[0]-a[0])>0)===reverse)tri.reverse();result.push(tri);}}
-  // Earcut may skip collinear contour vertices around aligned holes. Split
-  // the spanning edges so cap triangles match every extrusion wall edge.
-  const boundary=shape.flatMap(p=>p.flatMap(cleanRing));
-  const pending=[...result],conforming=[];
-  while(pending.length){const t=pending.pop();let split=false;for(let i=0;i<3&&!split;i++){const a=t[i],b=t[(i+1)%3],c=t[(i+2)%3],dx=b[0]-a[0],dy=b[1]-a[1],length=dx*dx+dy*dy;for(const p of boundary){const q=((p[0]-a[0])*dx+(p[1]-a[1])*dy)/length;if(q>1e-6&&q<1-1e-6&&Math.abs((p[0]-a[0])*dy-(p[1]-a[1])*dx)<1e-7){const v=[...p,z];pending.push([a,v,c],[v,b,c]);split=true;break;}}}if(!split)conforming.push(t);}
-  return conforming;
+const cleanRing = ring => {
+  const r = ring.map(p => p.map(v => Math.round(v * 1e6) / 1e6)).filter((p, i, a) => !i || Math.hypot(p[0] - a[i - 1][0], p[1] - a[i - 1][1]) > 1e-4);
+  if (r.length > 1 && Math.hypot(r[0][0] - r.at(-1)[0], r[0][1] - r.at(-1)[1]) < 1e-4) r.pop();
+  return r;
+};
+function faceTriangles(shape, z, reverse = false) {
+  const result = [];
+  for (const polygon of shape) {
+    const rings = polygon.map(cleanRing), points = rings.flat();
+    for (const t of ShapeUtils.triangulateShape(rings[0].map(p => new Vector2(...p)), rings.slice(1).map(r => r.map(p => new Vector2(...p))))) {
+      const tri = t.map(i => [...points[i], z]);
+      const a = tri[0], b = tri[1], c = tri[2];
+      const cross = (b[0] - a[0]) * (c[1] - a[1]) - (b[1] - a[1]) * (c[0] - a[0]);
+      if (Math.abs(cross) <= 1e-6) continue;
+      if ((cross > 0) === reverse) tri.reverse();
+      result.push(tri);
+    }
+  }
+  const boundary = shape.flatMap(p => p.flatMap(cleanRing));
+  const pending = [...result], conforming = [];
+  let steps = 0;
+  while (pending.length && steps < 5000) {
+    steps++;
+    const t = pending.pop();
+    let split = false;
+    for (let i = 0; i < 3 && !split; i++) {
+      const a = t[i], b = t[(i + 1) % 3], c = t[(i + 2) % 3], dx = b[0] - a[0], dy = b[1] - a[1], length = dx * dx + dy * dy;
+      if (length < 1e-6) continue;
+      for (const p of boundary) {
+        if (Math.hypot(p[0] - a[0], p[1] - a[1]) < 1e-3 || Math.hypot(p[0] - b[0], p[1] - b[1]) < 1e-3) continue;
+        const q = ((p[0] - a[0]) * dx + (p[1] - a[1]) * dy) / length;
+        if (q > 1e-4 && q < 1 - 1e-4 && Math.abs((p[0] - a[0]) * dy - (p[1] - a[1]) * dx) < 1e-5) {
+          const v = [...p, z];
+          const cross1 = Math.abs((v[0] - a[0]) * (c[1] - a[1]) - (v[1] - a[1]) * (c[0] - a[0]));
+          const cross2 = Math.abs((b[0] - v[0]) * (c[1] - v[1]) - (b[1] - v[1]) * (c[0] - v[0]));
+          if (cross1 > 1e-6 && cross2 > 1e-6) {
+            pending.push([a, v, c], [v, b, c]);
+            split = true;
+            break;
+          }
+        }
+      }
+    }
+    if (!split) conforming.push(t);
+  }
+  return pending.length ? result : conforming;
 }
-function walls(shape,bottom,top,reverse=false){const tris=[];for(const polygon of shape)for(const raw of polygon){const r=cleanRing(raw);for(let i=0;i<r.length;i++){const a=r[i],b=r[(i+1)%r.length];const pair=[[[...a,bottom],[...b,bottom],[...b,top]],[[...a,bottom],[...b,top],[...a,top]]];if(reverse)pair.forEach(t=>t.reverse());tris.push(...pair);}}return tris;}
+function walls(shape, bottom, top, reverse = false) {
+  const tris = [];
+  for (const polygon of shape) for (const raw of polygon) {
+    const r = cleanRing(raw);
+    for (let i = 0; i < r.length; i++) {
+      const a = r[i], b = r[(i + 1) % r.length];
+      if (Math.hypot(b[0] - a[0], b[1] - a[1]) < 1e-4) continue;
+      const pair = [[[...a, bottom], [...b, bottom], [...b, top]], [[...a, bottom], [...b, top], [...a, top]]];
+      if (reverse) pair.forEach(t => t.reverse());
+      tris.push(...pair);
+    }
+  }
+  return tris;
+}
 const cad=JSON.parse(fs.readFileSync('public/models/tocco-meshes.json','utf8'));
 function triangles(mesh){const p=mesh.attributes.position.array;return Array.from({length:mesh.index.array.length/3},(_,k)=>mesh.index.array.slice(k*3,k*3+3).map(i=>p.slice(i*3,i*3+3)));}
 const original=cad.map(triangles),upper=original[2].filter(t=>t.every(p=>Math.abs(p[2]-TOP)<1e-5));
@@ -103,7 +251,7 @@ async function render(meshes,file){const W=1860,H=1420,pixels=Buffer.alloc(W*H*3
 }
 const products=JSON.parse(fs.readFileSync('src/lib/products.json','utf8')),report=[];
 if(!products.some(p=>p.slug==='bomboniera-laurea-alloro'))products.push({slug:'bomboniera-laurea-alloro',dimensions:[65,65,37],preset:{structureColor:'#222222',text:'',fontKey:'great-vibes'}});
-for(const p of products){if(p.kind==='coaster')continue;if(!p.slug.startsWith('bomboniera-')){p.collection=p.kind==='cap'?'personalizzabili':'forme-di-laurea';continue;}const key=p.slug.slice(11),symbol=symbols[key];if(!symbol)throw Error(`Missing design ${key}`);
+for(const p of products){if(p.kind==='coaster')continue;if(!p.slug.startsWith('bomboniera-')){p.collection=p.kind==='cap'?'tocchi-laurea':'forme-di-laurea';continue;}const key=p.slug.slice(11),symbol=symbols[key];if(!symbol)throw Error(`Missing design ${key}`);
  const shape=union(symbol.shape),cut=diff(topShape,shape);if(Math.abs(area(topShape)-area(cut)-area(shape))>1e-5)throw Error(`Inset outside lid: ${key}`);
  const lid=[...body,...faceTriangles(cut,TOP),...faceTriangles(shape,FLOOR),...walls(shape,FLOOR,TOP,true)];
  const inlay=[...faceTriangles(shape,TOP),...faceTriangles(shape,FLOOR,true),...walls(shape,FLOOR,TOP)];
@@ -112,7 +260,7 @@ for(const p of products){if(p.kind==='coaster')continue;if(!p.slug.startsWith('b
  writeGlb(meshes,`${prefix}-montato.glb`);writeGlb(meshes.map((m,i)=>({...m,tris:i<2?m.tris:m.tris.map(t=>t.map(([x,y,z])=>[x,y+5,z+20]))})),`${prefix}-aperto.glb`);
  await render(meshes,prefix);
  const dir=`public/models/facolta/${key}`;fs.mkdirSync(dir,{recursive:true});writeStl(lid,`${dir}/coperchio.stl`);writeStl(inlay,`${dir}/simbolo.stl`);
- p.kind='faculty-cap';p.collection='tocchi-di-facolta';p.name=`Tocco ${key.split('-').map(s=>s[0].toUpperCase()+s.slice(1)).join(' ')}`;p.description=`${symbol.label} sulla faccia superiore, con un disegno a filo in colore a contrasto. Un tocco dedicato al tuo percorso di laurea.`;p.assembly='Tocco da 65 × 65 mm con simbolo colorato incassato a filo del coperchio, senza rilievo.';p.image=`/products/${p.slug}-facolta.webp`;p.model=`/products/${p.slug}-facolta-montato.glb`;p.openModel=`/products/${p.slug}-facolta-aperto.glb`;p.symbol=symbol.label;p.modelVersion='faculty-flush-v1';p.preset={...p.preset,middleColor:'#dc2626',lineColor:'#dc2626',textColor:'#dc2626'};
+ p.kind='faculty-cap';p.collection='tocchi-laurea';p.name=`Tocco ${key.split('-').map(s=>s[0].toUpperCase()+s.slice(1)).join(' ')}`;p.description=`${symbol.label} sulla faccia superiore, con un disegno a filo in colore a contrasto. Un tocco dedicato al tuo percorso di laurea.`;p.assembly='Tocco da 65 × 65 mm con simbolo colorato incassato a filo del coperchio, senza rilievo.';p.image=`/products/${p.slug}-facolta.webp`;p.model=`/products/${p.slug}-facolta-montato.glb`;p.openModel=`/products/${p.slug}-facolta-aperto.glb`;p.symbol=symbol.label;p.modelVersion='faculty-flush-v1';p.preset={...p.preset,middleColor:'#dc2626',lineColor:'#dc2626',textColor:'#dc2626'};
  report.push({faculty:key,symbol:symbol.label,topMm:TOP,inlayBottomMm:FLOOR,inlayDepthMm:TOP-FLOOR,minDesignedStrokeMm:3.6,areaMm2:area(shape),lidTriangles:lid.length,inlayTriangles:inlay.length});console.log(`${key}: flush symbol, GLBs, STL components and previews`);
 }
 fs.writeFileSync('src/lib/products.json',JSON.stringify(products,null,2)+'\n');fs.writeFileSync('public/models/facolta/geometry-report.json',JSON.stringify(report,null,2)+'\n');

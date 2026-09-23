@@ -1,6 +1,5 @@
 [
   {"slug":"forme-di-laurea","name":"Forme di laurea","description":"Sei portaconfetti fuori dagli schemi: computer, carta, valigetta, libro, ingranaggio e microscopio. Ogni forma racconta un percorso.","image":"/products/economia-v3.webp"},
-  {"slug":"tocchi-di-facolta","name":"Tocchi di facoltà","description":"Dieci simboli dedicati alle facoltà e la classica corona d’alloro per ogni laurea. Disegni essenziali e colorati, perfettamente a filo della superficie.","image":"/products/bomboniera-ingegneria-facolta.webp"},
-  {"slug":"personalizzabili","name":"Personalizzabili","description":"La tua bomboniera, come la immagini. Scegli i colori, aggiungi nomi, testi e logo e costruisci una composizione personale.","image":"/products/tocco-laurea.webp"},
-  {"slug":"sottobicchieri-laurea","name":"Fuori corso, dentro il bicchiere","description":"Sottobicchieri di laurea per brindare senza prendersi troppo sul serio. Quarantadue frasi e grafiche divertenti, ciascuna con un tag NFC integrato: basta avvicinare lo smartphone per aprire le foto e i ricordi della laurea.","image":"/products/sottobicchiere-110-vodka.webp"}
+  {"slug":"tocchi-laurea","name":"Tocchi di laurea","description":"Il classico tocco di laurea con coperchio da 65 × 65 mm: scegli i simboli dedicati alle facoltà o inventa una grafica personalizzata con l’AI.","image":"/products/bomboniera-ingegneria-facolta.webp"},
+  {"slug":"sottobicchieri-laurea","name":"Sottobicchieri","description":"Sottobicchieri di laurea per brindare senza prendersi troppo sul serio. Quarantadue frasi e grafiche divertenti, ciascuna con un tag NFC integrato: basta avvicinare lo smartphone per aprire le foto e i ricordi della laurea.","image":"/products/sottobicchiere-110-vodka.webp"}
 ]
