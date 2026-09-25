@@ -1,9 +1,9 @@
 "use client";
 
 import { useRef, useState, type FormEvent } from 'react';
-import { Sparkles, ArrowRight, Download, Check, LoaderCircle } from 'lucide-react';
+import { Sparkles, Download, Check, LoaderCircle } from 'lucide-react';
 import { filamentPalette } from '@/lib/filament-colors';
-import { exampleDesign, icons, layouts, typographies, iconStyles, tones, validLine, validateDesigns } from '@/lib/coaster-design.mjs';
+import { exampleDesign, icons, layouts, typographies, iconStyles, tones, validLine } from '@/lib/coaster-design.mjs';
 
 import CoasterPreview, { SymbolGraphic, type CoasterDesign as Design } from './coaster-preview';
 
@@ -22,8 +22,7 @@ export default function CoasterStudio() {
   const [exporting, setExporting] = useState(false);
   const [brief, setBrief] = useState('');
   const [tone, setTone] = useState<keyof typeof tones>('ironico');
-  const [proposals, setProposals] = useState<Design[]>([]);
-  const [selected, setSelected] = useState<number | null>(null);
+  const [generated, setGenerated] = useState(false);
   const [design, setDesign] = useState<Design>(initial);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -31,7 +30,6 @@ export default function CoasterStudio() {
   const [cooldownUntil, setCooldownUntil] = useState(0);
   const busy = useRef(false);
   const preview = useRef<HTMLDivElement>(null);
-  const results = useRef<HTMLDivElement>(null);
   const canGenerate = brief.trim().length >= 10 && brief.length <= 600;
   const canExport = design.lines.some(line => line.trim()) && design.lines.every(line => !line.trim() || validLine(line));
 
@@ -42,21 +40,34 @@ export default function CoasterStudio() {
     busy.current = true; setLoading(true); setError(''); setNotice('');
     try {
       const response = await fetch('/api/coaster-ideas', { method: 'POST', headers: { 'Content-Type': 'application/json' },
-        signal: AbortSignal.timeout(35000), body: JSON.stringify({ brief, tone, avoid: proposals.map(p => p.lines.join(' ')) }) });
+        signal: AbortSignal.timeout(35000), body: JSON.stringify({ brief, tone, avoid: [design.lines.join(' ')] }) });
       if (response.status === 429) setCooldownUntil(Date.now() + Number(response.headers.get('Retry-After') || 60) * 1000);
       const data = await response.json().catch(() => { throw new Error('La generazione AI non è disponibile su questa anteprima. Puoi modificare il sottobicchiere di esempio.'); });
       if (!response.ok) throw new Error(data.error || 'Generazione non disponibile. Riprova tra poco.');
-      const next = validateDesigns(data.proposals, filamentPalette) as Design[];
-      setProposals(next); setSelected(0); setDesign(next[0]);
-      setNotice('Tre nuove idee pronte. La prima è selezionata: scegli la tua preferita e personalizzala.');
-      requestAnimationFrame(() => results.current?.focus());
+      const first = Array.isArray(data.proposals) && data.proposals[0];
+      if (first) {
+        setDesign({
+          title: first.title || 'La tua idea',
+          lines: (first.texts || []).map((t: { text: string }) => t.text).slice(0, 3),
+          icon: 'toast',
+          secondaryIcon: 'none',
+          iconStyle: 'outline',
+          layout: 'bold',
+          emphasis: 0,
+          typography: 'sans',
+          background: first.background || '#218c45',
+          foreground: first.foreground || '#ffffff',
+        });
+        setGenerated(true);
+        setNotice('Nuova idea pronta nell’anteprima. Personalizzala come preferisci.');
+        preview.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
     } catch (e) {
       setError(e instanceof Error && e.name !== 'TimeoutError' ? e.message : 'La richiesta sta impiegando troppo tempo. Riprova tra poco.');
     } finally { busy.current = false; setLoading(false); }
   }
 
   function patch(values: Partial<Design>) { setDesign(previous => ({ ...previous, ...values })); setNotice(''); }
-  function choose(index: number) { setSelected(index); setDesign(proposals[index]); setNotice(`Selezionata: ${proposals[index].title}.`); }
   function color(role: 'background' | 'foreground', hex: string) {
     const other = role === 'background' ? 'foreground' : 'background';
     patch({ [role]: hex, ...(design[other] === hex ? { [other]: design[role] } : {}) });
@@ -78,7 +89,7 @@ export default function CoasterStudio() {
     <div className="border-b border-brand-primary/15 p-6 small:p-10">
       <span className="brand-kicker inline-flex items-center gap-2"><Sparkles size={16} aria-hidden="true" /> Il tuo sottobicchiere, la tua storia</span>
       <h2 id="coaster-studio-title" className="brand-heading mt-4 text-3xl small:text-5xl">Una laurea. Mille cose da dire.</h2>
-      <p className="mt-4 max-w-2xl text-lg text-brand-dark/75">Raccontaci chi festeggi: l’AI inventa tre idee con frasi e simboli. Tu scegli quella giusta e la fai tua.</p>
+      <p className="mt-4 max-w-2xl text-lg text-brand-dark/75">Raccontaci chi festeggi: l’AI progetta una grafica su misura direttamente visibile nell'anteprima.</p>
     </div>
     <div className="grid gap-8 p-6 small:grid-cols-2 small:p-10">
       <form onSubmit={generate} className="min-w-0">
@@ -91,24 +102,17 @@ export default function CoasterStudio() {
             <input type="radio" name="coaster-tone" value={key} checked={tone === key} onChange={() => setTone(key as keyof typeof tones)} className="sr-only peer" /><span className="peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-4">{label}</span>
           </label>)}</div>
         </fieldset>
-        <button type="submit" disabled={loading || !canGenerate} className="brand-button mt-7 gap-2 disabled:cursor-not-allowed disabled:opacity-50">{loading ? <LoaderCircle size={18} className="animate-spin motion-reduce:animate-none" aria-hidden="true" /> : <Sparkles size={18} aria-hidden="true" />}{loading ? 'Sto inventando le tue idee…' : proposals.length ? 'Inventa altre 3 idee' : 'Inventa 3 idee'}</button>
+        <button type="submit" disabled={loading || !canGenerate} className="brand-button mt-7 gap-2 disabled:cursor-not-allowed disabled:opacity-50">{loading ? <LoaderCircle size={18} className="animate-spin motion-reduce:animate-none" aria-hidden="true" /> : <Sparkles size={18} aria-hidden="true" />}{loading ? 'Sto inventando la tua idea…' : generated ? 'Inventa un’altra idea' : 'Inventa la tua idea'}</button>
         <p className="mt-3 text-xs leading-relaxed text-brand-dark/65">La descrizione viene inviata a OpenAI quando generi le proposte. Usa solo i dettagli che desideri condividere.</p>
         <div aria-live="polite" aria-atomic="true" className="mt-4 text-sm">{loading && <p>Stiamo cercando le parole giuste per il tuo brindisi.</p>}{notice && <p className="font-bold text-brand-primary">{notice}</p>}</div>
         {error && <p role="alert" className="mt-4 rounded-xl border border-red-200 bg-white p-4 text-sm text-red-800">{error}</p>}
       </form>
       <div className="min-w-0 rounded-3xl bg-white/70 p-5 small:p-7">
-        <div className="mb-3 flex items-center justify-between gap-3 text-sm"><span className="font-bold">{proposals.length ? 'La tua anteprima' : 'Un esempio da personalizzare'}</span><span className="text-brand-dark/60">Ø 70 mm</span></div>
+        <div className="mb-3 flex items-center justify-between gap-3 text-sm"><span className="font-bold">{generated ? 'La tua anteprima' : 'Un esempio da personalizzare'}</span><span className="text-brand-dark/60">Ø 70 mm</span></div>
         <div ref={preview}><CoasterPreview design={design} /></div>
         <p className="mt-3 text-center text-xs text-brand-dark/60">Vista dall’alto · diametro 7 cm · colori indicativi</p>
       </div>
     </div>
-    {proposals.length > 0 && <div ref={results} tabIndex={-1} aria-label="Tre proposte generate" className="px-6 pb-8 outline-offset-4 small:px-10">
-      <h3 className="mb-4 text-xl font-bold">Tre modi di festeggiare. Qual è il tuo?</h3>
-      <div className="grid gap-4 small:grid-cols-3">{proposals.map((proposal, index) => <button type="button" key={index} aria-pressed={selected === index} onClick={() => choose(index)} disabled={loading} className={`rounded-2xl border-2 bg-white p-4 text-left transition-colors ${selected === index ? 'border-brand-primary' : 'border-transparent hover:border-brand-primary/30'}`}>
-        <CoasterPreview design={proposal} /><span className="mt-3 flex items-center justify-between gap-2 font-bold">{proposal.title}{selected === index ? <Check size={18} aria-hidden="true" /> : <ArrowRight size={18} aria-hidden="true" />}</span>
-        <span className="mt-2 block text-sm text-brand-dark/70">{proposal.lines.join(' ')}</span>
-      </button>)}</div>
-    </div>}
     <fieldset disabled={loading} className="border-t border-brand-primary/15 p-6 small:p-10">
       <legend className="sr-only">Personalizza la proposta</legend>
       <h3 className="text-2xl font-bold">L’ultimo tocco è tuo.</h3>

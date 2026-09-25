@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState, type FormEvent } from 'react';
-import { ArrowRight, Check, Download, LoaderCircle, Sparkles } from 'lucide-react';
+import { Check, Download, LoaderCircle, Sparkles } from 'lucide-react';
 import { tones, validLine } from '@/lib/coaster-design.mjs';
 import { filamentPalette } from '@/lib/filament-colors';
 import { validateArtworks } from '@/lib/coaster-art.mjs';
@@ -20,8 +20,6 @@ function downloadFile(blob: Blob, name: string) {
 export default function CapArtStudio() {
   const [brief, setBrief] = useState('');
   const [tone, setTone] = useState<keyof typeof tones>('ironico');
-  const [proposals, setProposals] = useState<Artwork[]>([]);
-  const [selected, setSelected] = useState(0);
   const [art, setArt] = useState<Artwork | null>(null);
   const [loading, setLoading] = useState(false);
   const [exporting, setExporting] = useState(false);
@@ -30,7 +28,6 @@ export default function CapArtStudio() {
   const [cooldownUntil, setCooldownUntil] = useState(0);
   const busy = useRef(false);
   const preview = useRef<HTMLDivElement>(null);
-  const results = useRef<HTMLDivElement>(null);
   const canGenerate = brief.trim().length >= 10 && brief.length <= 600;
   const canExport = !!art && art.texts.some(t => t.text.trim()) && art.texts.every(t => !t.text.trim() || validLine(t.text));
 
@@ -49,26 +46,27 @@ export default function CapArtStudio() {
           tone,
           target: 'cap',
           shape: 'square',
-          avoid: proposals.map(p => p.texts.map(t => t.text).join(' ').slice(0, 100)),
+          avoid: art ? [art.texts.map(t => t.text).join(' ').slice(0, 100)] : [],
         }),
       });
       if (response.status === 429) setCooldownUntil(Date.now() + Number(response.headers.get('Retry-After') || 60) * 1000);
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || 'Generazione non disponibile. Riprova.');
       const defaultGreen = '#218c45';
-      const next = (validateArtworks(data.proposals, filamentPalette, { shape: 'square', target: 'cap' }) as Artwork[]).map(p => ({
-        ...p,
+      const validated = (validateArtworks(data.proposals, filamentPalette, { shape: 'square', target: 'cap' }) as Artwork[]);
+      if (!validated.length) throw new Error('Nessuna grafica generata. Riprova.');
+      const single = {
+        ...validated[0],
         background: '#222222',
-        foreground: (!p.foreground || p.foreground === '#ffffff' || p.foreground === '#222222') ? defaultGreen : p.foreground,
-      }));
-      setProposals(next); setSelected(0); setArt(next[0]);
-      setNotice('Tre grafiche per il tocco pronte. Scegli quella che preferisci.');
-      requestAnimationFrame(() => results.current?.focus());
+        foreground: (!validated[0].foreground || validated[0].foreground === '#ffffff' || validated[0].foreground === '#222222') ? defaultGreen : validated[0].foreground,
+      };
+      setArt(single);
+      setNotice('Grafica per il tocco pronta.');
+      preview.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     } catch (e) { setError(e instanceof Error && e.name !== 'TimeoutError' ? e.message : 'La generazione sta impiegando troppo tempo. Riprova.'); }
     finally { busy.current = false; setLoading(false); }
   }
 
-  function choose(index: number) { setSelected(index); setArt(proposals[index]); setNotice(`Selezionata: ${proposals[index].title}.`); }
   function editText(index: number, text: string) {
     setArt(previous => previous && ({ ...previous, texts: previous.texts.map((item, i) => i === index ? { ...item, text } : item) }));
     setNotice('');
@@ -110,7 +108,7 @@ export default function CapArtStudio() {
     <div className="border-b border-brand-primary/15 p-6 small:p-10">
       <span className="brand-kicker inline-flex items-center gap-2"><Sparkles size={16} aria-hidden="true" /> Il tuo tocco, la tua storia</span>
       <h2 id="cap-studio-title" className="brand-heading mt-4 text-3xl small:text-5xl">Crea la grafica del tuo tocco.</h2>
-      <p className="mt-4 max-w-2xl text-lg text-brand-dark/75">Raccontaci il traguardo o chi festeggi: l’AI progetta tre idee grafiche su misura per il coperchio quadrato 65 × 65 mm.</p>
+      <p className="mt-4 max-w-2xl text-lg text-brand-dark/75">Raccontaci il traguardo o chi festeggi: l’AI progetta la tua grafica su misura per il coperchio quadrato 65 × 65 mm.</p>
     </div>
     <div className="grid gap-8 p-6 small:grid-cols-2 small:p-10">
       <form onSubmit={requestIdeas} className="min-w-0">
@@ -118,7 +116,7 @@ export default function CapArtStudio() {
         <textarea id="cap-brief" className={`${fieldClass} min-h-[150px] resize-y`} placeholder="Marco, laureato in ingegneria. Tanti esami, poco sonno, pronto a costruire il futuro." value={brief} minLength={10} maxLength={600} required disabled={loading} onChange={e => setBrief(e.target.value)} />
         <p className="mt-2 text-sm text-brand-dark/65">Facoltà, passioni, abitudini: bastano pochi dettagli. {brief.length}/600</p>
         <fieldset className="mt-6" disabled={loading}><legend className="font-bold">Che tono gli diamo?</legend><div className="mt-3 flex flex-wrap gap-2">{Object.entries(tones).map(([key, label]) => <label key={key} className={`cursor-pointer rounded-full border px-4 py-2 text-sm font-bold ${tone === key ? 'border-brand-primary bg-brand-primary text-white' : 'border-brand-primary/25 bg-white text-brand-primary'}`}><input type="radio" name="cap-tone" value={key} checked={tone === key} onChange={() => setTone(key as keyof typeof tones)} className="sr-only peer" /><span className="peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-4">{label}</span></label>)}</div></fieldset>
-        <button type="submit" disabled={loading || !canGenerate} className="brand-button mt-7 gap-2 disabled:opacity-50">{loading ? <LoaderCircle size={18} className="animate-spin" aria-hidden="true" /> : <Sparkles size={18} aria-hidden="true" />}{loading ? 'Disegno il tuo tocco…' : proposals.length ? 'Disegna altre 3 idee' : 'Disegna 3 idee per il tocco'}</button>
+        <button type="submit" disabled={loading || !canGenerate} className="brand-button mt-7 gap-2 disabled:opacity-50">{loading ? <LoaderCircle size={18} className="animate-spin" aria-hidden="true" /> : <Sparkles size={18} aria-hidden="true" />}{loading ? 'Disegno il tuo tocco…' : art ? 'Genera un’altra grafica' : 'Genera grafica per il tocco'}</button>
         <p className="mt-3 text-xs leading-relaxed text-brand-dark/65">La descrizione viene inviata a OpenAI. Usa solo i dettagli che desideri condividere.</p>
         <div aria-live="polite" className="mt-4 text-sm">{notice && <p className="font-bold text-brand-primary">{notice}</p>}</div>
         {error && <p role="alert" className="mt-4 rounded-xl border border-red-200 bg-white p-4 text-sm text-red-800">{error}</p>}
@@ -134,12 +132,6 @@ export default function CapArtStudio() {
         <p className="mt-3 text-center text-xs text-brand-dark/60">Anteprima illustrativa · coperchio 65 × 65 mm · colori indicativi</p>
       </div>
     </div>
-    {proposals.length > 0 && <div ref={results} tabIndex={-1} aria-label="Tre proposte generate" className="px-6 pb-8 outline-offset-4 small:px-10">
-      <h3 className="mb-4 text-xl font-bold">Tre idee per il tocco, con testo e colori personalizzabili</h3>
-      <div className="grid gap-4 small:grid-cols-3">
-        {proposals.map((proposal, index) => <button type="button" key={index} aria-pressed={selected === index} onClick={() => choose(index)} className={`rounded-2xl border-2 bg-white p-4 text-left ${selected === index ? 'border-brand-primary' : 'border-transparent hover:border-brand-primary/30'}`}><CapArtPreview art={proposal} allow3D={false} /><span className="mt-3 flex items-center justify-between gap-2 font-bold">{proposal.title}{selected === index ? <Check size={18} aria-hidden="true" /> : <ArrowRight size={18} aria-hidden="true" />}</span><span className="mt-2 block text-sm text-brand-dark/70">{proposal.concept}</span></button>)}
-      </div>
-    </div>}
     {art && <div className="border-t border-brand-primary/15 p-6 small:p-10">
       <h3 className="text-2xl font-bold">L’ultimo tocco è tuo.</h3>
       <p className="mt-2 text-sm text-brand-dark/70">Puoi correggere le scritte e scegliere i colori PLA. La composizione resta quella progettata dall’AI.</p>

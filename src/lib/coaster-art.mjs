@@ -438,7 +438,7 @@ export function refineArtwork(art, options = {}) {
 }
 
 export function validateArtworks(value, palette, options = {}) {
-  if (!Array.isArray(value) || value.length !== 3) throw new Error('Expected three artworks');
+  if (!Array.isArray(value) || value.length < 1) throw new Error('Expected at least one artwork');
   const isSquare = options?.shape === 'square' || options?.target === 'cap';
   const colors = new Set(palette.map(color => color.hex));
   const result = value.map(art => {
@@ -476,7 +476,7 @@ export function validateArtworks(value, palette, options = {}) {
     };
     return refineArtwork(clean, options);
   });
-  if (new Set(result.map(art => art.texts.map(t => t.text).join(' ').toLocaleLowerCase('it'))).size !== 3) throw new Error('Duplicate artwork');
+  if (new Set(result.map(art => art.texts.map(t => t.text).join(' ').toLocaleLowerCase('it'))).size !== result.length) throw new Error('Duplicate artwork');
   return result;
 }
 

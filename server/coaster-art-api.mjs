@@ -66,7 +66,7 @@ function artDirection(palette, target = 'coaster') {
    - Tieni tutto comodamente all'interno del raggio 40.`;
 
   return `Sei un art director e lettering designer d'eccellenza per 3Degree (${itemType}).
-Il tuo obiettivo è creare TRE grafiche vettoriali pop, ironiche, pulite e memorabili, esattamente con lo stile tipografico dei bestseller 3Degree (come "110 e vodka", "Laureato per sbaglio", "Finalmente disoccupato").
+Il tuo obiettivo è creare UNA grafica vettoriale pop, ironica, pulita e memorabile, esattamente con lo stile tipografico dei bestseller 3Degree (come "110 e vodka", "Laureato per sbaglio", "Finalmente disoccupato").
 
 1. REGOLA D'ORO: IL TESTO È IL PROTAGONISTA ASSOLUTO (85-90% DELLA SUPERFICIE)
    - I prodotti 3Degree sono famosi per la loro tipografia BOLD, ENORME E LEGGIBILE a colpo d'occhio.
@@ -103,15 +103,13 @@ ${isCap ? `2. SIMBOLI UFFICIALI PER IL TOCCO (campo 'symbol'):
    - 'scienze-politiche': tempio istituzionale a colonne (scienze politiche e istituzioni)
    - 'veterinaria': impronta zampina animale (veterinaria)
 
-   Varietà tra le 3 proposte per il tocco:
-   - Includi sempre un simbolo ufficiale accademico o di facoltà ('symbol') per ciascuna proposta!
-   - Se l'utente menziona una facoltà specifica (es. ingegneria, economia, medicina, ecc.), assegna il simbolo corrispondente ad almeno una proposta!
-   - Nelle altre proposte, assegna 'graduation-cap' (tocco classico), 'crown' (corona d'alloro) o 'award'. Usa 'none' (lettering puro) al massimo per 1 sola proposta su 3.
+   Regola di selezione del simbolo per il tocco:
+   - Se l'utente menziona una facoltà specifica (es. ingegneria, economia, medicina, ecc.), assegna il simbolo corrispondente!
+   - Altrimenti assegna 'graduation-cap' (tocco classico) o 'crown' (corona d'alloro) oppure 'none' se il brief richiede solo testo.
    - In 'paths' lascia un array vuoto []. Il simbolo ufficiale scelto verrà inserito automaticamente con il layout geometrico perfetto!`
-: `2. SIMBOLI E PICCOLE ICONE POP (PRESENTI SU ALMENO 2 PROPOSTE SU 3):
-   - I sottobicchieri 3Degree uniscono lettering potente a un PICCOLO SIMBOLO o ACCENTO GRAFICO iconico.
-   - ALMENO 2 PROPOSTE SU 3 DEVONO AVERE UN PICCOLO SIMBOLO O ACCENTO in 'paths'! (Al massimo 1 proposta su 3 può essere 'pure typography' con paths: []).
-   - REGOLA 1 SINGOLO ELEMENTO: Massimo 1 singolo simbolo o divisorio per proposta!
+: `2. SIMBOLI E PICCOLE ICONE POP:
+   - I sottobicchieri 3Degree possono avere un PICCOLO SIMBOLO o ACCENTO GRAFICO iconico, oppure tipografia pura ('paths': []).
+   - Massimo 1 singolo simbolo o divisorio per proposta!
      * Posizionalo centrato orizzontalmente (x attorno a 50) e:
        - O SOPRA il testo (y tra 20 e 26),
        - OPPURE SOTTO il testo come linea divisoria / accento pulito (y tra 72 e 76).
@@ -121,7 +119,7 @@ ${isCap ? `2. SIMBOLI UFFICIALI PER IL TOCCO (campo 'symbol'):
      * strokeWidth tra 1.3 e 1.6, fill solitamente false (oppure true per sagome piene chiuse).
    - ASSOLUTAMENTE VIETATO CREARE GRANDI SCATOLE VUOTE, CORNICI O GABBIE:
      * Non disegnare rettangoli giganti vuoti o cornici che ingabbiano il testo! I simboli devono essere vere icone (tocco, brindisi, alloro, caffè, birra, stella).
-   - Esempi di path vettoriali SVG compatti e stampabili (ispirati a questi):
+   - Esempi di path vettoriali SVG compatti e stampabili:
      * Mini tocco di laurea (in alto, y~22): { d: "M 42 21 L 50 18 L 58 21 L 50 24 Z M 57 21 V 25 M 46 22.5 V 25 A 4 2 0 0 0 54 25 V 22.5", fill: false, strokeWidth: 1.5 }
      * Due calici che brindano (in alto, y~23): { d: "M 45 20 L 48 24 V 27 M 46 27 H 50 M 55 20 L 52 24 V 27 M 50 27 H 54 M 49.5 20.5 L 50.5 22", fill: false, strokeWidth: 1.4 }
      * Boccale di birra (in alto, y~22): { d: "M 46 20 H 52 V 27 H 46 Z M 52 22 H 55 V 25 H 52 M 45 20 Q 49 18 53 20", fill: false, strokeWidth: 1.4 }
@@ -130,20 +128,18 @@ ${isCap ? `2. SIMBOLI UFFICIALI PER IL TOCCO (campo 'symbol'):
      * Stella celebrativa (in alto, y~22): { d: "M 50 18 L 51.5 22.5 L 56 22.5 L 52.5 25 L 54 29.5 L 50 27 L 46 29.5 L 47.5 25 L 44 22.5 L 48.5 22.5 Z", fill: false, strokeWidth: 1.3 }
      * Linea divisoria pulita (in basso, y~73): { d: "M 34 73 H 66", fill: false, strokeWidth: 1.5 }`}
 
-3. COPYWRITING: FRASE UNICA DI SENSO COMPIUTO E VARIETÀ TOTALE
-   - Le righe di ciascuna proposta formano una FRASE CONTINUA DI SENSO COMPIUTO (battuta, motto o aforisma divertente).
+3. COPYWRITING: FRASE UNICA DI SENSO COMPIUTO
+   - Le righe della proposta formano una FRASE CONTINUA DI SENSO COMPIUTO (battuta, motto o aforisma divertente).
    - VIETATO generare parole isolate tipo "TITOLO", "DOTTORE", "FESTA".
-   - TRE PROPOSTE = TRE BATTUTE / FRASI TOTALMENTE DIVERSE TRA LORO:
-     Ciascuna delle 3 proposte deve avere un concept, una frase e una battuta completamente differenti.
-     * Proposta 1: Stile secco / punchline (es. "Laureato per / SBAGLIO", "110 e / VODKA")
-     * Proposta 2: Ironia sulla professione o sul futuro (es. "Dottore su / LINKEDIN", "Ora so / DI NON SAPERE")
-     * Proposta 3: Studio / fatica / caffè (es. "Powered by / CAFFÈ", "ChatGPT / ABBIAMO VINTO")
+   - Scegli lo stile migliore in base alla descrizione e al tono:
+     * Stile secco / punchline (es. "Laureato per / SBAGLIO", "110 e / VODKA")
+     * Ironia sulla professione o sul futuro (es. "Dottore su / LINKEDIN", "Ora so / DI NON SAPERE")
+     * Studio / fatica / caffè (es. "Powered by / CAFFÈ", "ChatGPT / ABBIAMO VINTO")
 
 4. COORDINATE E COLORI:
 ${shapeBounds}
    - Testi centrati: x=50, anchor: 'middle'.
-   - Colori: scegli combinazioni ad alto contrasto da ${JSON.stringify(palette.map(c => ({ name: c.name, hex: c.hex })))};
-   - Ogni proposta deve avere una combinazione colori e un layout differente dalle altre.`;
+   - Colori: scegli combinazioni ad alto contrasto da ${JSON.stringify(palette.map(c => ({ name: c.name, hex: c.hex })))};`;
 }
 
 export async function generateArtworks(input, { env, palette, fetcher }) {
@@ -160,10 +156,10 @@ export async function generateArtworks(input, { env, palette, fetcher }) {
         body: JSON.stringify({
           model: env.OPENAI_MODEL || 'gpt-6-luna', instructions: artDirection(palette, target),
           input: JSON.stringify({ brief: input.brief.trim(), tone: input.tone, avoid: input.avoid || [] }),
-          reasoning: { effort: 'none' }, max_output_tokens: 5000,
+          reasoning: { effort: 'none' }, max_output_tokens: 2500,
           text: { format: { type: 'json_schema', name: 'coaster_artworks', strict: true,
             schema: { type: 'object', additionalProperties: false, properties: {
-              proposals: { type: 'array', minItems: 3, maxItems: 3, items: artworkSchema(palette, target) },
+              proposals: { type: 'array', minItems: 1, maxItems: 1, items: artworkSchema(palette, target) },
             }, required: ['proposals'] } } },
         }),
       });
@@ -194,5 +190,5 @@ export async function generateArtworks(input, { env, palette, fetcher }) {
   }
 
   console.error('[generateArtworks error]', lastError);
-  return Response.json({ error: lastError?.name === 'TimeoutError' ? 'La generazione sta impiegando troppo tempo. Riprova.' : 'Non siamo riusciti a completare tre grafiche valide. Riprova con una descrizione più specifica.' }, { status: 502 });
+  return Response.json({ error: lastError?.name === 'TimeoutError' ? 'La generazione sta impiegando troppo tempo. Riprova.' : 'Non siamo riusciti a completare una grafica valida. Riprova con una descrizione più specifica.' }, { status: 502 });
 }

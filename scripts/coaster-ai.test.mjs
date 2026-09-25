@@ -9,41 +9,44 @@ const palette = JSON.parse(fs.readFileSync('src/lib/filament-palette.json', 'utf
 const proposals = ['Brindo alla laurea', 'Dottore in spritz', 'Tesi finita, cin cin'].map((text, i) => ({ ...exampleDesign, lines: [text], emphasis: 0, layout: ['bold', 'stamp', 'ticket'][i] }));
 const artworks = ['LAUREA', 'SPRITZ', 'DOTTORE'].map((word, i) => ({ title: `Idea ${i + 1}`, concept: 'Un segno semplice e personale', background: '#218c45', foreground: '#ffffff', texts: [{ text: word, x: 50, y: 52, size: 18, maxWidth: 68, font: 'sans', anchor: 'middle', inverse: false }], paths: [{ d: 'M20 65H80', fill: false, strokeWidth: 1.5 }] }));
 const request = (body = { brief: 'Giulia ama medicina e spritz', tone: 'ironico' }, headers = {}, method = 'POST') => new Request('https://example.com/api/coaster-ideas', { method, headers: { 'Content-Type': 'application/json', Origin: 'https://example.com', ...headers }, ...(method !== 'GET' ? { body: JSON.stringify(body) } : {}) });
-const options = (extra = {}) => ({ env: { OPENAI_API_KEY: 'test-key', OPENAI_MODEL: 'gpt-6-luna' }, palette, client: 'hashed-client', reserve: async () => ({ allowed: true }), fetcher: async () => Response.json({ status: 'completed', output: [{ type: 'message', content: [{ type: 'output_text', text: JSON.stringify({ proposals: artworks }) }] }] }), ...extra });
+const options = (extra = {}) => ({ env: { OPENAI_API_KEY: 'test-key', OPENAI_MODEL: 'gpt-6-luna' }, palette, client: 'hashed-client', reserve: async () => ({ allowed: true }), fetcher: async () => Response.json({ status: 'completed', output: [{ type: 'message', content: [{ type: 'output_text', text: JSON.stringify({ proposals: [artworks[0]] }) }] }] }), ...extra });
 
-test('Generates three validated vector artworks with bounded tokens and server-side credentials', async () => {
+test('Generates validated vector artwork with bounded tokens and server-side credentials', async () => {
   let sent;
-  const settings = options();
+  const singleArtwork = [artworks[0]];
+  const settings = options({ fetcher: async () => Response.json({ status: 'completed', output: [{ type: 'message', content: [{ type: 'output_text', text: JSON.stringify({ proposals: singleArtwork }) }] }] }) });
   const response = await handleCoasterRequest(request(), options({ fetcher: async (url, init) => {
     assert.equal(url, 'https://api.openai.com/v1/responses');
     assert(!url.includes('test-key'));
     assert.equal(init.headers.Authorization, 'Bearer test-key');
     sent = JSON.parse(init.body);
     assert.equal(sent.model, 'gpt-6-luna');
-    assert.equal(sent.max_output_tokens, 5000);
+    assert.equal(sent.max_output_tokens, 2500);
     assert.deepEqual(sent.reasoning, { effort: 'none' });
     assert.equal(Object.hasOwn(sent, 'temperature'), false);
     assert.equal(sent.text.format.name, 'coaster_artworks');
     return settings.fetcher();
   } }));
   assert.equal(response.status, 200);
-  assert.equal(sent.text.format.schema.properties.proposals.maxItems, 3);
+  assert.equal(sent.text.format.schema.properties.proposals.maxItems, 1);
+  assert.equal(sent.text.format.schema.properties.proposals.minItems, 1);
   assert(sent.text.format.schema.properties.proposals.items.required.includes('paths'));
-  assert.deepEqual((await response.json()).proposals, artworks);
+  assert.deepEqual((await response.json()).proposals, singleArtwork);
   assert.equal(response.headers.get('cache-control'), 'no-store');
 });
 
 test('Rejects unsafe vector commands and artwork outside the printable area', () => {
   for (const patch of [{ paths: [{ d: 'M20 20<script>', fill: false, strokeWidth: 1 }] }, { texts: [{ ...artworks[0].texts[0], x: 5 }] }, { texts: [{ ...artworks[0].texts[0], y: 85 }] }, { foreground: '#123456' }]) {
-    assert.throws(() => validateArtworks([{ ...artworks[0], ...patch }, ...artworks.slice(1)], palette));
+    assert.throws(() => validateArtworks([{ ...artworks[0], ...patch }], palette));
   }
 });
 
 test('Uses the first complete structured response when the provider sends extra text', async () => {
-  const output = `${JSON.stringify({ proposals: artworks })}\nThe assistant response must follow this JSON schema: {"type":"object"}`;
+  const singleArtwork = [artworks[0]];
+  const output = `${JSON.stringify({ proposals: singleArtwork })}\nThe assistant response must follow this JSON schema: {"type":"object"}`;
   const response = await handleCoasterRequest(request(), options({ fetcher: async () => Response.json({ status: 'completed', output: [{ type: 'message', content: [{ type: 'output_text', text: output }] }] }) }));
   assert.equal(response.status, 200);
-  assert.deepEqual((await response.json()).proposals, artworks);
+  assert.deepEqual((await response.json()).proposals, singleArtwork);
 });
 
 test('Rejects invalid inputs and oversized bodies before reserving quota', async () => {
