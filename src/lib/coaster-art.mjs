@@ -214,7 +214,7 @@ export function sanitizeArtworks(proposals, palette, options = {}) {
     if (isSquare) {
       if (!symbol || symbol === 'auto') {
         const fullContext = `${title} ${concept} ${texts.map(t => t.text).join(' ')}`;
-        symbol = detectSymbolFromText(fullContext) || (index === 0 ? 'laurea-alloro' : (index === 1 ? 'none' : 'laurea-alloro'));
+        symbol = detectSymbolFromText(fullContext) || (index === 0 ? 'laurea-alloro' : (index === 1 ? 'graduation-cap' : 'laurea-alloro'));
       }
       const sym = getCapSymbol(symbol);
       if (symbol !== 'none' && sym) {

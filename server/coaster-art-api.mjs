@@ -104,25 +104,31 @@ ${isCap ? `2. SIMBOLI UFFICIALI PER IL TOCCO (campo 'symbol'):
    - 'veterinaria': impronta zampina animale (veterinaria)
 
    Varietà tra le 3 proposte per il tocco:
-   - Se l'utente menziona una facoltà specifica (es. ingegneria), assegna il simbolo corrispondente ad almeno una proposta!
-   - Nelle altre proposte, alterna con 'graduation-cap', 'crown' (corona d’alloro) o 'none' (lettering puro).
+   - Includi sempre un simbolo ufficiale accademico o di facoltà ('symbol') per ciascuna proposta!
+   - Se l'utente menziona una facoltà specifica (es. ingegneria, economia, medicina, ecc.), assegna il simbolo corrispondente ad almeno una proposta!
+   - Nelle altre proposte, assegna 'graduation-cap' (tocco classico), 'crown' (corona d'alloro) o 'award'. Usa 'none' (lettering puro) al massimo per 1 sola proposta su 3.
    - In 'paths' lascia un array vuoto []. Il simbolo ufficiale scelto verrà inserito automaticamente con il layout geometrico perfetto!`
-: `2. SIMBOLI: PICCOLI ACCENTI DISCRETI O COMPLETAMENTE ASSENTI (ZERO SIMBOLI)
-   - VIETATO CREARE GRANDI SCATOLE RETTANGOLARI VUOTE, GABBIE O CORNICI:
-     * Non disegnare rettangoli giganti vuoti, cornici che circondano il testo, griglie o doppie pillole!
-     * VIETATO IL "SANDWICH": non mettere MAI un simbolo sopra E un simbolo sotto il testo!
-   - MASSIMO 1 SINGOLO ACCENTO / SIMBOLO PER PROPOSTA (oppure ZERO simboli!).
-   - ALMENO 1 PROPOSTA SU 3 DEVE ESSERE 'PURE TYPOGRAPHY' (paths: [], zero simboli, solo testo gigante e potente).
-   - Se decidi di inserire un simbolo (massimo 1 solo elemento):
-     * DEVE ESSERE PICCOLO E COMPATTO: altezza massima 8–11 mm, larghezza massima 20–28 mm.
-     * Posizione: o sopra il testo (y tra 20 e 26) oppure una linea divisoria/accento pulito in basso (y tra 72 e 76).
-     * Idee di simboli carini in stile meme sticker / universitario:
-       - Due calici che brindano pop o boccale di birra (altezza ~9 mm)
-       - Piccolo tocco di laurea stilizzato o corona d'alloro
-       - Tazzina da caffè con fumo pop
-       - Piccolo badge o spunta 'VERIFIED'
-       - Una linea divisoria pulita (es. d: "M 32 72 H 68", strokeWidth: 1.5)
-     * Tratti chiari e puliti, strokeWidth 1.3–1.6, ben stampabili in 3D.`}
+: `2. SIMBOLI E PICCOLE ICONE POP (PRESENTI SU ALMENO 2 PROPOSTE SU 3):
+   - I sottobicchieri 3Degree uniscono lettering potente a un PICCOLO SIMBOLO o ACCENTO GRAFICO iconico.
+   - ALMENO 2 PROPOSTE SU 3 DEVONO AVERE UN PICCOLO SIMBOLO O ACCENTO in 'paths'! (Al massimo 1 proposta su 3 può essere 'pure typography' con paths: []).
+   - REGOLA 1 SINGOLO ELEMENTO: Massimo 1 singolo simbolo o divisorio per proposta!
+     * Posizionalo centrato orizzontalmente (x attorno a 50) e:
+       - O SOPRA il testo (y tra 20 e 26),
+       - OPPURE SOTTO il testo come linea divisoria / accento pulito (y tra 72 e 76).
+     * VIETATO IL "SANDWICH": non mettere MAI un elemento grafico sia sopra che sotto il testo contemporaneamente.
+   - DIMENSIONI PICCOLE E COMPATTE (STAMPABILITÀ 3D):
+     * Altezza compresa tra 7 e 12 mm, larghezza tra 16 e 30 mm. Non deve invadere il testo né rubare la scena al lettering.
+     * strokeWidth tra 1.3 e 1.6, fill solitamente false (oppure true per sagome piene chiuse).
+   - ASSOLUTAMENTE VIETATO CREARE GRANDI SCATOLE VUOTE, CORNICI O GABBIE:
+     * Non disegnare rettangoli giganti vuoti o cornici che ingabbiano il testo! I simboli devono essere vere icone (tocco, brindisi, alloro, caffè, birra, stella).
+   - Esempi di path vettoriali SVG compatti e stampabili (ispirati a questi):
+     * Mini tocco di laurea (in alto, y~22): { d: "M 42 21 L 50 18 L 58 21 L 50 24 Z M 57 21 V 25 M 46 22.5 V 25 A 4 2 0 0 0 54 25 V 22.5", fill: false, strokeWidth: 1.5 }
+     * Due calici che brindano (in alto, y~23): { d: "M 45 20 L 48 24 V 27 M 46 27 H 50 M 55 20 L 52 24 V 27 M 50 27 H 54 M 49.5 20.5 L 50.5 22", fill: false, strokeWidth: 1.4 }
+     * Boccale di birra (in alto, y~22): { d: "M 46 20 H 52 V 27 H 46 Z M 52 22 H 55 V 25 H 52 M 45 20 Q 49 18 53 20", fill: false, strokeWidth: 1.4 }
+     * Corona d'alloro stilizzata (in alto, y~23): { d: "M 42 25 C 44 21 47 20 50 20 C 53 20 56 21 58 25 M 44 23 L 43 21 M 47 21 L 47 19 M 53 21 L 53 19 M 56 23 L 57 21", fill: false, strokeWidth: 1.4 }
+     * Tazzina di caffè fumante (in alto, y~23): { d: "M 45 23 H 53 V 26 A 4 4 0 0 1 45 26 Z M 53 24 H 55 V 26 H 53 M 47 21 C 47 20 49 20 49 19 M 51 21 C 51 20 53 20 53 19", fill: false, strokeWidth: 1.4 }
+     * Stella celebrativa (in alto, y~22): { d: "M 50 18 L 51.5 22.5 L 56 22.5 L 52.5 25 L 54 29.5 L 50 27 L 46 29.5 L 47.5 25 L 44 22.5 L 48.5 22.5 Z", fill: false, strokeWidth: 1.3 }
+     * Linea divisoria pulita (in basso, y~73): { d: "M 34 73 H 66", fill: false, strokeWidth: 1.5 }`}
 
 3. COPYWRITING: FRASE UNICA DI SENSO COMPIUTO E VARIETÀ TOTALE
    - Le righe di ciascuna proposta formano una FRASE CONTINUA DI SENSO COMPIUTO (battuta, motto o aforisma divertente).
