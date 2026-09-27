@@ -2,7 +2,6 @@ import { fontFiles } from './coaster-design.mjs';
 
 /** Export the same top-view artwork at physical size, with self-contained text outlines. */
 export async function exportCoasterSvg(source: SVGSVGElement, options?: { sizeMm?: number; viewBox?: string }): Promise<string> {
-  const opentype = await import('opentype.js');
   const target = (source.matches('[data-export-svg]')
     ? source
     : (source.querySelector('[data-export-svg]') as SVGSVGElement | null)) || source;
@@ -17,11 +16,12 @@ export async function exportCoasterSvg(source: SVGSVGElement, options?: { sizeMm
   copy.removeAttribute('data-cap-art');
   copy.querySelectorAll('rect[width="465"], ellipse[cx="235"]').forEach(el => el.remove());
   const texts = [...copy.querySelectorAll('text')];
+  const opentype = texts.length ? await import('opentype.js') : null;
   const families = [...new Set(texts.map(t => t.getAttribute('data-font') as keyof typeof fontFiles))];
   const fonts = new Map(await Promise.all(families.map(async family => {
     const response = await fetch(fontFiles[family]);
     if (!response.ok) throw new Error('Impossibile caricare il carattere per lo SVG. Riprova.');
-    return [family, opentype.parse(await response.arrayBuffer())] as const;
+    return [family, opentype!.parse(await response.arrayBuffer())] as const;
   })));
   for (const text of texts) {
     const font = fonts.get(text.getAttribute('data-font') as keyof typeof fontFiles)!;
@@ -38,10 +38,14 @@ export async function exportCoasterSvg(source: SVGSVGElement, options?: { sizeMm
     node.setAttribute('transform', `translate(${x} ${text.getAttribute('y')}) scale(${scale} 1) translate(${-bounds.x1} 0)`);
     text.replaceWith(node);
   }
-  const response = await fetch('/licenses/lucide.txt');
-  if (!response.ok) throw new Error('Impossibile completare lo SVG. Riprova.');
   const metadata = document.createElementNS('http://www.w3.org/2000/svg', 'metadata');
-  metadata.textContent = `3Degree — diametro 70 mm, scala 1:1. Simboli Lucide:\n${await response.text()}`;
+  if (texts.length) {
+    const response = await fetch('/licenses/lucide.txt');
+    if (!response.ok) throw new Error('Impossibile completare lo SVG. Riprova.');
+    metadata.textContent = `3Degree — diametro 70 mm, scala 1:1. Simboli Lucide:\n${await response.text()}`;
+  } else {
+    metadata.textContent = '3Degree — diametro 70 mm, scala 1:1. Grafica convertita in tracciati SVG.';
+  }
   copy.prepend(metadata);
   copy.querySelectorAll('[data-font], [data-emphasis]').forEach(el => { el.removeAttribute('data-font'); el.removeAttribute('data-emphasis'); });
   return new XMLSerializer().serializeToString(copy);

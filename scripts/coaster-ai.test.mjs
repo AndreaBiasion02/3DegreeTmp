@@ -1,15 +1,92 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
+import { encode } from 'fast-png';
 import { handleCoasterRequest, reserveQuota } from '../server/coaster-api.mjs';
+import { vectorizeCoasterComposition } from '../server/coaster-image-vectorizer.mjs';
 import { exampleDesign, validateDesigns, composeCoaster, diversifyLayouts, layouts } from '../src/lib/coaster-design.mjs';
-import { validateArtworks } from '../src/lib/coaster-art.mjs';
+import { validateArtworks, sanitizeArtworks, getPathBounds } from '../src/lib/coaster-art.mjs';
 
 const palette = JSON.parse(fs.readFileSync('src/lib/filament-palette.json', 'utf8'));
 const proposals = ['Brindo alla laurea', 'Dottore in spritz', 'Tesi finita, cin cin'].map((text, i) => ({ ...exampleDesign, lines: [text], emphasis: 0, layout: ['bold', 'stamp', 'ticket'][i] }));
-const artworks = ['LAUREA', 'SPRITZ', 'DOTTORE'].map((word, i) => ({ title: `Idea ${i + 1}`, concept: 'Un segno semplice e personale', background: '#218c45', foreground: '#ffffff', texts: [{ text: word, x: 50, y: 52, size: 18, maxWidth: 68, font: 'sans', anchor: 'middle', inverse: false }], paths: [{ d: 'M20 65H80', fill: false, strokeWidth: 1.5 }] }));
-const request = (body = { brief: 'Giulia ama medicina e spritz', tone: 'ironico' }, headers = {}, method = 'POST') => new Request('https://example.com/api/coaster-ideas', { method, headers: { 'Content-Type': 'application/json', Origin: 'https://example.com', ...headers }, ...(method !== 'GET' ? { body: JSON.stringify(body) } : {}) });
-const options = (extra = {}) => ({ env: { OPENAI_API_KEY: 'test-key', OPENAI_MODEL: 'gpt-6-luna' }, palette, client: 'hashed-client', reserve: async () => ({ allowed: true }), fetcher: async () => Response.json({ status: 'completed', output: [{ type: 'message', content: [{ type: 'output_text', text: JSON.stringify({ proposals: [artworks[0]] }) }] }] }), ...extra });
+const artworks = ['LAUREA', 'SPRITZ', 'DOTTORE'].map((word, i) => ({ title: `Idea ${i + 1}`, concept: 'Un segno semplice e personale', illustrationSubject: 'un tocco di laurea semplice', background: '#218c45', foreground: '#ffffff', accent: '#facc15', texts: [{ text: word, x: 50, y: 52, size: 18, maxWidth: 68, font: 'brush', anchor: 'middle', inverse: false }], paths: [{ d: 'M39 15 Q 50 11 61 15 L 62 31 L 38 31 Z', fill: true, strokeWidth: 0.8, role: 'accent' }, { d: 'M32 69H68', fill: false, strokeWidth: 1.5, role: 'foreground' }] }));
+const request = (body = { brief: 'Giulia ama medicina e spritz' }, headers = {}, method = 'POST') => new Request('https://example.com/api/coaster-ideas', { method, headers: { 'Content-Type': 'application/json', Origin: 'https://example.com', ...headers }, ...(method !== 'GET' ? { body: JSON.stringify(body) } : {}) });
+const options = (extra = {}) => ({ env: { OPENAI_API_KEY: 'test-key', OPENAI_MODEL: 'gpt-6-luna', COASTER_IMAGE_ENABLED: '0' }, palette, client: 'hashed-client', reserve: async () => ({ allowed: true }), fetcher: async () => Response.json({ status: 'completed', output: [{ type: 'message', content: [{ type: 'output_text', text: JSON.stringify({ proposals: [artworks[0]] }) }] }] }), ...extra });
+
+function testPng() {
+  const width = 256, height = 256;
+  const data = new Uint8Array(width * height * 4);
+  for (let y = 0; y < height; y++) for (let x = 0; x < width; x++) {
+    const p = (y * width + x) * 4;
+    const leftObject = x >= 30 && x <= 88 && y >= 48 && y <= 142;
+    const rightObject = x >= 165 && x <= 226 && y >= 105 && y <= 202;
+    data[p + 3] = leftObject || rightObject ? 255 : 0;
+  }
+  return Buffer.from(encode({ width, height, data })).toString('base64');
+}
+
+test('Traces an entire two-object PNG without moving either object to the top', async () => {
+  const paths = await vectorizeCoasterComposition(testPng());
+  assert.equal(paths.length, 2);
+  assert(paths.every(path => path.fill && path.role === 'foreground' && path.d.length <= 15000));
+  const bounds = paths.map(path => getPathBounds(path.d)).sort((a, b) => a.centerX - b.centerX);
+  assert(bounds[0].centerX < 35 && bounds[0].centerY < 40);
+  assert(bounds[1].centerX > 65 && bounds[1].centerY > 55);
+  await assert.rejects(() => vectorizeCoasterComposition('not-png'));
+});
+
+test('Fits rounded image contours as curves without breaking the printable bounds', async () => {
+  const width = 512, height = 512;
+  const data = new Uint8Array(width * height * 4);
+  for (let y = 0; y < height; y++) for (let x = 0; x < width; x++) {
+    const p = (y * width + x) * 4;
+    const distance = Math.hypot(x - 256, y - 256);
+    data[p + 3] = Math.max(0, Math.min(255, Math.round((174.5 - distance) * 255)));
+  }
+  const paths = await vectorizeCoasterComposition(Buffer.from(encode({ width, height, data })).toString('base64'));
+  assert.equal(paths.length, 1);
+  assert.match(paths[0].d, /C\s/);
+  const bounds = getPathBounds(paths[0].d);
+  assert(bounds.maxRadius < 48);
+});
+
+test('Requests one low-quality PNG for the full composition and returns all objects as SVG paths', async () => {
+  const calls = [];
+  const response = await handleCoasterRequest(request({ brief: 'Scrivi Il buon samuritano con un bicipite e una città' }), options({
+    env: { OPENAI_API_KEY: 'test-key', OPENAI_MODEL: 'gpt-6-luna' },
+    fetcher: async (url, init) => {
+      calls.push({ url, body: JSON.parse(init.body) });
+      assert(url.endsWith('/images/generations'));
+      return Response.json({ data: [{ b64_json: testPng() }] });
+    },
+  }));
+  assert.equal(response.status, 200);
+  assert.equal(calls.length, 1);
+  assert.equal(calls[0].body.model, 'gpt-image-2.5-flare');
+  assert.equal(calls[0].body.quality, 'low');
+  assert.equal(calls[0].body.output_format, 'png');
+  assert.equal(calls[0].body.background, 'transparent');
+  assert.match(calls[0].body.prompt, /bicipite e una città/);
+  assert.match(calls[0].body.prompt, /rappresentali TUTTI/);
+  const body = await response.json();
+  assert.equal(body.illustrationSource, 'image-traced');
+  assert.equal(body.proposals[0].imageComposition, true);
+  assert.equal(body.proposals[0].texts.length, 0);
+  assert.equal(body.proposals[0].paths.length, 2);
+  assert.equal(validateArtworks(body.proposals, palette)[0].paths.length, 2);
+});
+
+test('Does not substitute the old fixed layout when image conversion fails', async () => {
+  let calls = 0;
+  const response = await handleCoasterRequest(request(), options({
+    env: { OPENAI_API_KEY: 'test-key', OPENAI_MODEL: 'gpt-6-luna' },
+    fetcher: async url => { calls++; assert(url.endsWith('/images/generations')); return Response.json({ data: [{ b64_json: 'invalid-image' }] }); },
+  }));
+  const body = await response.json();
+  assert.equal(response.status, 502);
+  assert.equal(calls, 1);
+  assert.match(body.error, /stampabile/);
+});
 
 test('Generates validated vector artwork with bounded tokens and server-side credentials', async () => {
   let sent;
@@ -21,8 +98,8 @@ test('Generates validated vector artwork with bounded tokens and server-side cre
     assert.equal(init.headers.Authorization, 'Bearer test-key');
     sent = JSON.parse(init.body);
     assert.equal(sent.model, 'gpt-6-luna');
-    assert.equal(sent.max_output_tokens, 2500);
-    assert.deepEqual(sent.reasoning, { effort: 'none' });
+    assert.equal(sent.max_output_tokens, 5000);
+    assert.deepEqual(sent.reasoning, { effort: 'low' });
     assert.equal(Object.hasOwn(sent, 'temperature'), false);
     assert.equal(sent.text.format.name, 'coaster_artworks');
     return settings.fetcher();
@@ -31,14 +108,67 @@ test('Generates validated vector artwork with bounded tokens and server-side cre
   assert.equal(sent.text.format.schema.properties.proposals.maxItems, 1);
   assert.equal(sent.text.format.schema.properties.proposals.minItems, 1);
   assert(sent.text.format.schema.properties.proposals.items.required.includes('paths'));
-  assert.deepEqual((await response.json()).proposals, singleArtwork);
+  assert(sent.text.format.schema.properties.proposals.items.required.includes('illustrationSubject'));
+  assert(sent.text.format.schema.properties.proposals.items.required.includes('accent'));
+  assert.equal(sent.text.format.schema.properties.proposals.items.properties.paths.maxItems, 20);
+  const generated = (await response.json()).proposals[0];
+  assert.equal(generated.texts[0].text, 'LAUREA');
+  assert.equal(generated.texts[0].font, 'brush');
+  assert.equal(generated.paths.length, 2);
+  assert.equal(generated.paths[0].role, 'accent');
   assert.equal(response.headers.get('cache-control'), 'no-store');
 });
 
 test('Rejects unsafe vector commands and artwork outside the printable area', () => {
-  for (const patch of [{ paths: [{ d: 'M20 20<script>', fill: false, strokeWidth: 1 }] }, { texts: [{ ...artworks[0].texts[0], x: 5 }] }, { texts: [{ ...artworks[0].texts[0], y: 85 }] }, { foreground: '#123456' }]) {
+  for (const patch of [{ paths: [{ d: 'M20 20<script>', fill: false, strokeWidth: 1 }] }, { texts: [{ ...artworks[0].texts[0], x: 5 }] }, { texts: [{ ...artworks[0].texts[0], y: 95 }] }, { foreground: '#123456' }, { accent: '#123456' }]) {
     assert.throws(() => validateArtworks([{ ...artworks[0], ...patch }], palette));
   }
+});
+
+test('Retries a weak illustration and keeps both top artwork and bottom accents', async () => {
+  const simple = { ...artworks[0], paths: [{ d: 'M32 69H68', fill: false, strokeWidth: 1.5, role: 'foreground' }] };
+  let calls = 0;
+  const response = await handleCoasterRequest(request(), options({ fetcher: async (url, init) => {
+    calls++;
+    if (calls === 2) assert.match(JSON.parse(init.body).instructions, /proposta precedente non ha superato/);
+    return Response.json({ status: 'completed', output: [{ type: 'message', content: [{ type: 'output_text', text: JSON.stringify({ proposals: [calls === 1 ? simple : artworks[0]] }) }] }] });
+  } }));
+  assert.equal(response.status, 200);
+  assert.equal(calls, 2);
+  const art = (await response.json()).proposals[0];
+  assert.equal(art.paths.length, 2);
+  assert.equal(art.paths[0].role, 'accent');
+});
+
+test('Keeps a multi-part illustration together when lettering needs reflow', () => {
+  const art = { ...artworks[0], texts: [
+    { text: 'Il buon', x: 50, y: 55, size: 12, maxWidth: 68, font: 'brush', anchor: 'middle', inverse: false },
+    { text: 'SAMURITANO', x: 50, y: 73, size: 17, maxWidth: 76, font: 'brush', anchor: 'middle', inverse: false },
+  ], paths: [
+    { d: 'M 34 31 Q 31 28 34 24 L 40 18 Q 43 15 46 19 L 50 24 Q 53 20 57 20 Q 64 20 68 27 Q 71 31 68 34 Q 64 38 58 37 L 53 35 Q 50 39 44 39 L 36 37 Q 32 36 34 31 Z', fill: true, strokeWidth: 0, role: 'accent' },
+    { d: 'M 42 22 Q 46 26 45 31', fill: false, strokeWidth: 1.8, role: 'foreground' },
+    { d: 'M 55 24 Q 59 27 58 32', fill: false, strokeWidth: 1.8, role: 'foreground' },
+    { d: 'M 34 73 H 66', fill: false, strokeWidth: 1.6, role: 'foreground' },
+  ] };
+  const result = validateArtworks(sanitizeArtworks([art], palette), palette)[0];
+  assert.equal(result.paths.length, 4);
+  assert(getPathBounds(result.paths[0].d).maxY <= 36);
+  assert(getPathBounds(result.paths[3].d).minY >= 78);
+  assert(result.texts[0].y < result.texts[1].y);
+  assert(result.texts[1].maxWidth < 76);
+});
+
+test('Three-line lettering remains legible inside the round print area', () => {
+  const art = { ...artworks[0], texts: [
+    { text: 'Più mappe', x: 50, y: 51, size: 11, maxWidth: 70, font: 'brush', anchor: 'middle', inverse: false },
+    { text: 'e meno', x: 50, y: 73, size: 18, maxWidth: 75, font: 'brush', anchor: 'middle', inverse: false },
+    { text: 'problemi', x: 50, y: 88, size: 11, maxWidth: 75, font: 'brush', anchor: 'middle', inverse: false },
+  ] };
+  const result = validateArtworks(sanitizeArtworks([art], palette), palette)[0];
+  assert.equal(result.texts.map(t => t.text).join(' '), 'Più mappe e meno problemi');
+  assert(result.texts[2].y <= 80);
+  assert(result.texts[2].maxWidth > 40);
+  assert(result.texts.every(t => t.size >= 10));
 });
 
 test('Uses the first complete structured response when the provider sends extra text', async () => {
@@ -46,11 +176,13 @@ test('Uses the first complete structured response when the provider sends extra 
   const output = `${JSON.stringify({ proposals: singleArtwork })}\nThe assistant response must follow this JSON schema: {"type":"object"}`;
   const response = await handleCoasterRequest(request(), options({ fetcher: async () => Response.json({ status: 'completed', output: [{ type: 'message', content: [{ type: 'output_text', text: output }] }] }) }));
   assert.equal(response.status, 200);
-  assert.deepEqual((await response.json()).proposals, singleArtwork);
+  const generated = (await response.json()).proposals[0];
+  assert.equal(generated.texts[0].text, 'LAUREA');
+  assert.equal(generated.paths.length, 2);
 });
 
 test('Rejects invalid inputs and oversized bodies before reserving quota', async () => {
-  for (const body of [null, {}, { brief: 'short', tone: 'ironico' }, { brief: 'a'.repeat(601), tone: 'ironico' }, { brief: 'a'.repeat(20), tone: 'unknown' }, { brief: 'a'.repeat(20), tone: 'ironico', avoid: ['a'.repeat(101)] }, { brief: 'a'.repeat(5000), tone: 'ironico' }]) {
+  for (const body of [null, {}, { brief: 'short' }, { brief: 'a'.repeat(601) }, { brief: 'a'.repeat(20), target: 'unknown' }, { brief: 'a'.repeat(20), avoid: ['a'.repeat(101)] }, { brief: 'a'.repeat(5000) }]) {
     const response = await handleCoasterRequest(request(body), options({ reserve: () => { assert.fail('Must not reserve'); } }));
     assert.equal(response.status, 400);
   }
@@ -160,7 +292,7 @@ test('Quota enforces cooldown, hourly client limit, global cap, and UTC day rese
 test('Rejects deprecated improve action and unknown actions before reserving quota', async () => {
   for (const action of ['improve', 'unknown', 'edit']) {
     const response = await handleCoasterRequest(
-      request({ action, brief: 'Giulia medicina spritz', tone: 'ironico' }),
+      request({ action, brief: 'Giulia medicina spritz' }),
       options({ reserve: () => assert.fail('Must not reserve quota for invalid action') })
     );
     assert.equal(response.status, 400);
@@ -189,7 +321,7 @@ test('Supports square tocco cap generation and allows square bounds', async () =
   assert.equal(validated.length, 3);
 
   const response = await handleCoasterRequest(
-    request({ brief: 'Marco laureato in ingegneria civile', tone: 'elegante', target: 'cap', shape: 'square' }),
+    request({ brief: 'Marco laureato in ingegneria civile', target: 'cap', shape: 'square' }),
     options({
       fetcher: async () => new Response(JSON.stringify({
         status: 'completed',

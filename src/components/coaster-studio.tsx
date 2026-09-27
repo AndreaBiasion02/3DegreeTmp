@@ -3,7 +3,7 @@
 import { useRef, useState, type FormEvent } from 'react';
 import { Sparkles, Download, Check, LoaderCircle } from 'lucide-react';
 import { filamentPalette } from '@/lib/filament-colors';
-import { exampleDesign, icons, layouts, typographies, iconStyles, tones, validLine } from '@/lib/coaster-design.mjs';
+import { exampleDesign, icons, layouts, typographies, iconStyles, validLine } from '@/lib/coaster-design.mjs';
 
 import CoasterPreview, { SymbolGraphic, type CoasterDesign as Design } from './coaster-preview';
 
@@ -21,7 +21,6 @@ export default function CoasterStudio() {
   const [symbolSearch, setSymbolSearch] = useState('');
   const [exporting, setExporting] = useState(false);
   const [brief, setBrief] = useState('');
-  const [tone, setTone] = useState<keyof typeof tones>('ironico');
   const [generated, setGenerated] = useState(false);
   const [design, setDesign] = useState<Design>(initial);
   const [loading, setLoading] = useState(false);
@@ -40,7 +39,7 @@ export default function CoasterStudio() {
     busy.current = true; setLoading(true); setError(''); setNotice('');
     try {
       const response = await fetch('/api/coaster-ideas', { method: 'POST', headers: { 'Content-Type': 'application/json' },
-        signal: AbortSignal.timeout(35000), body: JSON.stringify({ brief, tone, avoid: [design.lines.join(' ')] }) });
+        signal: AbortSignal.timeout(35000), body: JSON.stringify({ brief, avoid: [design.lines.join(' ')] }) });
       if (response.status === 429) setCooldownUntil(Date.now() + Number(response.headers.get('Retry-After') || 60) * 1000);
       const data = await response.json().catch(() => { throw new Error('La generazione AI non è disponibile su questa anteprima. Puoi modificare il sottobicchiere di esempio.'); });
       if (!response.ok) throw new Error(data.error || 'Generazione non disponibile. Riprova tra poco.');
@@ -96,12 +95,6 @@ export default function CoasterStudio() {
         <label htmlFor="coaster-brief" className="text-lg font-bold">Per chi brindiamo?</label>
         <textarea id="coaster-brief" className={`${fieldClass} min-h-[150px] resize-y`} placeholder="Giulia, laureata in medicina. Ama lo spritz, odia la sveglia e ha sempre una battuta pronta." value={brief} minLength={10} maxLength={600} required disabled={loading} onChange={e => setBrief(e.target.value)} aria-describedby="coaster-brief-help" />
         <p id="coaster-brief-help" className="mt-2 text-sm text-brand-dark/65">Facoltà, passioni, abitudini: bastano pochi dettagli. {brief.length}/600</p>
-        <fieldset className="mt-6" disabled={loading}>
-          <legend className="font-bold">Che tono gli diamo?</legend>
-          <div className="mt-3 flex flex-wrap gap-2">{Object.entries(tones).map(([key, label]) => <label key={key} className={`cursor-pointer rounded-full border px-4 py-2 text-sm font-bold ${tone === key ? 'border-brand-primary bg-brand-primary text-white' : 'border-brand-primary/25 bg-white text-brand-primary'}`}>
-            <input type="radio" name="coaster-tone" value={key} checked={tone === key} onChange={() => setTone(key as keyof typeof tones)} className="sr-only peer" /><span className="peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-4">{label}</span>
-          </label>)}</div>
-        </fieldset>
         <button type="submit" disabled={loading || !canGenerate} className="brand-button mt-7 gap-2 disabled:cursor-not-allowed disabled:opacity-50">{loading ? <LoaderCircle size={18} className="animate-spin motion-reduce:animate-none" aria-hidden="true" /> : <Sparkles size={18} aria-hidden="true" />}{loading ? 'Sto inventando la tua idea…' : generated ? 'Inventa un’altra idea' : 'Inventa la tua idea'}</button>
         <p className="mt-3 text-xs leading-relaxed text-brand-dark/65">La descrizione viene inviata a OpenAI quando generi le proposte. Usa solo i dettagli che desideri condividere.</p>
         <div aria-live="polite" aria-atomic="true" className="mt-4 text-sm">{loading && <p>Stiamo cercando le parole giuste per il tuo brindisi.</p>}{notice && <p className="font-bold text-brand-primary">{notice}</p>}</div>

@@ -2,8 +2,8 @@ import libraryIcons from './coaster-icons.json' with { type: 'json' };
 export { libraryIcons };
 export const COASTER_DIAMETER_MM = 70;
 export const iconStyles = { outline: 'Contorno', sticker: 'Sticker', badge: 'Distintivo' };
-export const fontFiles = { sans: '/fonts/coaster-noto-sans.woff', serif: '/fonts/coaster-noto-serif.woff', mono: '/fonts/coaster-roboto-mono.woff' };
-export const fontFamilies = { sans: 'Coaster Sans', serif: 'Coaster Serif', mono: 'Coaster Mono' };
+export const fontFiles = { sans: '/fonts/coaster-noto-sans.woff', serif: '/fonts/coaster-noto-serif.woff', mono: '/fonts/coaster-roboto-mono.woff', brush: '/fonts/coaster-oleo-script-bold.ttf' };
+export const fontFamilies = { sans: 'Coaster Sans', serif: 'Coaster Serif', mono: 'Coaster Mono', brush: 'Coaster Brush' };
 export const icons = { ...Object.fromEntries(Object.entries(libraryIcons).map(([key, icon]) => [key, icon.label])), none: 'Nessun simbolo', toast: 'Brindisi', coffee: 'Caffè', game: 'Controller', heart: 'Cuore', cap: 'Laurea', code: 'Codice', star: 'Stella', medicine: 'Medicina' };
 export const layouts = { classic: 'Icona e titolo', bold: 'Parola protagonista', minimal: 'Editoriale', stamp: 'Timbro', ticket: 'Finestra pop', split: 'Fascia a contrasto', orbit: 'Orbita', laurel: 'Alloro', confetti: 'Coriandoli', medal: 'Medaglione' };
 export const typographies = { sans: 'Deciso', serif: 'Elegante', mono: 'Macchina da scrivere' };
@@ -19,7 +19,6 @@ export const layoutDirections = {
   ticket: 'Finestra di computer con barra superiore e tipografia monospace. Adatta a frasi come messaggi di sistema.',
   split: 'Grande fascia centrale a colori invertiti per la parola protagonista, testi di supporto sopra e sotto.',
 };
-export const tones = { ironico: 'Ironico', pungente: 'Pungente', affettuoso: 'Affettuoso', elegante: 'Elegante' };
 export const iconPaths = {
   toast: 'M4 3h16l-8 10L4 3ZM12 13v8M7 21h10M18 1l2 2',
   coffee: 'M3 8h13v9a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V8ZM16 9h2a4 4 0 0 1 0 8h-2M6 2v3M11 2v3M2 23h17',

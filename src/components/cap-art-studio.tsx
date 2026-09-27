@@ -2,7 +2,7 @@
 
 import { useRef, useState, type FormEvent } from 'react';
 import { Check, Download, LoaderCircle, Sparkles } from 'lucide-react';
-import { tones, validLine } from '@/lib/coaster-design.mjs';
+import { validLine } from '@/lib/coaster-design.mjs';
 import { filamentPalette } from '@/lib/filament-colors';
 import { validateArtworks } from '@/lib/coaster-art.mjs';
 import { CAP_SYMBOLS, getCapSymbol } from '@/lib/cap-symbols';
@@ -19,7 +19,6 @@ function downloadFile(blob: Blob, name: string) {
 
 export default function CapArtStudio() {
   const [brief, setBrief] = useState('');
-  const [tone, setTone] = useState<keyof typeof tones>('ironico');
   const [art, setArt] = useState<Artwork | null>(null);
   const [loading, setLoading] = useState(false);
   const [exporting, setExporting] = useState(false);
@@ -43,7 +42,6 @@ export default function CapArtStudio() {
         signal: AbortSignal.timeout(75000),
         body: JSON.stringify({
           brief,
-          tone,
           target: 'cap',
           shape: 'square',
           avoid: art ? [art.texts.map(t => t.text).join(' ').slice(0, 100)] : [],
@@ -115,7 +113,6 @@ export default function CapArtStudio() {
         <label htmlFor="cap-brief" className="text-lg font-bold">Chi festeggiamo o che messaggio vuoi?</label>
         <textarea id="cap-brief" className={`${fieldClass} min-h-[150px] resize-y`} placeholder="Marco, laureato in ingegneria. Tanti esami, poco sonno, pronto a costruire il futuro." value={brief} minLength={10} maxLength={600} required disabled={loading} onChange={e => setBrief(e.target.value)} />
         <p className="mt-2 text-sm text-brand-dark/65">Facoltà, passioni, abitudini: bastano pochi dettagli. {brief.length}/600</p>
-        <fieldset className="mt-6" disabled={loading}><legend className="font-bold">Che tono gli diamo?</legend><div className="mt-3 flex flex-wrap gap-2">{Object.entries(tones).map(([key, label]) => <label key={key} className={`cursor-pointer rounded-full border px-4 py-2 text-sm font-bold ${tone === key ? 'border-brand-primary bg-brand-primary text-white' : 'border-brand-primary/25 bg-white text-brand-primary'}`}><input type="radio" name="cap-tone" value={key} checked={tone === key} onChange={() => setTone(key as keyof typeof tones)} className="sr-only peer" /><span className="peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-4">{label}</span></label>)}</div></fieldset>
         <button type="submit" disabled={loading || !canGenerate} className="brand-button mt-7 gap-2 disabled:opacity-50">{loading ? <LoaderCircle size={18} className="animate-spin" aria-hidden="true" /> : <Sparkles size={18} aria-hidden="true" />}{loading ? 'Disegno il tuo tocco…' : art ? 'Genera un’altra grafica' : 'Genera grafica per il tocco'}</button>
         <p className="mt-3 text-xs leading-relaxed text-brand-dark/65">La descrizione viene inviata a OpenAI. Usa solo i dettagli che desideri condividere.</p>
         <div aria-live="polite" className="mt-4 text-sm">{notice && <p className="font-bold text-brand-primary">{notice}</p>}</div>

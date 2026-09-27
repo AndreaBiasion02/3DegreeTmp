@@ -1,22 +1,26 @@
-import { validateArtworks, sanitizeArtworks } from '../src/lib/coaster-art.mjs';
+import { validateArtworks, sanitizeArtworks, getPathBounds } from '../src/lib/coaster-art.mjs';
+import { vectorizeCoasterComposition } from './coaster-image-vectorizer.mjs';
 
 const textSchema = { type: 'object', additionalProperties: false, properties: {
   text: { type: 'string', maxLength: 24 }, x: { type: 'number' }, y: { type: 'number' },
   size: { type: 'number' }, maxWidth: { type: 'number' },
-  font: { type: 'string', enum: ['sans', 'serif', 'mono'] },
+  font: { type: 'string', enum: ['sans', 'serif', 'mono', 'brush'] },
   anchor: { type: 'string', enum: ['start', 'middle', 'end'] }, inverse: { type: 'boolean' },
 }, required: ['text', 'x', 'y', 'size', 'maxWidth', 'font', 'anchor', 'inverse'] };
-const pathSchema = { type: 'object', additionalProperties: false, properties: {
-  d: { type: 'string', maxLength: 600 }, fill: { type: 'boolean' }, strokeWidth: { type: 'number' },
-}, required: ['d', 'fill', 'strokeWidth'] };
+const pathSchema = (isCap) => ({ type: 'object', additionalProperties: false, properties: {
+  d: { type: 'string', maxLength: isCap ? 600 : 1200 }, fill: { type: 'boolean' }, strokeWidth: { type: 'number' },
+  ...(!isCap && { role: { type: 'string', enum: ['foreground', 'accent'] } }),
+}, required: isCap ? ['d', 'fill', 'strokeWidth'] : ['d', 'fill', 'strokeWidth', 'role'] });
 const artworkSchema = (palette, target = 'coaster') => {
   const isCap = target === 'cap';
   const properties = {
     title: { type: 'string', maxLength: 40 }, concept: { type: 'string', maxLength: 160 },
+    ...(!isCap && { illustrationSubject: { type: 'string', maxLength: 100 } }),
     background: { type: 'string', enum: palette.map(c => c.hex) },
     foreground: { type: 'string', enum: palette.map(c => c.hex) },
+    ...(isCap ? {} : { accent: { type: 'string', enum: palette.map(c => c.hex) } }),
     texts: { type: 'array', minItems: 1, maxItems: 5, items: textSchema },
-    paths: { type: 'array', maxItems: 12, items: pathSchema },
+    paths: { type: 'array', maxItems: isCap ? 12 : 20, items: pathSchema(isCap) },
   };
   const required = ['title', 'concept', 'background', 'foreground', 'texts', 'paths'];
   if (isCap) {
@@ -30,6 +34,7 @@ const artworkSchema = (palette, target = 'coaster') => {
     };
     required.push('symbol');
   }
+  else required.push('accent', 'illustrationSubject');
   return {
     type: 'object',
     additionalProperties: false,
@@ -66,9 +71,9 @@ function artDirection(palette, target = 'coaster') {
    - Tieni tutto comodamente all'interno del raggio 40.`;
 
   return `Sei un art director e lettering designer d'eccellenza per 3Degree (${itemType}).
-Il tuo obiettivo è creare UNA grafica vettoriale pop, ironica, pulita e memorabile, esattamente con lo stile tipografico dei bestseller 3Degree (come "110 e vodka", "Laureato per sbaglio", "Finalmente disoccupato").
+Il tuo obiettivo è creare UNA grafica vettoriale pop, ironica, pulita e memorabile. Usa la battuta originale e un'illustrazione semplice legata alla persona, nello spirito di un adesivo disegnato a mano.
 
-1. REGOLA D'ORO: IL TESTO È IL PROTAGONISTA ASSOLUTO (85-90% DELLA SUPERFICIE)
+1. REGOLA D'ORO: FRASE LEGGIBILE E ILLUSTRAZIONE RICONOSCIBILE
    - I prodotti 3Degree sono famosi per la loro tipografia BOLD, ENORME E LEGGIBILE a colpo d'occhio.
    - IL TESTO DEVE DOMINARE ${itemName.toUpperCase()}. Niente scritte minuscole o timide da etichetta!
    - STRUTTURA A 2 O MASSIMO 3 RIGHE CORTE (MOLTO CONSIGLIATE 2 RIGHE):
@@ -83,7 +88,9 @@ Il tuo obiettivo è creare UNA grafica vettoriale pop, ironica, pulita e memorab
        - Riga 2 (PAROLA HERO): size 16–21 in MAIUSCOLO (es. "IL FEGATO")
        - Riga 3 (punchline): size 10–12 (es. "è andato.")
    - VIETATO font size inferiore a 9.5!
-   - Distribuisci il testo al centro (fascia Y tra 34 e 64).
+   - Per il sottobicchiere usa preferibilmente 2-3 righe e scegli 'brush' per un lettering morbido e deciso quando la descrizione suggerisce una battuta giocosa. 'sans' resta adatto a frasi più moderne, 'serif' a un registro elegante, 'mono' a battute tecniche.
+   - Mantieni intatta ogni grafia o nome esplicitamente fornito nel brief; non correggere giochi di parole deliberati.
+   - Distribuisci il testo nel centro lasciando aria all'illustrazione. Le lettere vengono trasformate in tracciati dal sito: fornisci stringhe e coordinate, non tentare di disegnare i glifi a mano.
 
 ${isCap ? `2. SIMBOLI UFFICIALI PER IL TOCCO (campo 'symbol'):
    Nei tocchi di laurea 3Degree utilizziamo i simboli vettoriali ufficiali (facoltà e traguardi accademici).
@@ -107,39 +114,63 @@ ${isCap ? `2. SIMBOLI UFFICIALI PER IL TOCCO (campo 'symbol'):
    - Se l'utente menziona una facoltà specifica (es. ingegneria, economia, medicina, ecc.), assegna il simbolo corrispondente!
    - Altrimenti assegna 'graduation-cap' (tocco classico) o 'crown' (corona d'alloro) oppure 'none' se il brief richiede solo testo.
    - In 'paths' lascia un array vuoto []. Il simbolo ufficiale scelto verrà inserito automaticamente con il layout geometrico perfetto!`
-: `2. SIMBOLI E PICCOLE ICONE POP:
-   - I sottobicchieri 3Degree possono avere un PICCOLO SIMBOLO o ACCENTO GRAFICO iconico, oppure tipografia pura ('paths': []).
-   - Massimo 1 singolo simbolo o divisorio per proposta!
-     * Posizionalo centrato orizzontalmente (x attorno a 50) e:
-       - O SOPRA il testo (y tra 20 e 26),
-       - OPPURE SOTTO il testo come linea divisoria / accento pulito (y tra 72 e 76).
-     * VIETATO IL "SANDWICH": non mettere MAI un elemento grafico sia sopra che sotto il testo contemporaneamente.
-   - DIMENSIONI PICCOLE E COMPATTE (STAMPABILITÀ 3D):
-     * Altezza compresa tra 7 e 12 mm, larghezza tra 16 e 30 mm. Non deve invadere il testo né rubare la scena al lettering.
-     * strokeWidth tra 1.3 e 1.6, fill solitamente false (oppure true per sagome piene chiuse).
-   - ASSOLUTAMENTE VIETATO CREARE GRANDI SCATOLE VUOTE, CORNICI O GABBIE:
-     * Non disegnare rettangoli giganti vuoti o cornici che ingabbiano il testo! I simboli devono essere vere icone (tocco, brindisi, alloro, caffè, birra, stella).
-   - Esempi di path vettoriali SVG compatti e stampabili:
-     * Mini tocco di laurea (in alto, y~22): { d: "M 42 21 L 50 18 L 58 21 L 50 24 Z M 57 21 V 25 M 46 22.5 V 25 A 4 2 0 0 0 54 25 V 22.5", fill: false, strokeWidth: 1.5 }
-     * Due calici che brindano (in alto, y~23): { d: "M 45 20 L 48 24 V 27 M 46 27 H 50 M 55 20 L 52 24 V 27 M 50 27 H 54 M 49.5 20.5 L 50.5 22", fill: false, strokeWidth: 1.4 }
-     * Boccale di birra (in alto, y~22): { d: "M 46 20 H 52 V 27 H 46 Z M 52 22 H 55 V 25 H 52 M 45 20 Q 49 18 53 20", fill: false, strokeWidth: 1.4 }
-     * Corona d'alloro stilizzata (in alto, y~23): { d: "M 42 25 C 44 21 47 20 50 20 C 53 20 56 21 58 25 M 44 23 L 43 21 M 47 21 L 47 19 M 53 21 L 53 19 M 56 23 L 57 21", fill: false, strokeWidth: 1.4 }
-     * Tazzina di caffè fumante (in alto, y~23): { d: "M 45 23 H 53 V 26 A 4 4 0 0 1 45 26 Z M 53 24 H 55 V 26 H 53 M 47 21 C 47 20 49 20 49 19 M 51 21 C 51 20 53 20 53 19", fill: false, strokeWidth: 1.4 }
-     * Stella celebrativa (in alto, y~22): { d: "M 50 18 L 51.5 22.5 L 56 22.5 L 52.5 25 L 54 29.5 L 50 27 L 46 29.5 L 47.5 25 L 44 22.5 L 48.5 22.5 Z", fill: false, strokeWidth: 1.3 }
-     * Linea divisoria pulita (in basso, y~73): { d: "M 34 73 H 66", fill: false, strokeWidth: 1.5 }`}
+: `2. ILLUSTRAZIONE VETTORIALE PER IL SOTTOBICCHIERE:
+   - Compila 'illustrationSubject' con SOLO un soggetto visivo concreto per una singola icona (per esempio "quattro palazzi rettangolari uniti alla base" oppure "un braccio con bicipite flesso"). Non menzionare scritte, lettere, slogan, composizione o persone.
+   - Disegna un soggetto principale pertinente al brief: per esempio una città per urbanistica, un bicipite flesso per una persona sportiva, un microscopio per biologia. Crea una silhouette piena chiusa e 2-5 tratti interni, usando più path se servono.
+   - Soggetto in alto: normalmente x=25..75, y=12..37, con ingombro massimo circa 45x25 nel sistema 100x100. Puoi disegnare anche una mappa, cuore o altra piccola firma sotto il testo tra y=74 e 84; non devono sovrapporsi alle lettere.
+   - Gli accenti decorativi come stelline, raggi o segni di energia sono facoltativi: se non richiesti nel brief, aggiungine al massimo due in tutta la composizione, oppure nessuno. Lascia respirare testo e soggetto senza riempire gli spazi vuoti. Usa un massimo di 20 path totali. Il disegno deve restare nitido quando stampato a diametro 70 mm: niente dettagli più sottili di circa 1 unità del viewBox.
+   - Usa 'role': 'foreground' per contorni e tratti scuri, 'accent' per un secondo colore. 'accent' deve essere diverso da background e foreground. Per l'icona usa una sagoma piena ('fill': true, path chiuso) e tratti interni robusti; per le linee aperte usa 'fill': false e strokeWidth tra 1.2 e 2.2.
+   - Esempio di bicipite semplificato, in alto: silhouette { d: "M 38 20 Q 36 18 38 16 L 42 14 Q 44 13 45 16 L 47 20 Q 48 23 44 24 Q 43 28 46 32 Q 50 27 55 27 Q 61 27 63 33 Q 67 35 65 39 Q 53 45 39 39 Q 34 37 36 31 Z", fill: true, strokeWidth: 0, role: "accent" }; piega interna { d: "M 44 24 Q 42 32 46 34", fill: false, strokeWidth: 1.6, role: "foreground" }.
+   - Non creare cornici o rettangoli giganti. Il bordo circolare è già aggiunto dal sito. Non usare emoji Unicode, immagini raster, testo dentro i path, gradienti o filigrane.`}
 
 3. COPYWRITING: FRASE UNICA DI SENSO COMPIUTO
    - Le righe della proposta formano una FRASE CONTINUA DI SENSO COMPIUTO (battuta, motto o aforisma divertente).
    - VIETATO generare parole isolate tipo "TITOLO", "DOTTORE", "FESTA".
-   - Scegli lo stile migliore in base alla descrizione e al tono:
+   - Scegli lo stile migliore in base alla descrizione:
      * Stile secco / punchline (es. "Laureato per / SBAGLIO", "110 e / VODKA")
      * Ironia sulla professione o sul futuro (es. "Dottore su / LINKEDIN", "Ora so / DI NON SAPERE")
      * Studio / fatica / caffè (es. "Powered by / CAFFÈ", "ChatGPT / ABBIAMO VINTO")
 
 4. COORDINATE E COLORI:
 ${shapeBounds}
-   - Testi centrati: x=50, anchor: 'middle'.
-   - Colori: scegli combinazioni ad alto contrasto da ${JSON.stringify(palette.map(c => ({ name: c.name, hex: c.hex })))};`;
+   - Testi centrati: x=50, anchor: 'middle'. Se due parole non entrano senza essere schiacciate, dividile in righe.
+   - Colori: scegli combinazioni ad alto contrasto da ${JSON.stringify(palette.map(c => ({ name: c.name, hex: c.hex })))};${isCap ? '' : ' il campo accent deve essere distinto da background e foreground.'}`;
+}
+
+function hasIllustration(artwork) {
+  return artwork.paths.some(path => {
+    if (!path.fill || !/[zZ]\s*$/.test(path.d)) return false;
+    const bounds = getPathBounds(path.d);
+    return bounds && bounds.maxX - bounds.minX >= 12 && bounds.maxY - bounds.minY >= 7;
+  });
+}
+
+async function generateImageComposition(input, { env, fetcher, palette }) {
+  const model = ['gpt-image-2.5-flare', 'gpt-image-2.5-sunburst'].includes(env.OPENAI_IMAGE_MODEL)
+    ? env.OPENAI_IMAGE_MODEL : 'gpt-image-2.5-flare';
+  try {
+    const response = await fetcher('https://api.openai.com/v1/images/generations', {
+      method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${env.OPENAI_API_KEY}` },
+      signal: AbortSignal.timeout(85000),
+      body: JSON.stringify({
+        model, quality: 'low', size: '1024x1024', output_format: 'png', background: 'transparent', n: 1,
+        prompt: `Progetta l'INTERA grafica di un sottobicchiere circolare di laurea da 70 mm, vista dall'alto. Brief originale dell'utente: ${input.brief.trim()}.
+${input.avoid?.length ? `Evita queste frasi già proposte: ${input.avoid.join(' | ')}.` : ''}
+Hai libertà di inventare una composizione originale: scritta e disegni possono stare in qualsiasi posizione dentro il disco, senza dover occupare tutta la superficie. La frase è protagonista. Se il brief non indica oggetti, scegli un solo soggetto illustrato pertinente. Se il brief chiede due o più soggetti, rappresentali TUTTI come elementi distinti e riconoscibili; non ridurli a un simbolo unico in alto, ma non aggiungere altri oggetti di riempimento. Se viene indicata una frase da scrivere, riproducila ESATTAMENTE, rispettando nomi, accenti e giochi di parole senza correggerli. Altrimenti inventa una battuta breve e leggibile.
+Stile sticker illustrato, lettering grande ed espressivo, oggetti semplificati ma riconoscibili. Cerca una grafica ariosa e immediata: pochi elementi ben disegnati, silhouette chiare e pochi dettagli interni. Evita l'effetto collage di emoji o piccole icone sparse; lascia zone libere visibili tra scritta, soggetti e bordo. Stelline, scintille, trattini e raggi decorativi sono facoltativi: se non sono richiesti nel brief, usane al massimo due piccoli segni in tutta la grafica, oppure nessuno; non ripeterli intorno a ogni parola o oggetto e non usarli per riempire i vuoti. Se il brief li chiede esplicitamente, rispettane la quantità richiesta. Disegna soltanto in NERO PURO opaco su sfondo TRASPARENTE: niente grigi, colori aggiuntivi, fotografie, gradienti, ombre, texture o prospettive realistiche. Usa superfici piene e contorni spessi; evita dettagli minuscoli, linee sottili, scritte piccole e ritratti realistici. A dimensione finale, nessun tratto pieno più sottile di circa 0,8 mm e nessun vuoto essenziale più stretto di 1 mm. Mantieni l'intera grafica all'interno di un'area circolare centrale con margine esterno, senza disegnare una base piena. Puoi disegnare una cornice solo se serve alla tua composizione.`,
+      }),
+    });
+    if (!response.ok) throw new Error(`Image generation HTTP ${response.status}`);
+    const payload = await response.json();
+    const paths = await vectorizeCoasterComposition(payload?.data?.[0]?.b64_json);
+    const [artwork] = validateArtworks([{ title: input.brief.trim().slice(0, 40), concept: 'Composizione originale da immagine',
+      background: '#ffffff', foreground: '#222222', texts: [], paths, imageComposition: true }], palette);
+    return Response.json({ proposals: [artwork], illustrationSource: 'image-traced' },
+      { headers: { 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff' } });
+  } catch (error) {
+    console.warn('[generateImageComposition] Failed:', error?.message || error);
+    return Response.json({ error: 'La grafica generata non è risultata stampabile o il servizio immagini è occupato. Riprova con una descrizione più semplice.' }, { status: 502 });
+  }
 }
 
 export async function generateArtworks(input, { env, palette, fetcher }) {
@@ -147,6 +178,9 @@ export async function generateArtworks(input, { env, palette, fetcher }) {
   let lastError;
   const target = input.target === 'cap' || input.shape === 'square' ? 'cap' : 'coaster';
   const options = { target, shape: target === 'cap' ? 'square' : 'circle' };
+  if (target === 'coaster' && env.COASTER_IMAGE_ENABLED !== '0') {
+    return generateImageComposition(input, { env, fetcher, palette });
+  }
 
   for (let attempt = 1; attempt <= maxAttempts; attempt++) {
     try {
@@ -154,9 +188,10 @@ export async function generateArtworks(input, { env, palette, fetcher }) {
         method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${env.OPENAI_API_KEY}` },
         signal: AbortSignal.timeout(attempt === 1 ? 55000 : 35000),
         body: JSON.stringify({
-          model: env.OPENAI_MODEL || 'gpt-6-luna', instructions: artDirection(palette, target),
-          input: JSON.stringify({ brief: input.brief.trim(), tone: input.tone, avoid: input.avoid || [] }),
-          reasoning: { effort: 'none' }, max_output_tokens: 2500,
+          model: env.OPENAI_MODEL || 'gpt-6-luna', instructions: artDirection(palette, target) +
+            (attempt > 1 && target === 'coaster' ? '\nLa proposta precedente non ha superato la verifica. Assicurati di includere una silhouette illustrativa piena, chiusa e ben visibile oltre al testo, con accenti separati dalle lettere.' : ''),
+          input: JSON.stringify({ brief: input.brief.trim(), avoid: input.avoid || [] }),
+          reasoning: { effort: target === 'cap' ? 'none' : 'low' }, max_output_tokens: target === 'cap' ? 2500 : 5000,
           text: { format: { type: 'json_schema', name: 'coaster_artworks', strict: true,
             schema: { type: 'object', additionalProperties: false, properties: {
               proposals: { type: 'array', minItems: 1, maxItems: 1, items: artworkSchema(palette, target) },
@@ -177,7 +212,12 @@ export async function generateArtworks(input, { env, palette, fetcher }) {
         .filter(item => item.type === 'output_text').map(item => item.text).join('');
       const raw = firstJsonObject(text).proposals;
       const sanitized = sanitizeArtworks(raw, palette, options);
-      return Response.json({ proposals: validateArtworks(sanitized, palette, options) },
+      const proposals = validateArtworks(sanitized, palette, options);
+      const wantsTextOnly = /\b(?:solo testo|senza (?:disegni|illustrazioni|icone))\b/i.test(input.brief);
+      if (target === 'coaster' && !wantsTextOnly && !hasIllustration(proposals[0])) {
+        throw new Error('Missing printable illustration');
+      }
+      return Response.json({ proposals, illustrationSource: 'vector' },
         { headers: { 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff' } });
     } catch (error) {
       lastError = error;

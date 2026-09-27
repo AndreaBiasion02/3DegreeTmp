@@ -1,4 +1,3 @@
-import { tones } from '../src/lib/coaster-design.mjs';
 import { generateArtworks } from './coaster-art-api.mjs';
 
 export const API_PATH = '/api/coaster-ideas';
@@ -78,11 +77,11 @@ export async function handleCoasterRequest(request, { env, palette, client, rese
   try {
     input = await readBody(request);
     if (!input || typeof input.brief !== 'string' || input.brief.trim().length < 10 || input.brief.length > 600 ||
-      !Object.hasOwn(tones, input.tone) || (input.action !== undefined && input.action !== 'generate') ||
+      (input.action !== undefined && input.action !== 'generate') ||
       (input.target !== undefined && !['coaster', 'cap'].includes(input.target)) ||
       (input.shape !== undefined && !['circle', 'square'].includes(input.shape)) ||
       (input.avoid !== undefined && (!Array.isArray(input.avoid) || input.avoid.length > 3 || input.avoid.some(s => typeof s !== 'string' || s.length > 100)))) throw new Error('Invalid input');
-  } catch { return json({ error: 'Scrivi una descrizione da 10 a 600 caratteri e scegli il tono.' }, 400); }
+  } catch { return json({ error: 'Scrivi una descrizione da 10 a 600 caratteri.' }, 400); }
   if (!env.OPENAI_API_KEY) return json({ error: 'La generazione AI non è ancora attiva. Puoi intanto preparare la descrizione del sottobicchiere.' }, 503);
   try {
     const quota = await reserve(client, env);

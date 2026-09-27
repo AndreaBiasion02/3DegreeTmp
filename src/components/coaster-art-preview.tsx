@@ -4,10 +4,11 @@ import { useId } from 'react';
 import { fontFamilies } from '@/lib/coaster-design.mjs';
 
 export type Artwork = {
-  title: string; concept: string; background: string; foreground: string;
+  title: string; concept: string; background: string; foreground: string; accent?: string;
   texts: { text: string; x: number; y: number; size: number; maxWidth: number;
-    font: 'sans' | 'serif' | 'mono'; anchor: 'start' | 'middle' | 'end'; inverse: boolean }[];
-  paths: { d: string; fill: boolean; strokeWidth: number }[];
+    font: 'sans' | 'serif' | 'mono' | 'brush'; anchor: 'start' | 'middle' | 'end'; inverse: boolean }[];
+  paths: { d: string; fill: boolean; strokeWidth: number; role?: 'foreground' | 'accent' }[];
+  imageComposition?: boolean;
   symbol?: string;
 };
 
@@ -19,7 +20,7 @@ function measuredWidth(text: string, size: number, font: Artwork['texts'][number
 export default function CoasterArtPreview({ art }: { art: Artwork }) {
   const clipId = useId().replaceAll(':', '');
   const exportClipId = `${clipId}-export`;
-  const label = `Sottobicchiere: ${art.texts.map(t => t.text).join(' ')}`;
+  const label = `Sottobicchiere: ${art.imageComposition ? art.title : art.texts.map(t => t.text).join(' ')}`;
 
   return (
     <div className="relative mx-auto aspect-[465/355] w-full overflow-hidden rounded-[1.25rem] bg-[#f0efed]">
@@ -44,13 +45,13 @@ export default function CoasterArtPreview({ art }: { art: Artwork }) {
           <g clipPath={`url(#${clipId})`}>
             {/* Map 100x100 (center 50,49, radius 48) to center 0,0, radius 35 */}
             <g transform="scale(0.72916667) translate(-50 -49)">
-              <circle cx="50" cy="49" r="42" fill="none" stroke={art.foreground} strokeWidth="1.1" />
+              {!art.imageComposition && <circle cx="50" cy="49" r="42" fill="none" stroke={art.foreground} strokeWidth="1.1" />}
               {art.paths.map((path, index) => (
                 <path
                   key={index}
                   d={path.d}
-                  fill={path.fill ? art.foreground : 'none'}
-                  stroke={path.fill ? 'none' : art.foreground}
+                  fill={path.fill ? path.role === 'accent' ? art.accent || art.foreground : art.foreground : 'none'}
+                  stroke={path.fill ? 'none' : path.role === 'accent' ? art.accent || art.foreground : art.foreground}
                   strokeWidth={path.strokeWidth}
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -95,13 +96,13 @@ export default function CoasterArtPreview({ art }: { art: Artwork }) {
         </defs>
         <circle cx="50" cy="49" r="48" fill={art.background} />
         <g clipPath={`url(#${exportClipId})`}>
-          <circle cx="50" cy="49" r="42" fill="none" stroke={art.foreground} strokeWidth="1.1" />
+          {!art.imageComposition && <circle cx="50" cy="49" r="42" fill="none" stroke={art.foreground} strokeWidth="1.1" />}
           {art.paths.map((path, index) => (
             <path
               key={index}
               d={path.d}
-              fill={path.fill ? art.foreground : 'none'}
-              stroke={path.fill ? 'none' : art.foreground}
+              fill={path.fill ? path.role === 'accent' ? art.accent || art.foreground : art.foreground : 'none'}
+              stroke={path.fill ? 'none' : path.role === 'accent' ? art.accent || art.foreground : art.foreground}
               strokeWidth={path.strokeWidth}
               strokeLinecap="round"
               strokeLinejoin="round"

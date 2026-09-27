@@ -24,11 +24,15 @@ npm run preview
 
 ### Sottobicchieri con AI
 
-La collezione `/collections/sottobicchieri-laurea/#crea-con-ai` include un laboratorio: descrizione della persona, tono e una grafica vettoriale originale progettata da GPT-6 Luna. Il modello decide battuta, gerarchia tipografica, posizioni e tracciati decorativi senza selezionare un layout predefinito. La proposta è mostrata direttamente nell'anteprima; si possono correggere le scritte e scegliere i colori PLA o i simboli. Bordo e ombra non entrano nello SVG per la stampa. Si scarica l’SVG con scritte convertite in tracciati.
+La collezione `/collections/sottobicchieri-laurea/#crea-con-ai` include un laboratorio: l'utente descrive frase, persona e tutti i soggetti da rappresentare. GPT Image 2.5 compone liberamente l'intera grafica, scritta inclusa. Il server converte il PNG in tracciati SVG senza spostare elementi, sostituire simboli o ricomporre il layout. La grafica resta monocromatica per la stampa 3D; se la scritta generata non è corretta, l'utente modifica il brief e rigenera.
 
-Per attivare la generazione locale, copiare `.env.example` in `.env.local` e inserire `OPENAI_API_KEY`, quindi avviare `npm run dev` (o build e `npm run preview`). La chiave resta sul server. Modello configurabile con `OPENAI_MODEL` (predefinito `gpt-6-luna`). Senza chiave l'editor manuale funziona e la generazione restituisce un messaggio di servizio non ancora attivo. Non sono mostrate risposte simulate come se fossero AI.
+Per attivare la generazione locale, copiare `.env.example` in `.env.local` e inserire `OPENAI_API_KEY`, quindi avviare `npm run dev` (o build e `npm run preview`). La chiave resta sul server. Modello immagine configurabile con `OPENAI_IMAGE_MODEL` (predefinito `gpt-image-2.5-flare`); `OPENAI_MODEL` riguarda il flusso precedente e i tocchi quadrati. Senza chiave la generazione restituisce un messaggio di servizio non ancora attivo. Non sono mostrate risposte simulate come se fossero AI.
 
-`POST /api/coaster-ideas` accetta `{ brief, tone, avoid? }`: descrizione 10–600 caratteri, uno dei quattro toni dell'interfaccia, fino a tre frasi precedenti. Una chiamata OpenAI GPT-6 Luna produce una composizione vettoriale strutturata, validata prima di restituirla. Timeout 55 secondi, massimo 2500 token di output, nessun retry automatico. Il brief viene inviato a OpenAI; l'applicazione non lo salva sul server.
+`POST /api/coaster-ideas` accetta `{ brief, avoid? }`: descrizione 10–600 caratteri e fino a tre frasi precedenti. Per i sottobicchieri GPT Image 2.5 Flare genera un PNG trasparente 1024×1024 con `quality: low`. Il server usa `fast-png` e VTracer per ricalcare l'intera composizione con curve Bézier alla risoluzione originale, mantenendo posizione e numero degli elementi. Il controllo di stampabilità rifiuta immagini vuote, piene o eccessivamente complesse; non le sostituisce con il vecchio layout. Il brief viene inviato a OpenAI; l'applicazione non lo salva sul server. Le istruzioni di generazione si trovano in `server/coaster-art-api.mjs`.
+
+Dopo la generazione, il configuratore permette di scegliere separatamente i colori PLA della base e della scritta con i disegni. La scelta aggiorna subito anteprima e SVG esportato e resta attiva se si genera un'altra grafica.
+
+`OPENAI_IMAGE_MODEL` può scegliere `gpt-image-2.5-sunburst` al posto di Flare, mantenendo sempre `quality: low`. `COASTER_IMAGE_ENABLED=0` riattiva il flusso vettoriale precedente per diagnosi. La generazione dei tocchi quadrati continua a usare GPT-6 Luna.
 
 Limiti configurabili da variabili d'ambiente:
 - `COASTER_DAILY_LIMIT`: tentativi massimi al giorno (UTC) complessivi su tutti gli utenti (predefinito: 300, impostare `0` per disabilitare completamente le chiamate AI).
@@ -80,7 +84,7 @@ Un’anteprima privata non è indicizzabile. Sul dominio pubblico verificare ass
 
 Tutti i 42 modelli del catalogo vengono rigenerati a 70 mm su X/Y, mantenendo spessore 4 mm e intarsio 0,6 mm; GLB, STL, metadati e SVG sono allineati. Ogni scheda offre il download `/models/sottobicchieri/<slug>.svg`: vista dall'alto, `width="70mm" height="70mm"`, scritte in tracciati e nessuna ombra.
 
-Il laboratorio AI esporta la stessa grafica vista dall'alto a 70 × 70 mm. I font locali Noto Sans, Noto Serif e Roboto Mono vengono convertiti in tracciati con opentype.js al download: nessun font o servizio esterno è necessario per aprire lo SVG. Stampare al 100%, senza adattamento alla pagina. L'esportazione SVG è una grafica bidimensionale, non un STL; tratti piccoli e leggibilità vanno verificati per la produzione.
+Il laboratorio AI esporta la stessa grafica vista dall'alto a 70 × 70 mm. I font locali Noto Sans, Noto Serif, Roboto Mono e Oleo Script Bold vengono convertiti in tracciati con opentype.js al download: nessun font o servizio esterno è necessario per aprire lo SVG. Stampare al 100%, senza adattamento alla pagina. L'esportazione SVG è una grafica bidimensionale, non un STL; tratti piccoli e leggibilità vanno verificati per la produzione.
 
-Luna genera direttamente forme vettoriali pertinenti alla battuta. Il server accetta solo coordinate, testo e comandi di tracciato consentiti; non vengono inseriti SVG grezzi o immagini remote nella pagina. I font locali Noto Sans, Noto Serif e Roboto Mono vengono convertiti in tracciati durante il download.
+Luna genera direttamente forme vettoriali pertinenti alla battuta. Il server accetta solo coordinate, testo e comandi di tracciato consentiti; non vengono inseriti SVG grezzi o immagini remote nella pagina.
 
