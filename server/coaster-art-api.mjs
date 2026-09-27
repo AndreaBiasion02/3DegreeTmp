@@ -1,5 +1,4 @@
 import { validateArtworks, sanitizeArtworks, getPathBounds } from '../src/lib/coaster-art.mjs';
-import { vectorizeCoasterComposition } from './coaster-image-vectorizer.mjs';
 
 const textSchema = { type: 'object', additionalProperties: false, properties: {
   text: { type: 'string', maxLength: 24 }, x: { type: 'number' }, y: { type: 'number' },
@@ -145,7 +144,7 @@ function hasIllustration(artwork) {
   });
 }
 
-async function generateImageComposition(input, { env, fetcher, palette }) {
+async function generateImageComposition(input, { env, fetcher }) {
   const model = ['gpt-image-2.5-flare', 'gpt-image-2.5-sunburst'].includes(env.OPENAI_IMAGE_MODEL)
     ? env.OPENAI_IMAGE_MODEL : 'gpt-image-2.5-flare';
   try {
@@ -162,12 +161,10 @@ Solo NERO PURO opaco su sfondo TRASPARENTE: niente grigi, altri colori, foto, om
       }),
     });
     if (!response.ok) throw new Error(`Image generation HTTP ${response.status}`);
-    const payload = await response.json();
-    const paths = await vectorizeCoasterComposition(payload?.data?.[0]?.b64_json);
-    const [artwork] = validateArtworks([{ title: input.brief.trim().slice(0, 40), concept: 'Composizione originale da immagine',
-      background: '#ffffff', foreground: '#222222', texts: [], paths, imageComposition: true }], palette);
-    return Response.json({ proposals: [artwork], illustrationSource: 'image-traced' },
-      { headers: { 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff' } });
+    // Stream the generated PNG JSON to the browser: VTracer cannot fit within Workers Free's CPU budget.
+    return new Response(response.body, { status: 200, headers: {
+      'Content-Type': 'application/json', 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff',
+    } });
   } catch (error) {
     console.warn('[generateImageComposition] Failed:', error?.message || error);
     return Response.json({ error: 'La grafica generata non è risultata stampabile o il servizio immagini è occupato. Riprova con una descrizione più semplice.' }, { status: 502 });
@@ -180,7 +177,7 @@ export async function generateArtworks(input, { env, palette, fetcher }) {
   const target = input.target === 'cap' || input.shape === 'square' ? 'cap' : 'coaster';
   const options = { target, shape: target === 'cap' ? 'square' : 'circle' };
   if (target === 'coaster' && env.COASTER_IMAGE_ENABLED !== '0') {
-    return generateImageComposition(input, { env, fetcher, palette });
+    return generateImageComposition(input, { env, fetcher });
   }
 
   for (let attempt = 1; attempt <= maxAttempts; attempt++) {

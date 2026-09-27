@@ -1,0 +1,51 @@
+import { getPathBounds, transformPath } from './coaster-art.mjs';
+
+const MAX_TRACE_SIZE = 1024;
+const MAX_PATHS = 100;
+const MAX_PATH_LENGTH = 15000;
+const MAX_TOTAL_PATH_LENGTH = 120000;
+
+export const tracerOptions = {
+  clustering: 'bw', mode: 'spline',
+  cornerThreshold: 90, lengthThreshold: 2, simplify: 1,
+};
+
+export function traceMask({ width, height, data, channels, depth }) {
+  if (depth !== 8 || channels < 3 || width < 256 || height < 256 || width > 4096 || height > 4096) {
+    throw new Error('Unsupported image dimensions');
+  }
+  const traceSize = Math.min(MAX_TRACE_SIZE, width, height);
+  const rgba = new Uint8ClampedArray(traceSize * traceSize * 4);
+  let darkPixels = 0;
+  for (let y = 0; y < traceSize; y++) for (let x = 0; x < traceSize; x++) {
+    const sx = Math.min(width - 1, Math.floor((x + .5) * width / traceSize));
+    const sy = Math.min(height - 1, Math.floor((y + .5) * height / traceSize));
+    const source = (sy * width + sx) * channels;
+    const alpha = channels === 4 ? data[source + 3] / 255 : 1;
+    const luminance = (data[source] * .2126 + data[source + 1] * .7152 + data[source + 2] * .0722) / 255;
+    const dark = alpha * (1 - luminance) >= .45;
+    const target = (y * traceSize + x) * 4;
+    const value = dark ? 0 : 255;
+    rgba[target] = rgba[target + 1] = rgba[target + 2] = value;
+    rgba[target + 3] = 255;
+    darkPixels += dark ? 1 : 0;
+  }
+  const coverage = darkPixels / (traceSize * traceSize);
+  if (coverage < .005 || coverage > .7) throw new Error('Image has unsuitable ink coverage');
+  return { width: traceSize, height: traceSize, data: rgba };
+}
+
+export function pathsFromTracedSvg(svg, size) {
+  const sourcePaths = [...svg.matchAll(/<path\b[^>]*\bd="([^"]+)"[^>]*fill="#000000"[^>]*\/?\s*>/g)]
+    .map(match => match[1].trim());
+  if (!sourcePaths.length || sourcePaths.length > MAX_PATHS) throw new Error('Image has too many separate details');
+  const paths = sourcePaths.map(d => ({
+    d: transformPath(d, 2, 1, 96 / size, 0, 0).trim(),
+    fill: true, strokeWidth: 0, role: 'foreground',
+  }));
+  const totalLength = paths.reduce((sum, path) => sum + path.d.length, 0);
+  if (totalLength > MAX_TOTAL_PATH_LENGTH || paths.some(path => path.d.length > MAX_PATH_LENGTH || !getPathBounds(path.d))) {
+    throw new Error('Image is too detailed for a printable SVG');
+  }
+  return paths;
+}

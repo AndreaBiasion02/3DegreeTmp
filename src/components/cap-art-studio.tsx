@@ -5,6 +5,7 @@ import { Check, Download, LoaderCircle, Sparkles } from 'lucide-react';
 import { validLine } from '@/lib/coaster-design.mjs';
 import { filamentPalette } from '@/lib/filament-colors';
 import { validateArtworks } from '@/lib/coaster-art.mjs';
+import { readGenerationResponse } from '@/lib/generation-response';
 import { CAP_SYMBOLS, getCapSymbol } from '@/lib/cap-symbols';
 import CapArtPreview from './cap-art-preview';
 import type { Artwork } from './coaster-art-preview';
@@ -47,11 +48,7 @@ export default function CapArtStudio() {
           shape: 'square',
         }),
       });
-      if (response.status === 429) { startCooldown(response.headers.get('Retry-After')); return; }
-      const nextWait = response.headers.get('X-Generation-Retry-After');
-      if (nextWait) startCooldown(nextWait);
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.error || 'Generazione non disponibile. Riprova.');
+      const data = await readGenerationResponse(response, startCooldown);
       const defaultGreen = '#218c45';
       const validated = (validateArtworks(data.proposals, filamentPalette, { shape: 'square', target: 'cap' }) as Artwork[]);
       if (!validated.length) throw new Error('Nessuna grafica generata. Riprova.');

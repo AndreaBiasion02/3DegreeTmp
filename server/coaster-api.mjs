@@ -1,6 +1,7 @@
 import { generateArtworks } from './coaster-art-api.mjs';
 
 export const API_PATH = '/api/coaster-ideas';
+export const STATUS_PATH = `${API_PATH}/status`;
 const MAX_BODY = 4096;
 export const json = (body, status = 200, headers = {}) => Response.json(body, { status, headers: { 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff', ...headers } });
 
@@ -55,6 +56,11 @@ export function reserveQuota(previous, client, now, dailyLimit, hourlyLimit, coo
   return { allowed: true, state, nextAvailableAt: now + Math.max(dailyWait, cooldownMs, nextMinuteWait, nextHourWait) };
 }
 
+export function checkQuota(previous, client, now, limits) {
+  const result = reserveQuota(previous ? structuredClone(previous) : undefined, client, now, limits);
+  return { allowed: result.allowed, retryAfter: result.allowed ? 0 : result.retryAfter };
+}
+
 async function readBody(request) {
   const reader = request.body?.getReader();
   if (!reader) throw new Error('Empty body');
@@ -100,4 +106,16 @@ export async function handleCoasterRequest(request, { env, palette, client, rese
     result.headers.set('X-Generation-Retry-After', String(Math.ceil((quota.nextAvailableAt - Date.now()) / 1000)));
   }
   return result;
+}
+
+export async function handleQuotaStatusRequest(request, { env, client, check }) {
+  if (request.method !== 'GET') return json({ error: 'Metodo non consentito.' }, 405, { Allow: 'GET' });
+  const origin = request.headers.get('origin');
+  const expected = env.COASTER_ALLOWED_ORIGIN || new URL(request.url).origin;
+  if ((origin && origin !== expected) || request.headers.get('sec-fetch-site') === 'cross-site') return json({ error: 'Richiesta non consentita.' }, 403);
+  try {
+    return json(await check(client, env));
+  } catch {
+    return json({ error: 'Stato del limite temporaneamente non disponibile.' }, 503);
+  }
 }

@@ -5,6 +5,8 @@ import { Check, Download, LoaderCircle, Sparkles } from 'lucide-react';
 import { validLine } from '@/lib/coaster-design.mjs';
 import { filamentName, filamentPalette } from '@/lib/filament-colors';
 import { validateArtworks } from '@/lib/coaster-art.mjs';
+import { artworkFromGeneratedImage } from '@/lib/coaster-image-browser';
+import { readGenerationResponse } from '@/lib/generation-response';
 import CoasterArtPreview, { type Artwork } from './coaster-art-preview';
 import { useGenerationCooldown } from './use-generation-cooldown';
 
@@ -45,12 +47,14 @@ export default function CoasterArtStudio() {
         signal: AbortSignal.timeout(120000),
         body: JSON.stringify({ brief }),
       });
-      if (response.status === 429) { startCooldown(response.headers.get('Retry-After')); return; }
-      const nextWait = response.headers.get('X-Generation-Retry-After');
-      if (nextWait) startCooldown(nextWait);
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.error || 'Generazione non disponibile. Riprova.');
-      const validated = validateArtworks(data.proposals, filamentPalette) as Artwork[];
+      const data = await readGenerationResponse(response, startCooldown);
+      let validated: Artwork[];
+      if (typeof data?.data?.[0]?.b64_json === 'string') {
+        try { validated = [await artworkFromGeneratedImage(data.data[0].b64_json, brief)] as Artwork[]; }
+        catch { throw new Error('La grafica generata non è risultata stampabile. Riprova con una descrizione più semplice.'); }
+      } else {
+        validated = validateArtworks(data.proposals, filamentPalette) as Artwork[];
+      }
       if (!validated.length) throw new Error('Nessuna grafica generata. Riprova.');
       setArt(previous => {
         if (!previous) return validated[0];

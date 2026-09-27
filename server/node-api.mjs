@@ -1,7 +1,7 @@
 import fs from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 import { Readable } from 'node:stream';
-import { API_PATH, handleCoasterRequest, reserveQuota } from './coaster-api.mjs';
+import { API_PATH, STATUS_PATH, checkQuota, handleCoasterRequest, handleQuotaStatusRequest, reserveQuota } from './coaster-api.mjs';
 
 // Load only local server configuration; never expose it via NEXT_PUBLIC variables.
 for (const file of ['.env.local', '.env']) {
@@ -28,15 +28,25 @@ function reserve(client, env = process.env) {
   return job;
 }
 
+async function check(client, env = process.env) {
+  await queue;
+  let state;
+  try { state = JSON.parse(await fs.readFile(quotaFile, 'utf8')); } catch (e) { if (e.code !== 'ENOENT') throw e; }
+  return checkQuota(state, client, Date.now(), env);
+}
+
 export async function serveCoasterApi(req, res) {
-  if (req.url?.split('?')[0].replace(/\/$/, '') !== API_PATH) return false;
+  const path = req.url?.split('?')[0].replace(/\/$/, '');
+  if (path !== API_PATH && path !== STATUS_PATH) return false;
   try {
     const origin = process.env.COASTER_ALLOWED_ORIGIN || `http://${req.headers.host}`;
     const request = new Request(new URL(req.url, origin), { method: req.method, headers: req.headers,
       ...(!['GET', 'HEAD'].includes(req.method) ? { body: Readable.toWeb(req), duplex: 'half' } : {}) });
     // Forwarded headers are deliberately not trusted on a public Node listener.
     const client = createHash('sha256').update(req.socket.remoteAddress || 'unknown').digest('hex');
-    const response = await handleCoasterRequest(request, { env: process.env, palette, client, reserve });
+    const response = path === STATUS_PATH
+      ? await handleQuotaStatusRequest(request, { env: process.env, client, check })
+      : await handleCoasterRequest(request, { env: process.env, palette, client, reserve });
     res.writeHead(response.status, Object.fromEntries(response.headers));
     res.end(await response.text());
   } catch {

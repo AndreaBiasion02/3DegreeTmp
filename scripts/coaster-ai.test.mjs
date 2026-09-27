@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { encode } from 'fast-png';
-import { handleCoasterRequest, reserveQuota } from '../server/coaster-api.mjs';
+import { checkQuota, handleCoasterRequest, handleQuotaStatusRequest, reserveQuota } from '../server/coaster-api.mjs';
 import { vectorizeCoasterComposition } from '../server/coaster-image-vectorizer.mjs';
 import { exampleDesign, validateDesigns, composeCoaster, diversifyLayouts, layouts } from '../src/lib/coaster-design.mjs';
 import { validateArtworks, sanitizeArtworks, getPathBounds } from '../src/lib/coaster-art.mjs';
@@ -50,7 +50,7 @@ test('Fits rounded image contours as curves without breaking the printable bound
   assert(bounds.maxRadius < 48);
 });
 
-test('Requests one low-quality PNG for the full composition and returns all objects as SVG paths', async () => {
+test('Requests one low-quality PNG and streams it for browser-side SVG conversion', async () => {
   const calls = [];
   const response = await handleCoasterRequest(request({ brief: 'Scrivi Il buon samuritano con un bicipite e una città' }), options({
     env: { OPENAI_API_KEY: 'test-key', OPENAI_MODEL: 'gpt-6-luna' },
@@ -74,18 +74,15 @@ test('Requests one low-quality PNG for the full composition and returns all obje
   assert(calls[0].body.prompt.length < 1300);
   assert.doesNotMatch(calls[0].body.prompt, /Evita queste frasi/);
   const body = await response.json();
-  assert.equal(body.illustrationSource, 'image-traced');
-  assert.equal(body.proposals[0].imageComposition, true);
-  assert.equal(body.proposals[0].texts.length, 0);
-  assert.equal(body.proposals[0].paths.length, 2);
-  assert.equal(validateArtworks(body.proposals, palette)[0].paths.length, 2);
+  assert.equal(body.data[0].b64_json, testPng());
+  assert.equal(body.proposals, undefined);
 });
 
-test('Does not substitute the old fixed layout when image conversion fails', async () => {
+test('Reports an upstream image failure without substituting the old fixed layout', async () => {
   let calls = 0;
   const response = await handleCoasterRequest(request(), options({
     env: { OPENAI_API_KEY: 'test-key', OPENAI_MODEL: 'gpt-6-luna' },
-    fetcher: async url => { calls++; assert(url.endsWith('/images/generations')); return Response.json({ data: [{ b64_json: 'invalid-image' }] }); },
+    fetcher: async url => { calls++; assert(url.endsWith('/images/generations')); return Response.json({ error: 'upstream unavailable' }, { status: 503 }); },
   }));
   const body = await response.json();
   assert.equal(response.status, 502);
@@ -318,6 +315,23 @@ test('Quota limits a rolling minute and returns the actual wait when limits over
   const first = reserveQuota(undefined, 'single', now, overlapping);
   assert.equal(first.nextAvailableAt, now + 3600000);
   assert.equal(reserveQuota(first.state, 'single', now + 30000, overlapping).retryAfter, 3570);
+});
+
+test('Quota status reports the remaining wait without spending another attempt', async () => {
+  const now = Date.parse('2026-09-20T12:00:00Z');
+  const limits = { COASTER_MINUTELY_LIMIT: '1', COASTER_COOLDOWN_SECONDS: '0' };
+  const { state } = reserveQuota(undefined, 'one', now, limits);
+  const snapshot = JSON.stringify(state);
+  assert.deepEqual(checkQuota(state, 'one', now + 30000, limits), { allowed: false, retryAfter: 30 });
+  assert.equal(JSON.stringify(state), snapshot);
+  const response = await handleQuotaStatusRequest(
+    new Request('https://example.com/api/coaster-ideas/status', { headers: { Origin: 'https://example.com' } }),
+    { env: limits, client: 'one', check: async () => checkQuota(state, 'one', now + 30000, limits) },
+  );
+  assert.equal(response.status, 200);
+  assert.equal(response.headers.get('cache-control'), 'no-store');
+  assert.deepEqual(await response.json(), { allowed: false, retryAfter: 30 });
+  assert.deepEqual(checkQuota(state, 'one', now + 60000, limits), { allowed: true, retryAfter: 0 });
 });
 
 

@@ -4,6 +4,7 @@ import { useRef, useState, type FormEvent } from 'react';
 import { Sparkles, Download, Check, LoaderCircle } from 'lucide-react';
 import { filamentPalette } from '@/lib/filament-colors';
 import { exampleDesign, icons, layouts, typographies, iconStyles, validLine } from '@/lib/coaster-design.mjs';
+import { readGenerationResponse } from '@/lib/generation-response';
 
 import CoasterPreview, { SymbolGraphic, type CoasterDesign as Design } from './coaster-preview';
 import { useGenerationCooldown } from './use-generation-cooldown';
@@ -41,11 +42,7 @@ export default function CoasterStudio() {
     try {
       const response = await fetch('/api/coaster-ideas', { method: 'POST', headers: { 'Content-Type': 'application/json' },
         signal: AbortSignal.timeout(35000), body: JSON.stringify({ brief }) });
-      if (response.status === 429) { startCooldown(response.headers.get('Retry-After')); return; }
-      const nextWait = response.headers.get('X-Generation-Retry-After');
-      if (nextWait) startCooldown(nextWait);
-      const data = await response.json().catch(() => { throw new Error('La generazione AI non è disponibile su questa anteprima. Puoi modificare il sottobicchiere di esempio.'); });
-      if (!response.ok) throw new Error(data.error || 'Generazione non disponibile. Riprova tra poco.');
+      const data = await readGenerationResponse(response, startCooldown);
       const first = Array.isArray(data.proposals) && data.proposals[0];
       if (first) {
         setDesign({
