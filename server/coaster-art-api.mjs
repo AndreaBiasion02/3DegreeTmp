@@ -154,10 +154,11 @@ async function generateImageComposition(input, { env, fetcher, palette }) {
       signal: AbortSignal.timeout(85000),
       body: JSON.stringify({
         model, quality: 'low', size: '1024x1024', output_format: 'png', background: 'transparent', n: 1,
-        prompt: `Progetta l'INTERA grafica di un sottobicchiere circolare di laurea da 70 mm, vista dall'alto. Brief originale dell'utente: ${input.brief.trim()}.
-${input.avoid?.length ? `Evita queste frasi già proposte: ${input.avoid.join(' | ')}.` : ''}
-Hai libertà di inventare una composizione originale: scritta e disegni possono stare in qualsiasi posizione dentro il disco, senza dover occupare tutta la superficie. La frase è protagonista. Se il brief non indica oggetti, scegli un solo soggetto illustrato pertinente. Se il brief chiede due o più soggetti, rappresentali TUTTI come elementi distinti e riconoscibili; non ridurli a un simbolo unico in alto, ma non aggiungere altri oggetti di riempimento. Se viene indicata una frase da scrivere, riproducila ESATTAMENTE, rispettando nomi, accenti e giochi di parole senza correggerli. Altrimenti inventa una battuta breve e leggibile.
-Stile sticker illustrato, lettering grande ed espressivo, oggetti semplificati ma riconoscibili. Cerca una grafica ariosa e immediata: pochi elementi ben disegnati, silhouette chiare e pochi dettagli interni. Evita l'effetto collage di emoji o piccole icone sparse; lascia zone libere visibili tra scritta, soggetti e bordo. Stelline, scintille, trattini e raggi decorativi sono facoltativi: se non sono richiesti nel brief, usane al massimo due piccoli segni in tutta la grafica, oppure nessuno; non ripeterli intorno a ogni parola o oggetto e non usarli per riempire i vuoti. Se il brief li chiede esplicitamente, rispettane la quantità richiesta. Disegna soltanto in NERO PURO opaco su sfondo TRASPARENTE: niente grigi, colori aggiuntivi, fotografie, gradienti, ombre, texture o prospettive realistiche. Usa superfici piene e contorni spessi; evita dettagli minuscoli, linee sottili, scritte piccole e ritratti realistici. A dimensione finale, nessun tratto pieno più sottile di circa 0,8 mm e nessun vuoto essenziale più stretto di 1 mm. Mantieni l'intera grafica all'interno di un'area circolare centrale con margine esterno, senza disegnare una base piena. Puoi disegnare una cornice solo se serve alla tua composizione.`,
+        prompt: `Crea l'intera grafica, vista dall'alto, per un sottobicchiere circolare di laurea da 70 mm.
+Brief: ${input.brief.trim()}.
+Composizione originale e libera: la frase è protagonista, ma testo e disegni possono stare ovunque nel disco. Riproduci ESATTAMENTE la frase richiesta, inclusi nomi, accenti e giochi di parole; se manca, inventane una breve. Se il brief non indica soggetti, scegline uno pertinente; se ne chiede più di uno, rappresentali TUTTI distinti e riconoscibili, senza oggetti aggiuntivi.
+Stile sticker illustrato, lettering grande ed espressivo, sagome semplici e contorni spessi. Lascia spazio vuoto tra gli elementi; evita collage di emoji, icone sparse e dettagli minuti. Stelline, scintille, trattini e raggi: al massimo due piccoli segni in totale se non richiesti, anche zero; se richiesti, rispetta la quantità indicata.
+Solo NERO PURO opaco su sfondo TRASPARENTE: niente grigi, altri colori, foto, ombre, gradienti, texture o realismo. Per la stampa 3D, tratti pieni di almeno 0,8 mm e vuoti essenziali di almeno 1 mm. Tutto entro l'area circolare con margine esterno, senza base piena; cornice solo se utile.`,
       }),
     });
     if (!response.ok) throw new Error(`Image generation HTTP ${response.status}`);
@@ -190,7 +191,7 @@ export async function generateArtworks(input, { env, palette, fetcher }) {
         body: JSON.stringify({
           model: env.OPENAI_MODEL || 'gpt-6-luna', instructions: artDirection(palette, target) +
             (attempt > 1 && target === 'coaster' ? '\nLa proposta precedente non ha superato la verifica. Assicurati di includere una silhouette illustrativa piena, chiusa e ben visibile oltre al testo, con accenti separati dalle lettere.' : ''),
-          input: JSON.stringify({ brief: input.brief.trim(), avoid: input.avoid || [] }),
+          input: JSON.stringify({ brief: input.brief.trim() }),
           reasoning: { effort: target === 'cap' ? 'none' : 'low' }, max_output_tokens: target === 'cap' ? 2500 : 5000,
           text: { format: { type: 'json_schema', name: 'coaster_artworks', strict: true,
             schema: { type: 'object', additionalProperties: false, properties: {

@@ -97,12 +97,12 @@ export default function CoasterArtStudio() {
     <div className="border-b border-brand-primary/15 p-6 small:p-10">
       <span className="brand-kicker inline-flex items-center gap-2"><Sparkles size={16} aria-hidden="true" /> Il tuo sottobicchiere, la tua storia</span>
       <h2 id="coaster-studio-title" className="brand-heading mt-4 text-3xl small:text-5xl">Una laurea. Mille cose da dire.</h2>
-      <p className="mt-4 max-w-2xl text-lg text-brand-dark/75">Descrivi la frase e tutti i soggetti che vuoi vedere. L’AI compone liberamente l’intera grafica, pronta da trasformare in tracciati SVG.</p>
+      <p className="mt-4 max-w-2xl text-lg text-brand-dark/75">Descrivi la frase e tutti i soggetti che vuoi vedere. L’AI compone liberamente l’intera grafica.</p>
     </div>
     <div className="grid gap-8 p-6 small:grid-cols-2 small:p-10">
       <form onSubmit={requestIdeas} className="min-w-0">
         <label htmlFor="coaster-brief" className="text-lg font-bold">Che cosa disegniamo?</label>
-        <textarea id="coaster-brief" className="mt-2 min-h-[150px] w-full resize-y rounded-xl border border-brand-primary/25 bg-white px-4 py-3 text-brand-dark" placeholder="Scrivi ‘Più mappe e meno problemi’, con una città, una mappa e piccoli segni di festa. Nessuna persona." value={brief} minLength={10} maxLength={600} required disabled={loading} onChange={e => setBrief(e.target.value)} />
+        <textarea id="coaster-brief" className="mt-2 min-h-[150px] w-full resize-y rounded-xl border border-brand-primary/25 bg-white px-4 py-3 text-brand-dark" placeholder="Esempio: ‘Più mappe e meno problemi’, con una città, una mappa e piccoli segni di festa. Nessuna persona." value={brief} minLength={10} maxLength={600} required disabled={loading} onChange={e => setBrief(e.target.value)} />
         <p className="mt-2 text-sm text-brand-dark/65">Indica la frase esatta e ogni elemento che vuoi nella grafica. {brief.length}/600</p>
         <button type="submit" disabled={loading || !canGenerate} className="brand-button mt-7 gap-2 disabled:opacity-50">{loading ? <LoaderCircle size={18} className="animate-spin" aria-hidden="true" /> : <Sparkles size={18} aria-hidden="true" />}{loading ? 'Disegno la tua idea…' : art ? 'Genera un’altra idea' : 'Disegna la grafica'}</button>
         <p className="mt-3 text-xs leading-relaxed text-brand-dark/65">La descrizione viene inviata a OpenAI. Usa solo i dettagli che desideri condividere.</p>

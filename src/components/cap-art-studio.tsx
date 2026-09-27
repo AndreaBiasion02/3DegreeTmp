@@ -44,7 +44,6 @@ export default function CapArtStudio() {
           brief,
           target: 'cap',
           shape: 'square',
-          avoid: art ? [art.texts.map(t => t.text).join(' ').slice(0, 100)] : [],
         }),
       });
       if (response.status === 429) setCooldownUntil(Date.now() + Number(response.headers.get('Retry-After') || 60) * 1000);

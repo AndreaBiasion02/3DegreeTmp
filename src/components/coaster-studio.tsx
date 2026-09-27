@@ -39,7 +39,7 @@ export default function CoasterStudio() {
     busy.current = true; setLoading(true); setError(''); setNotice('');
     try {
       const response = await fetch('/api/coaster-ideas', { method: 'POST', headers: { 'Content-Type': 'application/json' },
-        signal: AbortSignal.timeout(35000), body: JSON.stringify({ brief, avoid: [design.lines.join(' ')] }) });
+        signal: AbortSignal.timeout(35000), body: JSON.stringify({ brief }) });
       if (response.status === 429) setCooldownUntil(Date.now() + Number(response.headers.get('Retry-After') || 60) * 1000);
       const data = await response.json().catch(() => { throw new Error('La generazione AI non è disponibile su questa anteprima. Puoi modificare il sottobicchiere di esempio.'); });
       if (!response.ok) throw new Error(data.error || 'Generazione non disponibile. Riprova tra poco.');

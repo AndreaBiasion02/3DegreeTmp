@@ -68,6 +68,11 @@ test('Requests one low-quality PNG for the full composition and returns all obje
   assert.equal(calls[0].body.background, 'transparent');
   assert.match(calls[0].body.prompt, /bicipite e una città/);
   assert.match(calls[0].body.prompt, /rappresentali TUTTI/);
+  assert.match(calls[0].body.prompt, /Riproduci ESATTAMENTE/);
+  assert.match(calls[0].body.prompt, /al massimo due piccoli segni/);
+  assert.match(calls[0].body.prompt, /0,8 mm.*1 mm/);
+  assert(calls[0].body.prompt.length < 1300);
+  assert.doesNotMatch(calls[0].body.prompt, /Evita queste frasi/);
   const body = await response.json();
   assert.equal(body.illustrationSource, 'image-traced');
   assert.equal(body.proposals[0].imageComposition, true);
@@ -98,6 +103,7 @@ test('Generates validated vector artwork with bounded tokens and server-side cre
     assert.equal(init.headers.Authorization, 'Bearer test-key');
     sent = JSON.parse(init.body);
     assert.equal(sent.model, 'gpt-6-luna');
+    assert.deepEqual(JSON.parse(sent.input), { brief: 'Giulia ama medicina e spritz' });
     assert.equal(sent.max_output_tokens, 5000);
     assert.deepEqual(sent.reasoning, { effort: 'low' });
     assert.equal(Object.hasOwn(sent, 'temperature'), false);
@@ -182,7 +188,7 @@ test('Uses the first complete structured response when the provider sends extra 
 });
 
 test('Rejects invalid inputs and oversized bodies before reserving quota', async () => {
-  for (const body of [null, {}, { brief: 'short' }, { brief: 'a'.repeat(601) }, { brief: 'a'.repeat(20), target: 'unknown' }, { brief: 'a'.repeat(20), avoid: ['a'.repeat(101)] }, { brief: 'a'.repeat(5000) }]) {
+  for (const body of [null, {}, { brief: 'short' }, { brief: 'a'.repeat(601) }, { brief: 'a'.repeat(20), target: 'unknown' }, { brief: 'a'.repeat(5000) }]) {
     const response = await handleCoasterRequest(request(body), options({ reserve: () => { assert.fail('Must not reserve'); } }));
     assert.equal(response.status, 400);
   }
