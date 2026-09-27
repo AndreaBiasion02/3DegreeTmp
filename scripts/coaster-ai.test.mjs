@@ -206,6 +206,9 @@ test('Missing configuration and quota exhaustion never call OpenAI', async () =>
   const response = await handleCoasterRequest(request(), options({ reserve: async () => ({ allowed: false, retryAfter: 42 }), fetcher: noCall }));
   assert.equal(response.status, 429);
   assert.equal(response.headers.get('retry-after'), '42');
+  const allowed = await handleCoasterRequest(request(), options({ reserve: async () => ({ allowed: true, nextAvailableAt: Date.now() + 30000 }) }));
+  assert.equal(allowed.status, 200);
+  assert(Number(allowed.headers.get('x-generation-retry-after')) > 0);
   assert.equal((await handleCoasterRequest(request(), options({ reserve: async () => { throw Error('Storage failure'); }, fetcher: noCall }))).status, 503);
 });
 
@@ -268,30 +271,53 @@ test('Short hero words are visibly larger and templates have different positions
 
 test('Quota enforces cooldown, hourly client limit, global cap, and UTC day reset', () => {
   const now = Date.parse('2026-09-20T12:00:00Z');
-  let { state } = reserveQuota(undefined, 'one', now, 30);
-  assert.equal(reserveQuota(state, 'one', now + 1000, 30).allowed, false);
+  const noMinute = { COASTER_DAILY_LIMIT: '30', COASTER_MINUTELY_LIMIT: '0' };
+  let { state } = reserveQuota(undefined, 'one', now, noMinute);
+  assert.equal(reserveQuota(state, 'one', now + 1000, noMinute).allowed, false);
   for (let i = 1; i < 10; i++) {
-    const next = reserveQuota(state, 'one', now + i * 11000, 30);
+    const next = reserveQuota(state, 'one', now + i * 11000, noMinute);
     assert.equal(next.allowed, true); state = next.state;
   }
-  assert.equal(reserveQuota(state, 'one', now + 200000, 30).allowed, false);
-  assert.equal(reserveQuota(state, 'two', now + 200000, 10).allowed, false);
-  assert.equal(reserveQuota(state, 'one', now + 3600000, 30).allowed, true);
-  assert.equal(reserveQuota(state, 'one', now + 86400000, 1).allowed, true);
+  assert.equal(reserveQuota(state, 'one', now + 200000, noMinute).allowed, false);
+  assert.equal(reserveQuota(state, 'two', now + 200000, { ...noMinute, COASTER_DAILY_LIMIT: '10' }).allowed, false);
+  assert.equal(reserveQuota(state, 'one', now + 3600000, noMinute).allowed, true);
+  assert.equal(reserveQuota(state, 'one', now + 86400000, { ...noMinute, COASTER_DAILY_LIMIT: '1' }).allowed, true);
   assert.equal(reserveQuota(undefined, 'one', now, 0).allowed, false);
 
   // Configurable cooldown and limits via env/options
-  const customEnv = { COASTER_DAILY_LIMIT: '50', COASTER_HOURLY_LIMIT: '5', COASTER_COOLDOWN_SECONDS: '2' };
+  const customEnv = { COASTER_DAILY_LIMIT: '50', COASTER_HOURLY_LIMIT: '5', COASTER_MINUTELY_LIMIT: '0', COASTER_COOLDOWN_SECONDS: '2' };
   const first = reserveQuota(undefined, 'custom', now, customEnv);
   assert.equal(first.allowed, true);
   assert.equal(reserveQuota(first.state, 'custom', now + 1000, customEnv).allowed, false);
   assert.equal(reserveQuota(first.state, 'custom', now + 2100, customEnv).allowed, true);
 
   // Zero cooldown allows immediate subsequent calls
-  const zeroCooldown = { COASTER_COOLDOWN_SECONDS: '0' };
+  const zeroCooldown = { COASTER_COOLDOWN_SECONDS: '0', COASTER_MINUTELY_LIMIT: '0' };
   const zFirst = reserveQuota(undefined, 'fast', now, zeroCooldown);
   assert.equal(zFirst.allowed, true);
   assert.equal(reserveQuota(zFirst.state, 'fast', now + 100, zeroCooldown).allowed, true);
+});
+
+test('Quota limits a rolling minute and returns the actual wait when limits overlap', () => {
+  const now = Date.parse('2026-09-20T12:00:00Z');
+  const limits = { COASTER_DAILY_LIMIT: '100', COASTER_HOURLY_LIMIT: '10', COASTER_MINUTELY_LIMIT: '3', COASTER_COOLDOWN_SECONDS: '0' };
+  let state;
+  for (const offset of [0, 10000, 20000]) {
+    const result = reserveQuota(state, 'one', now + offset, limits);
+    assert.equal(result.allowed, true);
+    state = result.state;
+    assert.equal(result.nextAvailableAt, now + (offset === 20000 ? 60000 : offset));
+  }
+  const blocked = reserveQuota(state, 'one', now + 30000, limits);
+  assert.equal(blocked.allowed, false);
+  assert.equal(blocked.retryAfter, 30);
+  assert.equal(reserveQuota(state, 'two', now + 30000, limits).allowed, true);
+  assert.equal(reserveQuota(state, 'one', now + 60000, limits).allowed, true);
+
+  const overlapping = { ...limits, COASTER_HOURLY_LIMIT: '1', COASTER_MINUTELY_LIMIT: '1' };
+  const first = reserveQuota(undefined, 'single', now, overlapping);
+  assert.equal(first.nextAvailableAt, now + 3600000);
+  assert.equal(reserveQuota(first.state, 'single', now + 30000, overlapping).retryAfter, 3570);
 });
 
 

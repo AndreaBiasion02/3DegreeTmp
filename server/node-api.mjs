@@ -15,8 +15,7 @@ function reserve(client, env = process.env) {
     let state;
     try { state = JSON.parse(await fs.readFile(quotaFile, 'utf8')); } catch (e) { if (e.code !== 'ENOENT') throw e; }
     const targetEnv = env || process.env;
-    const cooldown = targetEnv.COASTER_COOLDOWN_SECONDS ?? targetEnv.COASTER_COOLDOWN_MS;
-    const result = reserveQuota(state, client, Date.now(), targetEnv.COASTER_DAILY_LIMIT, targetEnv.COASTER_HOURLY_LIMIT, cooldown);
+    const result = reserveQuota(state, client, Date.now(), targetEnv);
     if (result.allowed) {
       await fs.mkdir(new URL('../.local/', import.meta.url), { recursive: true });
       const temporary = new URL('../.local/coaster-quota.tmp', import.meta.url);

@@ -37,6 +37,7 @@ Dopo la generazione, il configuratore permette di scegliere separatamente i colo
 Limiti configurabili da variabili d'ambiente:
 - `COASTER_DAILY_LIMIT`: tentativi massimi al giorno (UTC) complessivi su tutti gli utenti (predefinito: 300, impostare `0` per disabilitare completamente le chiamate AI).
 - `COASTER_HOURLY_LIMIT`: tentativi massimi all'ora per singolo indirizzo IP (predefinito: 10).
+- `COASTER_MINUTELY_LIMIT`: tentativi massimi in una finestra mobile di 60 secondi per singolo indirizzo IP (predefinito: 3; `0` disabilita questo limite).
 - `COASTER_COOLDOWN_SECONDS` (oppure `COASTER_COOLDOWN_MS`): intervallo minimo di attesa tra richieste consecutive dello stesso client IP (predefinito: 10 secondi, impostare `0` per disabilitare il cooldown).
 I tentativi falliti del provider concorrono al conteggio per proteggere da abusi e costi imprevisti. Gli IP sono memorizzati come hash nei contatori, senza brief. La quota Node è persistente in `.local/coaster-quota.json` ed è pensata per **un singolo processo**; non avviare più repliche con questo archivio. Dietro reverse proxy configurare `COASTER_ALLOWED_ORIGIN` con l'origine pubblica esatta; Node non si fida di header IP arbitrari, quindi gli utenti dietro lo stesso proxy condividono il limite.
 

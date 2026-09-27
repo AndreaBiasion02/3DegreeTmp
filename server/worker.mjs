@@ -6,10 +6,9 @@ export class CoasterQuota {
   async fetch(request) {
     const { client } = await request.json();
     const result = await this.ctx.storage.transaction(async storage => {
-      const cooldown = this.env.COASTER_COOLDOWN_SECONDS ?? this.env.COASTER_COOLDOWN_MS;
-      const reservation = reserveQuota(await storage.get('quota'), client, Date.now(), this.env.COASTER_DAILY_LIMIT, this.env.COASTER_HOURLY_LIMIT, cooldown);
+      const reservation = reserveQuota(await storage.get('quota'), client, Date.now(), this.env);
       if (reservation.allowed) await storage.put('quota', reservation.state);
-      return { allowed: reservation.allowed, retryAfter: reservation.retryAfter };
+      return { allowed: reservation.allowed, retryAfter: reservation.retryAfter, nextAvailableAt: reservation.nextAvailableAt };
     });
     return Response.json(result);
   }

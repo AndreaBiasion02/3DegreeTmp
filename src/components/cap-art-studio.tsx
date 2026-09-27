@@ -8,6 +8,7 @@ import { validateArtworks } from '@/lib/coaster-art.mjs';
 import { CAP_SYMBOLS, getCapSymbol } from '@/lib/cap-symbols';
 import CapArtPreview from './cap-art-preview';
 import type { Artwork } from './coaster-art-preview';
+import { useGenerationCooldown } from './use-generation-cooldown';
 
 const fieldClass = 'mt-2 w-full rounded-xl border border-brand-primary/25 bg-white px-4 py-3 text-brand-dark';
 function downloadFile(blob: Blob, name: string) {
@@ -24,7 +25,7 @@ export default function CapArtStudio() {
   const [exporting, setExporting] = useState(false);
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
-  const [cooldownUntil, setCooldownUntil] = useState(0);
+  const { remaining, countdown, startCooldown } = useGenerationCooldown();
   const busy = useRef(false);
   const preview = useRef<HTMLDivElement>(null);
   const canGenerate = brief.trim().length >= 10 && brief.length <= 600;
@@ -33,7 +34,7 @@ export default function CapArtStudio() {
   async function requestIdeas(event: FormEvent) {
     event.preventDefault();
     if (busy.current || !canGenerate) return;
-    if (Date.now() < cooldownUntil) { setError('Attendi ancora un momento prima di generare altre idee.'); return; }
+    if (remaining > 0) return;
     busy.current = true; setLoading(true); setError(''); setNotice('');
     try {
       const response = await fetch('/api/coaster-ideas', {
@@ -46,7 +47,9 @@ export default function CapArtStudio() {
           shape: 'square',
         }),
       });
-      if (response.status === 429) setCooldownUntil(Date.now() + Number(response.headers.get('Retry-After') || 60) * 1000);
+      if (response.status === 429) { startCooldown(response.headers.get('Retry-After')); return; }
+      const nextWait = response.headers.get('X-Generation-Retry-After');
+      if (nextWait) startCooldown(nextWait);
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || 'Generazione non disponibile. Riprova.');
       const defaultGreen = '#218c45';
@@ -112,7 +115,8 @@ export default function CapArtStudio() {
         <label htmlFor="cap-brief" className="text-lg font-bold">Chi festeggiamo o che messaggio vuoi?</label>
         <textarea id="cap-brief" className={`${fieldClass} min-h-[150px] resize-y`} placeholder="Marco, laureato in ingegneria. Tanti esami, poco sonno, pronto a costruire il futuro." value={brief} minLength={10} maxLength={600} required disabled={loading} onChange={e => setBrief(e.target.value)} />
         <p className="mt-2 text-sm text-brand-dark/65">Facoltà, passioni, abitudini: bastano pochi dettagli. {brief.length}/600</p>
-        <button type="submit" disabled={loading || !canGenerate} className="brand-button mt-7 gap-2 disabled:opacity-50">{loading ? <LoaderCircle size={18} className="animate-spin" aria-hidden="true" /> : <Sparkles size={18} aria-hidden="true" />}{loading ? 'Disegno il tuo tocco…' : art ? 'Genera un’altra grafica' : 'Genera grafica per il tocco'}</button>
+        <button type="submit" disabled={loading || !canGenerate || remaining > 0} className="brand-button mt-7 gap-2 disabled:cursor-not-allowed disabled:opacity-50">{loading ? <LoaderCircle size={18} className="animate-spin" aria-hidden="true" /> : <Sparkles size={18} aria-hidden="true" />}{loading ? 'Disegno il tuo tocco…' : art ? 'Genera un’altra grafica' : 'Genera grafica per il tocco'}</button>
+        {remaining > 0 && <p role="timer" aria-live="off" className="mt-3 text-sm font-bold text-brand-primary">Potrai generare tra {countdown}.</p>}
         <p className="mt-3 text-xs leading-relaxed text-brand-dark/65">La descrizione viene inviata a OpenAI. Usa solo i dettagli che desideri condividere.</p>
         <div aria-live="polite" className="mt-4 text-sm">{notice && <p className="font-bold text-brand-primary">{notice}</p>}</div>
         {error && <p role="alert" className="mt-4 rounded-xl border border-red-200 bg-white p-4 text-sm text-red-800">{error}</p>}
