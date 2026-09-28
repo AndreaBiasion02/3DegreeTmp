@@ -1,10 +1,10 @@
 import { validateArtworks } from './coaster-art.mjs';
-import { pathsFromTracedSvg, traceMask, tracerOptions } from './coaster-tracing.mjs';
+import { traceComposition, tracerOptions } from './coaster-tracing.mjs';
 import { filamentPalette } from './filament-colors';
 
 const MAX_PNG_BYTES = 8_000_000;
 
-export async function artworkFromGeneratedImage(base64: unknown, brief: string) {
+export async function artworkFromGeneratedImage(base64: unknown, brief: string, colorMode = 'mono') {
   if (typeof base64 !== 'string' || !/^[A-Za-z0-9+/]+={0,2}$/.test(base64) || base64.length > MAX_PNG_BYTES * 4 / 3 + 4) {
     throw new Error('Immagine generata non valida.');
   }
@@ -24,12 +24,11 @@ export async function artworkFromGeneratedImage(base64: unknown, brief: string) 
   context.drawImage(bitmap, 0, 0, size, size);
   bitmap.close();
   const imageData = context.getImageData(0, 0, size, size);
-  const mask = traceMask({ width: size, height: size, data: imageData.data, channels: 4, depth: 8 });
 
   const { initializeVTracer, vectorize_rgba } = await import('./vtracer-browser.mjs');
   await initializeVTracer();
-  const svg: string = vectorize_rgba(new Uint8Array(mask.data.buffer), mask.width, mask.height, tracerOptions);
-  const paths = pathsFromTracedSvg(svg, mask.width);
+  const paths = await traceComposition({ width: size, height: size, data: imageData.data, channels: 4, depth: 8 },
+    (mask: { data: Uint8ClampedArray; width: number; height: number }) => vectorize_rgba(new Uint8Array(mask.data.buffer), mask.width, mask.height, tracerOptions), colorMode);
   return validateArtworks([{ title: brief.trim().slice(0, 40), concept: 'Composizione originale da immagine',
-    background: '#ffffff', foreground: '#222222', texts: [], paths, imageComposition: true }], filamentPalette)[0];
+    background: '#ffffff', foreground: '#222222', ...(paths.some(path => path.role === 'accent') ? { accent: '#dc2626' } : {}), texts: [], paths, imageComposition: true }], filamentPalette)[0];
 }

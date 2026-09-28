@@ -6,6 +6,70 @@ import { checkQuota, handleCoasterRequest, handleQuotaStatusRequest, reserveQuot
 import { vectorizeCoasterComposition } from '../server/coaster-image-vectorizer.mjs';
 import { exampleDesign, validateDesigns, composeCoaster, diversifyLayouts, layouts } from '../src/lib/coaster-design.mjs';
 import { validateArtworks, sanitizeArtworks, getPathBounds } from '../src/lib/coaster-art.mjs';
+import { coasterCategories } from '../src/lib/coaster-categories.mjs';
+import { traceColorMasks } from '../src/lib/coaster-tracing.mjs';
+
+test('Two-ink tracing separates red details, ignores transparency/white and fits every layer to the disk', async () => {
+  const width = 256, height = 256;
+  const data = new Uint8Array(width * height * 4).fill(255);
+  const put = (x, y, rgba) => data.set(rgba, (y * width + x) * 4);
+  for (let y = 20; y < 90; y++) for (let x = 20; x < 90; x++) put(x, y, [34, 34, 34, 255]);
+  for (let y = 160; y < 230; y++) for (let x = 160; x < 230; x++) put(x, y, [220, 38, 38, 255]);
+  put(128, 128, [220, 38, 38, 0]);
+  const masks = traceColorMasks({ width, height, data, channels: 4, depth: 8 });
+  assert.deepEqual(masks.map(mask => mask.role), ['foreground', 'accent']);
+  for (let i = 0; i < width * height * 4; i += 4) assert(masks[0].data[i] !== 0 || masks[1].data[i] !== 0);
+  assert.equal(masks[1].data[(128 * width + 128) * 4], 255);
+  const paths = await vectorizeCoasterComposition(Buffer.from(encode({ width, height, data })).toString('base64'), 'duotone');
+  assert.deepEqual(new Set(paths.map(p => p.role)), new Set(['foreground', 'accent']));
+  assert(paths.every(p => getPathBounds(p.d).maxRadius <= 45.51));
+  assert.equal(paths.length, 2);
+});
+
+test('Duotone mode uses the same single low-quality request and invalid modes cannot spend quota', async () => {
+  let calls = 0;
+  await handleCoasterRequest(request({ brief: 'Un brindisi alla laurea', colorMode: 'duotone' }), options({
+    env: { OPENAI_API_KEY: 'test-key' },
+    fetcher: async (_url, init) => {
+      calls++;
+      const body = JSON.parse(init.body);
+      assert.equal(body.n, 1);
+      assert.equal(body.quality, 'low');
+      assert.match(body.prompt, /NERO #222222/);
+      assert.match(body.prompt, /ROSSO #dc2626/);
+      return Response.json({ data: [{ b64_json: testPng() }] });
+    },
+  }));
+  assert.equal(calls, 1);
+  assert.equal((await handleCoasterRequest(request({ brief: 'Un brindisi alla laurea', colorMode: 'rainbow' }), options({ reserve: () => assert.fail('Must not reserve') }))).status, 400);
+});
+
+test('Categories guide both API paths and unknown categories cannot consume quota', async () => {
+  for (const category of ['unknown', {}, null]) {
+    assert.equal((await handleCoasterRequest(request({ brief: 'Un brindisi alla laurea', category }), options({ reserve: () => assert.fail('Must not reserve') }))).status, 400);
+  }
+  for (const imageEnabled of ['0', '1']) {
+    let sent;
+    const response = await handleCoasterRequest(request({ brief: 'Neo-disoccupato con due omini che brindano', category: 'meme' }), options({
+      env: { OPENAI_API_KEY: 'test-key', COASTER_IMAGE_ENABLED: imageEnabled },
+      fetcher: async (_url, init) => {
+        sent = JSON.parse(init.body);
+        return imageEnabled === '1' ? Response.json({ data: [{ b64_json: testPng() }] }) : options().fetcher();
+      },
+    }));
+    assert.equal(response.status, 200);
+    assert.match(sent.prompt || sent.input, /Neo-disoccupato/);
+    assert.match(sent.prompt || sent.input, /Stile meme/);
+    if (sent.prompt) assert(sent.prompt.endsWith('Brief: Neo-disoccupato con due omini che brindano.'));
+  }
+});
+
+test('Category inspirations exist locally and briefs fit the API limit', () => {
+  for (const category of coasterCategories) for (const example of category.examples) {
+    assert(fs.existsSync(`public${example.image}`), example.image);
+    assert(example.brief.length >= 10 && example.brief.length <= 600);
+  }
+});
 
 const palette = JSON.parse(fs.readFileSync('src/lib/filament-palette.json', 'utf8'));
 const proposals = ['Brindo alla laurea', 'Dottore in spritz', 'Tesi finita, cin cin'].map((text, i) => ({ ...exampleDesign, lines: [text], emphasis: 0, layout: ['bold', 'stamp', 'ticket'][i] }));

@@ -1,5 +1,5 @@
 import { decode } from 'fast-png';
-import { pathsFromTracedSvg, traceMask, tracerOptions } from '../src/lib/coaster-tracing.mjs';
+import { traceComposition, tracerOptions } from '../src/lib/coaster-tracing.mjs';
 
 const MAX_PNG_BYTES = 8_000_000;
 
@@ -24,8 +24,6 @@ function decodeBase64(base64) {
 }
 
 /** Trace the entire composition; uniformly fit its canvas to the printable disk. */
-export async function vectorizeCoasterComposition(base64) {
-  const mask = traceMask(decode(decodeBase64(base64)));
-  const svg = await tracePixels(mask);
-  return pathsFromTracedSvg(svg, mask.width);
+export async function vectorizeCoasterComposition(base64, colorMode = 'mono') {
+  return traceComposition(decode(decodeBase64(base64)), tracePixels, colorMode);
 }

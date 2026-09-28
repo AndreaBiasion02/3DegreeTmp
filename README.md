@@ -91,3 +91,19 @@ Il laboratorio AI esporta la stessa grafica vista dall'alto a 70 × 70 mm. I fon
 
 Luna genera direttamente forme vettoriali pertinenti alla battuta. Il server accetta solo coordinate, testo e comandi di tracciato consentiti; non vengono inseriti SVG grezzi o immagini remote nella pagina.
 
+
+### Categorie e costi del generatore
+
+`src/lib/coaster-categories.mjs` definisce categorie, esempi e direzioni visive condivise tra UI e API. Tutti i dodici esempi visibili in `public/coaster-inspiration/generated` derivano da vere chiamate API, convertite in SVG a due colori e pubblicate come WebP. Le immagini di riferimento originali hanno guidato i due esempi meme ma non sono inviate alla generazione: categoria e brief guidano ogni nuova composizione. Le categorie sono ipotesi editoriali da valutare con dati di conversione.
+
+Il percorso predefinito dei sottobicchieri usa una sola immagine con `gpt-image-2.5-flare`, qualità `low`, 1024 x 1024, poi la vettorializza nel browser. Con `COASTER_IMAGE_ENABLED=0` usa Responses per i vettori; anche i tocchi usano Responses.
+
+Lo studio conserva in memoria le ultime sei grafiche: recuperarle, selezionare esempi e cambiare colori non richiede chiamate API. Generare richiede sempre una nuova variante. Ricaricare o lasciare la pagina cancella la cronologia; nessun salvataggio persistente dei brief.
+
+Secondo OpenAI Docs (28 settembre 2026), il cached-input pricing di GPT Image 2/2.5 riguarda il tool immagini nella Responses API, non le chiamate dirette Images API usate qui. Responses beneficia della cache automatica con prefisso e lunghezza idonei, senza garanzia di hit. Le istruzioni comuni precedono il brief variabile; non aggiungiamo token artificiali per raggiungere la soglia. La cache input non evita il costo della nuova immagine. Fonti: https://developers.openai.com/api/docs/guides/image-generation e https://developers.openai.com/api/docs/guides/prompt-caching.
+
+### SVG con accenti colorati e prove API
+
+Lo studio offre `mono` (base + un colore) e `duotone` (base + due colori, predefinito). In duotone il modello genera nero e rosso piatti su trasparenza; la conversione condivisa browser/Node quantizza i pixel in due maschere disgiunte e produce tracciati `foreground` e `accent`. I colori SVG sono sempre quelli della palette: base, colore principale e dettagli sono ricolorabili senza API. Tutti i livelli vengono ridimensionati insieme entro il disco con margine. La separazione aggiunge lavoro locale di tracing, non una seconda chiamata al modello. Non ricostruisce automaticamente i colori da un vecchio PNG monocromatico.
+
+`node scripts/sample-coaster-generations.mjs --generate` esegue **dodici chiamate reali a pagamento** con la chiave server locale, usando lo stesso generatore del sito. Salva PNG originali, SVG, anteprime, galleria e report di prompt/usage (senza credenziali) in `outputs/`, esclusa da Git. `node scripts/sample-coaster-generations.mjs --complete <directory>` genera soltanto gli esempi mancanti; `--reprocess <directory>` rifà la conversione dei PNG salvati, senza rete né credenziali. `node scripts/publish-coaster-examples.mjs <directory>` verifica tutti i dodici risultati e crea i WebP per le schede.

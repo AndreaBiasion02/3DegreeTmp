@@ -1,4 +1,5 @@
 import { validateArtworks, sanitizeArtworks, getPathBounds } from '../src/lib/coaster-art.mjs';
+import { getCoasterCategory } from '../src/lib/coaster-categories.mjs';
 
 const textSchema = { type: 'object', additionalProperties: false, properties: {
   text: { type: 'string', maxLength: 24 }, x: { type: 'number' }, y: { type: 'number' },
@@ -114,7 +115,7 @@ ${isCap ? `2. SIMBOLI UFFICIALI PER IL TOCCO (campo 'symbol'):
    - Altrimenti assegna 'graduation-cap' (tocco classico) o 'crown' (corona d'alloro) oppure 'none' se il brief richiede solo testo.
    - In 'paths' lascia un array vuoto []. Il simbolo ufficiale scelto verrà inserito automaticamente con il layout geometrico perfetto!`
 : `2. ILLUSTRAZIONE VETTORIALE PER IL SOTTOBICCHIERE:
-   - Compila 'illustrationSubject' con SOLO un soggetto visivo concreto per una singola icona (per esempio "quattro palazzi rettangolari uniti alla base" oppure "un braccio con bicipite flesso"). Non menzionare scritte, lettere, slogan, composizione o persone.
+   - Compila 'illustrationSubject' con SOLO un soggetto visivo concreto (per esempio "quattro palazzi rettangolari uniti alla base", "un braccio con bicipite flesso" o "due omini stilizzati che brindano"). Non menzionare scritte, lettere, slogan o composizione.
    - Disegna un soggetto principale pertinente al brief: per esempio una città per urbanistica, un bicipite flesso per una persona sportiva, un microscopio per biologia. Crea una silhouette piena chiusa e 2-5 tratti interni, usando più path se servono.
    - Soggetto in alto: normalmente x=25..75, y=12..37, con ingombro massimo circa 45x25 nel sistema 100x100. Puoi disegnare anche una mappa, cuore o altra piccola firma sotto il testo tra y=74 e 84; non devono sovrapporsi alle lettere.
    - Gli accenti decorativi come stelline, raggi o segni di energia sono facoltativi: se non richiesti nel brief, aggiungine al massimo due in tutta la composizione, oppure nessuno. Lascia respirare testo e soggetto senza riempire gli spazi vuoti. Usa un massimo di 20 path totali. Il disegno deve restare nitido quando stampato a diametro 70 mm: niente dettagli più sottili di circa 1 unità del viewBox.
@@ -145,6 +146,9 @@ function hasIllustration(artwork) {
 }
 
 async function generateImageComposition(input, { env, fetcher }) {
+  const inkDirection = input.colorMode === 'duotone'
+    ? 'Usa SOLO due inchiostri opachi piatti: NERO #222222 per testo e contorni, ROSSO #dc2626 per la parola chiave o alcune parti del disegno. Usa entrambi in aree ben distinte, senza sovrapposizioni; sfondo TRASPARENTE. Niente altri colori, grigi, foto, ombre, gradienti o texture.'
+    : 'Solo NERO PURO opaco su sfondo TRASPARENTE: niente grigi, altri colori, foto, ombre, gradienti, texture o realismo.';
   const model = ['gpt-image-2.5-flare', 'gpt-image-2.5-sunburst'].includes(env.OPENAI_IMAGE_MODEL)
     ? env.OPENAI_IMAGE_MODEL : 'gpt-image-2.5-flare';
   try {
@@ -154,10 +158,11 @@ async function generateImageComposition(input, { env, fetcher }) {
       body: JSON.stringify({
         model, quality: 'low', size: '1024x1024', output_format: 'png', background: 'transparent', n: 1,
         prompt: `Crea l'intera grafica, vista dall'alto, per un sottobicchiere circolare di laurea da 70 mm.
-Brief: ${input.brief.trim()}.
 Composizione originale e libera: la frase è protagonista, ma testo e disegni possono stare ovunque nel disco. Riproduci ESATTAMENTE la frase richiesta, inclusi nomi, accenti e giochi di parole; se manca, inventane una breve. Se il brief non indica soggetti, scegline uno pertinente; se ne chiede più di uno, rappresentali TUTTI distinti e riconoscibili, senza oggetti aggiuntivi.
 Stile sticker illustrato, lettering grande ed espressivo, sagome semplici e contorni spessi. Lascia spazio vuoto tra gli elementi; evita collage di emoji, icone sparse e dettagli minuti. Stelline, scintille, trattini e raggi: al massimo due piccoli segni in totale se non richiesti, anche zero; se richiesti, rispetta la quantità indicata.
-Solo NERO PURO opaco su sfondo TRASPARENTE: niente grigi, altri colori, foto, ombre, gradienti, texture o realismo. Per la stampa 3D, tratti pieni di almeno 0,8 mm e vuoti essenziali di almeno 1 mm. Tutto entro l'area circolare con margine esterno, senza base piena; cornice solo se utile.`,
+${inkDirection} Per la stampa 3D, tratti pieni di almeno 0,8 mm e vuoti essenziali di almeno 1 mm. Tutto entro l'area circolare con margine esterno, senza base piena; cornice solo se utile.
+${getCoasterCategory(input.category)?.direction || ''}
+Brief: ${input.brief.trim()}.`,
       }),
     });
     if (!response.ok) throw new Error(`Image generation HTTP ${response.status}`);
@@ -188,7 +193,7 @@ export async function generateArtworks(input, { env, palette, fetcher }) {
         body: JSON.stringify({
           model: env.OPENAI_MODEL || 'gpt-6-luna', instructions: artDirection(palette, target) +
             (attempt > 1 && target === 'coaster' ? '\nLa proposta precedente non ha superato la verifica. Assicurati di includere una silhouette illustrativa piena, chiusa e ben visibile oltre al testo, con accenti separati dalle lettere.' : ''),
-          input: JSON.stringify({ brief: input.brief.trim() }),
+          input: JSON.stringify({ brief: input.brief.trim(), ...(target === 'coaster' && getCoasterCategory(input.category)?.direction ? { categoryDirection: getCoasterCategory(input.category).direction } : {}) }),
           reasoning: { effort: target === 'cap' ? 'none' : 'low' }, max_output_tokens: target === 'cap' ? 2500 : 5000,
           text: { format: { type: 'json_schema', name: 'coaster_artworks', strict: true,
             schema: { type: 'object', additionalProperties: false, properties: {
@@ -211,6 +216,12 @@ export async function generateArtworks(input, { env, palette, fetcher }) {
       const raw = firstJsonObject(text).proposals;
       const sanitized = sanitizeArtworks(raw, palette, options);
       const proposals = validateArtworks(sanitized, palette, options);
+      if (target === 'coaster' && input.colorMode === 'mono') {
+        for (const proposal of proposals) {
+          delete proposal.accent;
+          proposal.paths = proposal.paths.map(path => ({ ...path, role: 'foreground' }));
+        }
+      }
       const wantsTextOnly = /\b(?:solo testo|senza (?:disegni|illustrazioni|icone))\b/i.test(input.brief);
       if (target === 'coaster' && !wantsTextOnly && !hasIllustration(proposals[0])) {
         throw new Error('Missing printable illustration');

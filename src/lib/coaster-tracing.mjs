@@ -10,6 +10,49 @@ export const tracerOptions = {
   cornerThreshold: 90, lengthThreshold: 2, simplify: 1,
 };
 
+// Quantize the generated two-ink design before tracing. Antialiasing and near-colors
+// never become extra filaments: masks are disjoint and exported by semantic role.
+export function traceColorMasks(image) {
+  const { width, height, data, channels, depth } = image;
+  if (depth !== 8 || channels < 3 || width < 256 || height < 256 || width > 4096 || height > 4096) {
+    throw new Error('Unsupported image dimensions');
+  }
+  const size = Math.min(MAX_TRACE_SIZE, width, height);
+  const masks = ['foreground', 'accent'].map(role => ({ role, width: size, height: size, data: new Uint8ClampedArray(size * size * 4).fill(255), count: 0 }));
+  const inks = [[34, 34, 34], [220, 38, 38], [255, 255, 255]];
+  for (let y = 0; y < size; y++) for (let x = 0; x < size; x++) {
+    const source = (Math.min(height - 1, Math.floor((y + .5) * height / size)) * width + Math.min(width - 1, Math.floor((x + .5) * width / size))) * channels;
+    if (channels === 4 && data[source + 3] < 128) continue;
+    const distances = inks.map(ink => ink.reduce((sum, value, channel) => sum + (data[source + channel] - value) ** 2, 0));
+    const index = distances.indexOf(Math.min(...distances));
+    if (index === 2) continue; // Ignore an opaque white background if returned by the model.
+    const mask = masks[index];
+    const target = (y * size + x) * 4;
+    mask.data[target] = mask.data[target + 1] = mask.data[target + 2] = 0;
+    mask.count++;
+  }
+  const coverage = masks.reduce((sum, mask) => sum + mask.count, 0) / (size * size);
+  if (coverage < .005 || coverage > .7) throw new Error('Image has unsuitable ink coverage');
+  return masks.filter(mask => mask.count >= size * size * .0001);
+}
+
+export async function traceComposition(image, trace, colorMode = 'mono') {
+  const masks = colorMode === 'duotone' ? traceColorMasks(image) : [{ ...traceMask(image), role: 'foreground' }];
+  const paths = [];
+  for (const mask of masks) {
+    const svg = await trace(mask);
+    paths.push(...pathsFromTracedSvg(svg, mask.width).map(path => ({ ...path, role: mask.role })));
+  }
+  if (paths.length > MAX_PATHS || paths.reduce((sum, path) => sum + path.d.length, 0) > MAX_TOTAL_PATH_LENGTH) {
+    throw new Error('Image is too detailed for a printable SVG');
+  }
+  // Fit ALL ink layers together so text is not clipped by the circular export.
+  // Include curve controls in the conservative bound and reserve an outer margin.
+  const radius = Math.max(...paths.map(path => getPathBounds(path.d).maxRadius));
+  const scale = Math.min(1, 45.5 / radius);
+  return scale < 1 ? paths.map(path => ({ ...path, d: transformPath(path.d, 0, 0, scale) })) : paths;
+}
+
 export function traceMask({ width, height, data, channels, depth }) {
   if (depth !== 8 || channels < 3 || width < 256 || height < 256 || width > 4096 || height > 4096) {
     throw new Error('Unsupported image dimensions');

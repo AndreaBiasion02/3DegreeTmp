@@ -1,4 +1,5 @@
 import { generateArtworks } from './coaster-art-api.mjs';
+import { getCoasterCategory } from '../src/lib/coaster-categories.mjs';
 
 export const API_PATH = '/api/coaster-ideas';
 export const STATUS_PATH = `${API_PATH}/status`;
@@ -92,6 +93,8 @@ export async function handleCoasterRequest(request, { env, palette, client, rese
     input = await readBody(request);
     if (!input || typeof input.brief !== 'string' || input.brief.trim().length < 10 || input.brief.length > 600 ||
       (input.action !== undefined && input.action !== 'generate') ||
+      (input.category !== undefined && !getCoasterCategory(input.category)) ||
+      (input.colorMode !== undefined && !['mono', 'duotone'].includes(input.colorMode)) ||
       (input.target !== undefined && !['coaster', 'cap'].includes(input.target)) ||
       (input.shape !== undefined && !['circle', 'square'].includes(input.shape))) throw new Error('Invalid input');
   } catch { return json({ error: 'Scrivi una descrizione da 10 a 600 caratteri.' }, 400); }

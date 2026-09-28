@@ -14,6 +14,8 @@ const types = {
   ".xml": "application/xml",
   ".webp": "image/webp",
   ".png": "image/png",
+  ".jpeg": "image/jpeg",
+  ".jpg": "image/jpeg",
   ".ico": "image/x-icon",
   ".woff2": "font/woff2",
   ".glb": "model/gltf-binary",
