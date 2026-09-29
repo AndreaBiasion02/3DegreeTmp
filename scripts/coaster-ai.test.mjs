@@ -7,7 +7,21 @@ import { vectorizeCoasterComposition } from '../server/coaster-image-vectorizer.
 import { exampleDesign, validateDesigns, composeCoaster, diversifyLayouts, layouts } from '../src/lib/coaster-design.mjs';
 import { validateArtworks, sanitizeArtworks, getPathBounds } from '../src/lib/coaster-art.mjs';
 import { coasterCategories } from '../src/lib/coaster-categories.mjs';
-import { traceColorMasks } from '../src/lib/coaster-tracing.mjs';
+import { COASTER_BORDER_RADIUS, traceColorMasks } from '../src/lib/coaster-tracing.mjs';
+
+test('Normalizes a model-drawn circular border to the same 2 mm inset', async () => {
+  const width = 256, height = 256;
+  const data = new Uint8Array(width * height * 4);
+  for (let y = 0; y < height; y++) for (let x = 0; x < width; x++) {
+    const radius = Math.hypot(x - 128, y - 128);
+    const on = (radius > 96 && radius < 100) || (x >= 105 && x <= 150 && y >= 110 && y <= 140);
+    if (on) { const i = (y * width + x) * 4; data[i] = data[i + 1] = data[i + 2] = 34; data[i + 3] = 255; }
+  }
+  const paths = await vectorizeCoasterComposition(Buffer.from(encode({ width, height, data })).toString('base64'), 'duotone');
+  assert.equal(paths[0].fill, false);
+  assert(Math.abs(getPathBounds(paths[0].d).maxRadius - COASTER_BORDER_RADIUS) < .01);
+  assert(paths.slice(1).every(p => getPathBounds(p.d).maxRadius <= COASTER_BORDER_RADIUS - 2.9));
+});
 
 test('Two-ink tracing separates red details, ignores transparency/white and fits every layer to the disk', async () => {
   const width = 256, height = 256;

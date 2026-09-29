@@ -7,7 +7,7 @@ export async function exportCoasterSvg(source: SVGSVGElement, options?: { sizeMm
     : (source.querySelector('[data-export-svg]') as SVGSVGElement | null)) || source;
   const copy = target.cloneNode(true) as SVGSVGElement;
   const is65 = options?.sizeMm === 65 || target.getAttribute('width')?.includes('65') || source.getAttribute('data-cap-art') !== null;
-  const sizeMm = is65 ? 65 : 70;
+  const sizeMm = is65 ? 65 : 75;
   copy.setAttribute('width', `${sizeMm}mm`);
   copy.setAttribute('height', `${sizeMm}mm`);
   copy.setAttribute('viewBox', options?.viewBox || (is65 ? '0 0 100 100' : '2 1 96 96'));
@@ -42,9 +42,9 @@ export async function exportCoasterSvg(source: SVGSVGElement, options?: { sizeMm
   if (texts.length) {
     const response = await fetch('/licenses/lucide.txt');
     if (!response.ok) throw new Error('Impossibile completare lo SVG. Riprova.');
-    metadata.textContent = `3Degree — diametro 70 mm, scala 1:1. Simboli Lucide:\n${await response.text()}`;
+    metadata.textContent = `3Degree — diametro ${sizeMm} mm, scala 1:1. Simboli Lucide:\n${await response.text()}`;
   } else {
-    metadata.textContent = '3Degree — diametro 70 mm, scala 1:1. Grafica convertita in tracciati SVG.';
+    metadata.textContent = `3Degree — diametro ${sizeMm} mm, scala 1:1. Grafica convertita in tracciati SVG.`;
   }
   copy.prepend(metadata);
   copy.querySelectorAll('[data-font], [data-emphasis]').forEach(el => { el.removeAttribute('data-font'); el.removeAttribute('data-emphasis'); });

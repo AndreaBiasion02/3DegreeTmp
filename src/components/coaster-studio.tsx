@@ -78,7 +78,7 @@ export default function CoasterStudio() {
     try {
       const { exportCoasterSvg } = await import('@/lib/coaster-svg');
       const content = await exportCoasterSvg(svg);
-      downloadFile(new Blob([content], { type: 'image/svg+xml' }), '3degree-sottobicchiere-70mm.svg');
+      downloadFile(new Blob([content], { type: 'image/svg+xml' }), '3degree-sottobicchiere-75mm.svg');
       setNotice('SVG scaricato! Inviacelo nei DM dei social o via email per la stampa.');
     } catch (e) { setError(e instanceof Error ? e.message : 'Download non riuscito. Riprova.'); }
     finally { setExporting(false); }
@@ -102,9 +102,9 @@ export default function CoasterStudio() {
         {error && <p role="alert" className="mt-4 rounded-xl border border-red-200 bg-white p-4 text-sm text-red-800">{error}</p>}
       </form>
       <div className="min-w-0 rounded-3xl bg-white/70 p-5 small:p-7">
-        <div className="mb-3 flex items-center justify-between gap-3 text-sm"><span className="font-bold">{generated ? 'La tua anteprima' : 'Un esempio da personalizzare'}</span><span className="text-brand-dark/60">Ø 70 mm</span></div>
+        <div className="mb-3 flex items-center justify-between gap-3 text-sm"><span className="font-bold">{generated ? 'La tua anteprima' : 'Un esempio da personalizzare'}</span><span className="text-brand-dark/60">Ø 75 mm</span></div>
         <div ref={preview}><CoasterPreview design={design} /></div>
-        <p className="mt-3 text-center text-xs text-brand-dark/60">Vista dall’alto · diametro 7 cm · colori indicativi</p>
+        <p className="mt-3 text-center text-xs text-brand-dark/60">Vista dall’alto · diametro 7,5 cm · colori indicativi</p>
       </div>
     </div>
     <fieldset disabled={loading} className="border-t border-brand-primary/15 p-6 small:p-10">

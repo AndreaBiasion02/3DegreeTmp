@@ -85,9 +85,9 @@ Un’anteprima privata non è indicizzabile. Sul dominio pubblico verificare ass
 
 ### SVG in scala e simboli
 
-Tutti i 42 modelli del catalogo vengono rigenerati a 70 mm su X/Y, mantenendo spessore 4 mm e intarsio 0,6 mm; GLB, STL, metadati e SVG sono allineati. Ogni scheda offre il download `/models/sottobicchieri/<slug>.svg`: vista dall'alto, `width="70mm" height="70mm"`, scritte in tracciati e nessuna ombra.
+Tutti i 54 modelli di sottobicchieri del catalogo vengono rigenerati a 75 mm su X/Y, mantenendo spessore 4 mm e intarsio 0,6 mm; GLB, STL, metadati e SVG sono allineati. Quando presente, il cerchio decorativo è centrato a 2 mm dal bordo esterno. Ogni scheda offre il download `/models/sottobicchieri/<slug>.svg`: vista dall'alto, `width="75mm" height="75mm"`, scritte in tracciati e nessuna ombra.
 
-Il laboratorio AI esporta la stessa grafica vista dall'alto a 70 × 70 mm. I font locali Noto Sans, Noto Serif, Roboto Mono e Oleo Script Bold vengono convertiti in tracciati con opentype.js al download: nessun font o servizio esterno è necessario per aprire lo SVG. Stampare al 100%, senza adattamento alla pagina. L'esportazione SVG è una grafica bidimensionale, non un STL; tratti piccoli e leggibilità vanno verificati per la produzione.
+Il laboratorio AI esporta la stessa grafica vista dall'alto a 75 × 75 mm. Se l'immagine generata include un bordo circolare separato, la conversione lo sostituisce con un cerchio regolare centrato a 2 mm dal bordo esterno e ingrandisce uniformemente il contenuto mantenendo almeno 3 unità di distanza dalla cornice. Le composizioni senza cerchio restano aperte. I font locali Noto Sans, Noto Serif, Roboto Mono e Oleo Script Bold vengono convertiti in tracciati con opentype.js al download: nessun font o servizio esterno è necessario per aprire lo SVG. Stampare al 100%, senza adattamento alla pagina. L'esportazione SVG è una grafica bidimensionale, non un STL; tratti piccoli e leggibilità vanno verificati per la produzione.
 
 Luna genera direttamente forme vettoriali pertinenti alla battuta. Il server accetta solo coordinate, testo e comandi di tracciato consentiti; non vengono inseriti SVG grezzi o immagini remote nella pagina.
 

@@ -86,9 +86,9 @@ const pathData=shape=>shape.map(p=>p.map(r=>'M'+r.map(([x,y])=>`${x.toFixed(4)},
 
 const out='outputs/samuele-sottobicchiere';
 fs.mkdirSync(out,{recursive:true});
-const base=union(circle(0,0,35,160));
+const base=union(circle(0,0,37.5,160));
 const skyline=union(rect(-10,21,5,5),rect(-3,21,5,9),rect(5,21,5,7),rect(-12,20,24,.8));
-const art=union(ring(32,.7),skyline,textShape('Riqualifico',13,5.5,48),textShape('QUARTIERI.',4.5,7.2,53),textShape('Svaluto',-5.5,5.5,48),textShape('IL FEGATO.',-14,7.2,51),textShape('SAMUELE',-25,3.5,25));
+const art=union(ring(32,.7),skyline,textShape('Riqualifico',13,5.5,48),textShape('QUARTIERI.',4.5,7.2,53),textShape('Svaluto',-5.5,5.5,48),textShape('IL FEGATO.',-14,7.2,51),textShape('SAMUELE',-25,3.5,25)).map(p=>p.map(r=>r.map(([x,y])=>[x*35.5/32,y*35.5/32])));
 if(pc.difference(art,base).length)throw Error('Art outside base');
 const top=diff(base,art);
 const baseTris=[...faceTriangles(top,4),...faceTriangles(art,3.4),...walls(art,3.4,4,true),...walls(base,0,4),...faceTriangles(base,0,true)];
@@ -96,9 +96,9 @@ const inkTris=[...faceTriangles(art,4),...faceTriangles(art,3.4,true),...walls(a
 writeStl(baseTris,`${out}/samuele-base.stl`);
 writeStl(inkTris,`${out}/samuele-grafica.stl`);
 writeGlb([{name:'base_rossa',tris:baseTris,color:rgb('#dc2626')},{name:'grafica_bianca',tris:inkTris,color:rgb('#ffffff')}],`${out}/samuele.glb`);
-const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="70mm" height="70mm" viewBox="-35 -35 70 70"><circle r="35" fill="#dc2626"/><path d="${pathData(art)}" fill="white" fill-rule="evenodd"/></svg>`;
+const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="75mm" height="75mm" viewBox="-37.5 -37.5 75 75"><circle r="37.5" fill="#dc2626"/><path d="${pathData(art)}" fill="white" fill-rule="evenodd"/></svg>`;
 fs.writeFileSync(`${out}/samuele.svg`,svg);
 await sharp(Buffer.from(svg)).resize(1000,1000).png().toFile(`${out}/anteprima.png`);
-fs.writeFileSync(`${out}/LEGGIMI.txt`,'SAMUELE - Riqualifico quartieri. Svaluto il fegato.\nDiametro 70 mm. Spessore 4 mm. Grafica a filo, profondita 0.6 mm.\nImportare insieme base e grafica come parti dello stesso oggetto nello slicer, mantenendo le coordinate. Base rossa e grafica bianca; colori modificabili. Unita STL: millimetri. Nessuna sede NFC.\n');
+fs.writeFileSync(`${out}/LEGGIMI.txt`,'SAMUELE - Riqualifico quartieri. Svaluto il fegato.\nDiametro 75 mm. Spessore 4 mm. Grafica a filo, profondita 0.6 mm.\nImportare insieme base e grafica come parti dello stesso oggetto nello slicer, mantenendo le coordinate. Base rossa e grafica bianca; colori modificabili. Unita STL: millimetri. Nessuna sede NFC.\n');
 const verts=baseTris.flat();
 console.log(JSON.stringify({baseTriangles:baseTris.length,inkTriangles:inkTris.length,files:fs.readdirSync(out)}));

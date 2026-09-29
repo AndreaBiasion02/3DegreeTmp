@@ -62,7 +62,7 @@ function firstJsonObject(text) {
 
 function artDirection(palette, target = 'coaster') {
   const isCap = target === 'cap';
-  const itemType = isCap ? 'coperchio quadrato 65 × 65 mm per tocco di laurea bomboniera stampato in 3D' : 'sottobicchieri di laurea diametro 70 mm stampati in 3D';
+  const itemType = isCap ? 'coperchio quadrato 65 × 65 mm per tocco di laurea bomboniera stampato in 3D' : 'sottobicchieri di laurea diametro 75 mm stampati in 3D';
   const itemName = isCap ? 'il tocco di laurea' : 'il sottobicchiere';
   const shapeBounds = isCap
     ? `   - Sistema 100x100, centro (50, 50). L'area stampabile è QUADRATA (65 × 65 mm).
@@ -118,7 +118,7 @@ ${isCap ? `2. SIMBOLI UFFICIALI PER IL TOCCO (campo 'symbol'):
    - Compila 'illustrationSubject' con SOLO un soggetto visivo concreto (per esempio "quattro palazzi rettangolari uniti alla base", "un braccio con bicipite flesso" o "due omini stilizzati che brindano"). Non menzionare scritte, lettere, slogan o composizione.
    - Disegna un soggetto principale pertinente al brief: per esempio una città per urbanistica, un bicipite flesso per una persona sportiva, un microscopio per biologia. Crea una silhouette piena chiusa e 2-5 tratti interni, usando più path se servono.
    - Soggetto in alto: normalmente x=25..75, y=12..37, con ingombro massimo circa 45x25 nel sistema 100x100. Puoi disegnare anche una mappa, cuore o altra piccola firma sotto il testo tra y=74 e 84; non devono sovrapporsi alle lettere.
-   - Gli accenti decorativi come stelline, raggi o segni di energia sono facoltativi: se non richiesti nel brief, aggiungine al massimo due in tutta la composizione, oppure nessuno. Lascia respirare testo e soggetto senza riempire gli spazi vuoti. Usa un massimo di 20 path totali. Il disegno deve restare nitido quando stampato a diametro 70 mm: niente dettagli più sottili di circa 1 unità del viewBox.
+   - Gli accenti decorativi come stelline, raggi o segni di energia sono facoltativi: se non richiesti nel brief, aggiungine al massimo due in tutta la composizione, oppure nessuno. Lascia respirare testo e soggetto senza riempire gli spazi vuoti. Usa un massimo di 20 path totali. Il disegno deve restare nitido quando stampato a diametro 75 mm: niente dettagli più sottili di circa 1 unità del viewBox.
    - Usa 'role': 'foreground' per contorni e tratti scuri, 'accent' per un secondo colore. 'accent' deve essere diverso da background e foreground. Per l'icona usa una sagoma piena ('fill': true, path chiuso) e tratti interni robusti; per le linee aperte usa 'fill': false e strokeWidth tra 1.2 e 2.2.
    - Esempio di bicipite semplificato, in alto: silhouette { d: "M 38 20 Q 36 18 38 16 L 42 14 Q 44 13 45 16 L 47 20 Q 48 23 44 24 Q 43 28 46 32 Q 50 27 55 27 Q 61 27 63 33 Q 67 35 65 39 Q 53 45 39 39 Q 34 37 36 31 Z", fill: true, strokeWidth: 0, role: "accent" }; piega interna { d: "M 44 24 Q 42 32 46 34", fill: false, strokeWidth: 1.6, role: "foreground" }.
    - Non creare cornici o rettangoli giganti. Il bordo circolare è già aggiunto dal sito. Non usare emoji Unicode, immagini raster, testo dentro i path, gradienti o filigrane.`}
@@ -157,10 +157,10 @@ async function generateImageComposition(input, { env, fetcher }) {
       signal: AbortSignal.timeout(85000),
       body: JSON.stringify({
         model, quality: 'low', size: '1024x1024', output_format: 'png', background: 'transparent', n: 1,
-        prompt: `Crea l'intera grafica, vista dall'alto, per un sottobicchiere circolare di laurea da 70 mm.
+        prompt: `Crea l'intera grafica, vista dall'alto, per un sottobicchiere circolare di laurea da 75 mm.
 Composizione originale e libera: la frase è protagonista, ma testo e disegni possono stare ovunque nel disco. Riproduci ESATTAMENTE la frase richiesta, inclusi nomi, accenti e giochi di parole; se manca, inventane una breve. Se il brief non indica soggetti, scegline uno pertinente; se ne chiede più di uno, rappresentali TUTTI distinti e riconoscibili, senza oggetti aggiuntivi.
 Stile sticker illustrato, lettering grande ed espressivo, sagome semplici e contorni spessi. Lascia spazio vuoto tra gli elementi; evita collage di emoji, icone sparse e dettagli minuti. Stelline, scintille, trattini e raggi: al massimo due piccoli segni in totale se non richiesti, anche zero; se richiesti, rispetta la quantità indicata.
-${inkDirection} Per la stampa 3D, tratti pieni di almeno 0,8 mm e vuoti essenziali di almeno 1 mm. Tutto entro l'area circolare con margine esterno, senza base piena; cornice solo se utile.
+${inkDirection} Per la stampa 3D, tratti pieni di almeno 0,8 mm e vuoti essenziali di almeno 1 mm. Tutto entro l'area circolare con margine esterno, senza base piena. Se disegni una cornice circolare, tienila separata dagli altri elementi: il sito la riposizionerà a 2 mm dal bordo esterno.
 ${getCoasterCategory(input.category)?.direction || ''}
 Brief: ${input.brief.trim()}.`,
       }),

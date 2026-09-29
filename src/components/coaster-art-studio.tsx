@@ -98,7 +98,7 @@ export default function CoasterArtStudio() {
     try {
       const { exportCoasterSvg } = await import('@/lib/coaster-svg');
       const content = await exportCoasterSvg(svg);
-      downloadFile(new Blob([content], { type: 'image/svg+xml' }), '3degree-sottobicchiere-70mm.svg');
+      downloadFile(new Blob([content], { type: 'image/svg+xml' }), '3degree-sottobicchiere-75mm.svg');
       setNotice('SVG scaricato! Inviacelo nei DM dei social o via email per la stampa.');
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Download non riuscito. Riprova.');
@@ -152,9 +152,9 @@ export default function CoasterArtStudio() {
         {error && <p role="alert" className="mt-4 rounded-xl border border-red-200 bg-white p-4 text-sm text-red-800">{error}</p>}
       </form>
       <div className="min-w-0 rounded-3xl bg-white/70 p-5 small:p-7">
-        <div className="mb-3 flex items-center justify-between gap-3 text-sm"><span className="font-bold">{art ? art.title : 'La tua anteprima'}</span><span className="text-brand-dark/60">Ø 70 mm</span></div>
+        <div className="mb-3 flex items-center justify-between gap-3 text-sm"><span className="font-bold">{art ? art.title : 'La tua anteprima'}</span><span className="text-brand-dark/60">Ø 75 mm</span></div>
         <div ref={preview}>{art ? <CoasterArtPreview art={art} /> : <div className="mx-auto flex aspect-square w-full max-w-[350px] items-center justify-center rounded-full bg-brand-primary/10 px-10 text-center text-brand-dark/60">La tua idea prenderà forma qui</div>}</div>
-        <p className="mt-3 text-center text-xs text-brand-dark/60">Anteprima illustrativa · diametro 7 cm · grafica vettoriale{art ? art.accent ? ' a due colori' : ' monocromatica' : ''}</p>
+        <p className="mt-3 text-center text-xs text-brand-dark/60">Anteprima illustrativa · diametro 7,5 cm · grafica vettoriale{art ? art.accent ? ' a due colori' : ' monocromatica' : ''}</p>
       </div>
     </div>
     {art && <div className="border-t border-brand-primary/15 p-6 small:p-10">

@@ -2,6 +2,7 @@
 
 import { useId } from 'react';
 import { fontFamilies } from '@/lib/coaster-design.mjs';
+import { COASTER_BORDER_RADIUS } from '@/lib/coaster-tracing.mjs';
 
 export type Artwork = {
   title: string; concept: string; background: string; foreground: string; accent?: string;
@@ -45,7 +46,7 @@ export default function CoasterArtPreview({ art }: { art: Artwork }) {
           <g clipPath={`url(#${clipId})`}>
             {/* Map 100x100 (center 50,49, radius 48) to center 0,0, radius 35 */}
             <g transform="scale(0.72916667) translate(-50 -49)">
-              {!art.imageComposition && <circle cx="50" cy="49" r="42" fill="none" stroke={art.foreground} strokeWidth="1.1" />}
+              {!art.imageComposition && <circle cx="50" cy="49" r={COASTER_BORDER_RADIUS} fill="none" stroke={art.foreground} strokeWidth="1.1" />}
               {art.paths.map((path, index) => (
                 <path
                   key={index}
@@ -79,13 +80,13 @@ export default function CoasterArtPreview({ art }: { art: Artwork }) {
         </g>
       </svg>
 
-      {/* Flat 70mm top-down SVG for vector export without shadows */}
+      {/* Flat 75 mm top-down SVG for vector export without shadows */}
       <svg
         data-export-svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="2 1 96 96"
-        width="70mm"
-        height="70mm"
+        width="75mm"
+        height="75mm"
         className="sr-only"
         aria-hidden="true"
       >
@@ -96,7 +97,7 @@ export default function CoasterArtPreview({ art }: { art: Artwork }) {
         </defs>
         <circle cx="50" cy="49" r="48" fill={art.background} />
         <g clipPath={`url(#${exportClipId})`}>
-          {!art.imageComposition && <circle cx="50" cy="49" r="42" fill="none" stroke={art.foreground} strokeWidth="1.1" />}
+          {!art.imageComposition && <circle cx="50" cy="49" r={COASTER_BORDER_RADIUS} fill="none" stroke={art.foreground} strokeWidth="1.1" />}
           {art.paths.map((path, index) => (
             <path
               key={index}

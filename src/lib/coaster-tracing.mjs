@@ -4,6 +4,8 @@ const MAX_TRACE_SIZE = 1024;
 const MAX_PATHS = 100;
 const MAX_PATH_LENGTH = 15000;
 const MAX_TOTAL_PATH_LENGTH = 120000;
+export const COASTER_BORDER_RADIUS = 48 - 2 / 75 * 96; // ring centre, 2 mm from the 75 mm edge
+const ringPath = `M ${50} ${49 - COASTER_BORDER_RADIUS} A ${COASTER_BORDER_RADIUS} ${COASTER_BORDER_RADIUS} 0 1 1 ${50} ${49 + COASTER_BORDER_RADIUS} A ${COASTER_BORDER_RADIUS} ${COASTER_BORDER_RADIUS} 0 1 1 ${50} ${49 - COASTER_BORDER_RADIUS} Z`;
 
 export const tracerOptions = {
   clustering: 'bw', mode: 'spline',
@@ -46,10 +48,31 @@ export async function traceComposition(image, trace, colorMode = 'mono') {
   if (paths.length > MAX_PATHS || paths.reduce((sum, path) => sum + path.d.length, 0) > MAX_TOTAL_PATH_LENGTH) {
     throw new Error('Image is too detailed for a printable SVG');
   }
-  // Fit ALL ink layers together so text is not clipped by the circular export.
-  // Include curve controls in the conservative bound and reserve an outer margin.
+  // The model's circular border varies. Replace a detached near-circle with one
+  // deterministic ring, then scale the lettering/illustration uniformly inside it.
+  const borderIndex = paths.findIndex(path => {
+    if (path.role !== 'foreground' || path.d.length > 1500) return false;
+    // A traced outline is a donut (outer and inner contours). A filled round
+    // illustration has one contour and must never be mistaken for the border.
+    if ((path.d.match(/[Mm]/g) || []).length !== 2 || (path.d.match(/[Zz]/g) || []).length !== 2) return false;
+    const b = getPathBounds(path.d);
+    if (!b) return false;
+    const w = b.maxX - b.minX, h = b.maxY - b.minY;
+    return w > 60 && h > 60 && w / h > .85 && w / h < 1.15 &&
+      Math.abs(b.centerX - 50) < 4.5 && Math.abs(b.centerY - 49) < 4.5;
+  });
+  if (borderIndex >= 0) {
+    const border = paths.splice(borderIndex, 1)[0];
+    const b = getPathBounds(border.d);
+    const oldRadius = ((b.maxX - b.minX) + (b.maxY - b.minY)) / 4;
+    const contentRadius = Math.max(0, ...paths.map(path => getPathBounds(path.d).maxRadius));
+    const scale = Math.min(COASTER_BORDER_RADIUS / oldRadius, contentRadius ? (COASTER_BORDER_RADIUS - 3) / contentRadius : Infinity);
+    const normalized = paths.map(path => ({ ...path, d: transformPath(path.d, 0, 0, scale) }));
+    return [{ d: ringPath, fill: false, strokeWidth: 1.1, role: 'foreground' }, ...normalized];
+  }
+  // No ring: retain the model's open composition and fit every ink layer together.
   const radius = Math.max(...paths.map(path => getPathBounds(path.d).maxRadius));
-  const scale = Math.min(1, 45.5 / radius);
+  const scale = Math.min(1, COASTER_BORDER_RADIUS / radius);
   return scale < 1 ? paths.map(path => ({ ...path, d: transformPath(path.d, 0, 0, scale) })) : paths;
 }
 

@@ -20,11 +20,11 @@ export default function CoasterPreview({ design }: { design: CoasterDesign }) {
   const { texts, icon, rotation } = composeCoaster(design);
   const ink = design.foreground;
   const hero = texts.find(t => t.emphasis);
-  return <svg xmlns="http://www.w3.org/2000/svg" viewBox="2 1 96 96" width="70mm" height="70mm" role="img" aria-label={`Sottobicchiere: ${design.lines.filter(s => s.trim()).join(' ')}`} className="mx-auto h-auto w-full max-w-[350px]">
+  return <svg xmlns="http://www.w3.org/2000/svg" viewBox="2 1 96 96" width="75mm" height="75mm" role="img" aria-label={`Sottobicchiere: ${design.lines.filter(s => s.trim()).join(' ')}`} className="mx-auto h-auto w-full max-w-[350px]">
     <defs><clipPath id={clipId}><circle cx="50" cy="49" r="48" /></clipPath></defs>
     <circle cx="50" cy="49" r="48" fill={design.background} />
     <g clipPath={`url(#${clipId})`}><g transform={`rotate(${rotation} 50 49)`}>
-      {design.layout === 'classic' && <circle cx="50" cy="49" r="42" fill="none" stroke={ink} strokeWidth=".6" />}
+      {design.layout === 'classic' && <circle cx="50" cy="49" r={48 - 2 / 75 * 96} fill="none" stroke={ink} strokeWidth=".6" />}
       {design.layout === 'stamp' && <g fill="none" stroke={ink}><circle cx="50" cy="49" r="43" strokeWidth="1.5" /><circle cx="50" cy="49" r="39.5" strokeWidth=".45" /><path d="M25 18h50M28 73h12M60 73h12" strokeWidth=".8" /></g>}
       {design.layout === 'bold' && <g stroke={ink} strokeWidth="1.5"><path d="m22 18 7-3m42 0 7 3M21 78l7 4m44 0 7-4" /></g>}
       {design.layout === 'minimal' && <path d="M19 20h20M19 74h12" stroke={ink} strokeWidth="1.5" />}
