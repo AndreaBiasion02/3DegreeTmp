@@ -66,14 +66,15 @@ export async function traceComposition(image, trace, colorMode = 'mono') {
     const b = getPathBounds(border.d);
     const oldRadius = ((b.maxX - b.minX) + (b.maxY - b.minY)) / 4;
     const contentRadius = Math.max(0, ...paths.map(path => getPathBounds(path.d).maxRadius));
-    const scale = Math.min(COASTER_BORDER_RADIUS / oldRadius, contentRadius ? (COASTER_BORDER_RADIUS - 3) / contentRadius : Infinity);
+    const scale = Math.min(COASTER_BORDER_RADIUS / oldRadius, contentRadius ? (COASTER_BORDER_RADIUS - 2) / contentRadius : Infinity);
     const normalized = paths.map(path => ({ ...path, d: transformPath(path.d, 0, 0, scale) }));
     return [{ d: ringPath, fill: false, strokeWidth: 1.1, role: 'foreground' }, ...normalized];
   }
-  // No ring: retain the model's open composition and fit every ink layer together.
+  // No ring: fit the whole composition inside the separate, deterministic ring.
   const radius = Math.max(...paths.map(path => getPathBounds(path.d).maxRadius));
-  const scale = Math.min(1, COASTER_BORDER_RADIUS / radius);
-  return scale < 1 ? paths.map(path => ({ ...path, d: transformPath(path.d, 0, 0, scale) })) : paths;
+  const scale = Math.min(1, (COASTER_BORDER_RADIUS - 2) / radius);
+  const content = scale < 1 ? paths.map(path => ({ ...path, d: transformPath(path.d, 0, 0, scale) })) : paths;
+  return [{ d: ringPath, fill: false, strokeWidth: 1.1, role: 'foreground' }, ...content];
 }
 
 export function traceMask({ width, height, data, channels, depth }) {

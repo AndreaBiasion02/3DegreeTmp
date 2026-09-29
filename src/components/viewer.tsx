@@ -132,11 +132,11 @@ export default function Viewer({ product }: { product: Product }) {
       </div>
       <fieldset className="mt-5 space-y-4 rounded-2xl border border-brand-primary/15 p-4">
         <legend className="px-2 font-bold">Prova i colori</legend>
-        {(["structure", "accent"] as const).map((role) => (
+        {(["structure", "accent", ...(product.colors?.detail ? ["detail" as const] : [])] as const).map((role) => (
           <div key={role}>
             <label className="flex items-center justify-between gap-3 text-sm font-bold">
-              {role === "structure" ? "Struttura" : "Dettagli"}
-              <span>{filamentName(colors[role])}</span>
+              {role === "structure" ? "Base" : role === "detail" ? "Accenti" : "Scritta e disegni"}
+              <span>{filamentName(colors[role] ?? colors.accent)}</span>
             </label>
             <div className="mt-2 flex flex-wrap gap-2">
               {colorChoices.map(([label, hex]) => (
@@ -145,7 +145,7 @@ export default function Viewer({ product }: { product: Product }) {
                   type="button"
                   title={label}
                   aria-label={`${
-                    role === "structure" ? "Struttura" : "Dettagli"
+                    role === "structure" ? "Base" : role === "detail" ? "Accenti" : "Scritta e disegni"
                   } ${label}`}
                   aria-pressed={colors[role] === hex}
                   onClick={() => {

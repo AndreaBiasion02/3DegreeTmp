@@ -416,8 +416,9 @@
     "model": "/products/sottobicchiere-110-vodka.glb",
     "openModel": "/products/sottobicchiere-110-vodka.glb",
     "colors": {
-      "structure": "#dc2626",
-      "accent": "#ffffff"
+      "structure": "#facc15",
+      "accent": "#222222",
+      "detail": "#dc2626"
     }
   },
   {
@@ -437,7 +438,8 @@
     "openModel": "/products/sottobicchiere-laureato-per-sbaglio.glb",
     "colors": {
       "structure": "#facc15",
-      "accent": "#222222"
+      "accent": "#222222",
+      "detail": "#dc2626"
     }
   },
   {
@@ -456,8 +458,9 @@
     "model": "/products/sottobicchiere-dottore-linkedin.glb",
     "openModel": "/products/sottobicchiere-dottore-linkedin.glb",
     "colors": {
-      "structure": "#2458b8",
-      "accent": "#ffffff"
+      "structure": "#facc15",
+      "accent": "#222222",
+      "detail": "#dc2626"
     }
   },
   {
@@ -476,8 +479,9 @@
     "model": "/products/sottobicchiere-finalmente-disoccupato.glb",
     "openModel": "/products/sottobicchiere-finalmente-disoccupato.glb",
     "colors": {
-      "structure": "#803fa1",
-      "accent": "#ffffff"
+      "structure": "#facc15",
+      "accent": "#222222",
+      "detail": "#dc2626"
     }
   },
   {
@@ -496,8 +500,9 @@
     "model": "/products/sottobicchiere-missione-compiuta.glb",
     "openModel": "/products/sottobicchiere-missione-compiuta.glb",
     "colors": {
-      "structure": "#218c45",
-      "accent": "#ffffff"
+      "structure": "#facc15",
+      "accent": "#222222",
+      "detail": "#dc2626"
     }
   },
   {
@@ -516,8 +521,9 @@
     "model": "/products/sottobicchiere-ctrl-alt-laurea.glb",
     "openModel": "/products/sottobicchiere-ctrl-alt-laurea.glb",
     "colors": {
-      "structure": "#222222",
-      "accent": "#facc15"
+      "structure": "#facc15",
+      "accent": "#222222",
+      "detail": "#dc2626"
     }
   },
   {
@@ -536,8 +542,9 @@
     "model": "/products/sottobicchiere-achievement-dottore.glb",
     "openModel": "/products/sottobicchiere-achievement-dottore.glb",
     "colors": {
-      "structure": "#803fa1",
-      "accent": "#ffffff"
+      "structure": "#facc15",
+      "accent": "#222222",
+      "detail": "#dc2626"
     }
   },
   {
@@ -556,8 +563,9 @@
     "model": "/products/sottobicchiere-game-over-universita.glb",
     "openModel": "/products/sottobicchiere-game-over-universita.glb",
     "colors": {
-      "structure": "#222222",
-      "accent": "#ffffff"
+      "structure": "#facc15",
+      "accent": "#222222",
+      "detail": "#dc2626"
     }
   },
   {
@@ -576,8 +584,9 @@
     "model": "/products/sottobicchiere-respawn-lavoro.glb",
     "openModel": "/products/sottobicchiere-respawn-lavoro.glb",
     "colors": {
-      "structure": "#2458b8",
-      "accent": "#ffffff"
+      "structure": "#facc15",
+      "accent": "#222222",
+      "detail": "#dc2626"
     }
   },
   {
@@ -596,8 +605,9 @@
     "model": "/products/sottobicchiere-laureato-exe.glb",
     "openModel": "/products/sottobicchiere-laureato-exe.glb",
     "colors": {
-      "structure": "#222222",
-      "accent": "#ffffff"
+      "structure": "#facc15",
+      "accent": "#222222",
+      "detail": "#dc2626"
     }
   },
   {
@@ -616,8 +626,9 @@
     "model": "/products/sottobicchiere-chatgpt-ce-labbiamo-fatta.glb",
     "openModel": "/products/sottobicchiere-chatgpt-ce-labbiamo-fatta.glb",
     "colors": {
-      "structure": "#218c45",
-      "accent": "#ffffff"
+      "structure": "#facc15",
+      "accent": "#222222",
+      "detail": "#dc2626"
     }
   },
   {
@@ -636,8 +647,9 @@
     "model": "/products/sottobicchiere-3-anni-in-7.glb",
     "openModel": "/products/sottobicchiere-3-anni-in-7.glb",
     "colors": {
-      "structure": "#f97316",
-      "accent": "#222222"
+      "structure": "#facc15",
+      "accent": "#222222",
+      "detail": "#dc2626"
     }
   },
   {
@@ -656,8 +668,9 @@
     "model": "/products/sottobicchiere-sotto-pressione.glb",
     "openModel": "/products/sottobicchiere-sotto-pressione.glb",
     "colors": {
-      "structure": "#dc2626",
-      "accent": "#ffffff"
+      "structure": "#facc15",
+      "accent": "#222222",
+      "detail": "#dc2626"
     }
   },
   {
@@ -677,7 +690,8 @@
     "openModel": "/products/sottobicchiere-tesi-mai-sentita.glb",
     "colors": {
       "structure": "#facc15",
-      "accent": "#222222"
+      "accent": "#222222",
+      "detail": "#dc2626"
     }
   },
   {
@@ -696,8 +710,9 @@
     "model": "/products/sottobicchiere-caffe-ansia.glb",
     "openModel": "/products/sottobicchiere-caffe-ansia.glb",
     "colors": {
-      "structure": "#222222",
-      "accent": "#ffffff"
+      "structure": "#facc15",
+      "accent": "#222222",
+      "detail": "#dc2626"
     }
   },
   {
@@ -716,8 +731,9 @@
     "model": "/products/sottobicchiere-ctrl-c-ctrl-v.glb",
     "openModel": "/products/sottobicchiere-ctrl-c-ctrl-v.glb",
     "colors": {
-      "structure": "#2458b8",
-      "accent": "#ffffff"
+      "structure": "#facc15",
+      "accent": "#222222",
+      "detail": "#dc2626"
     }
   },
   {
@@ -736,8 +752,9 @@
     "model": "/products/sottobicchiere-prima-titolo-poi-spritz.glb",
     "openModel": "/products/sottobicchiere-prima-titolo-poi-spritz.glb",
     "colors": {
-      "structure": "#f97316",
-      "accent": "#222222"
+      "structure": "#facc15",
+      "accent": "#222222",
+      "detail": "#dc2626"
     }
   },
   {
@@ -756,8 +773,9 @@
     "model": "/products/sottobicchiere-brindisi-neo-disoccupato.glb",
     "openModel": "/products/sottobicchiere-brindisi-neo-disoccupato.glb",
     "colors": {
-      "structure": "#803fa1",
-      "accent": "#ffffff"
+      "structure": "#facc15",
+      "accent": "#222222",
+      "detail": "#dc2626"
     }
   },
   {
@@ -776,8 +794,9 @@
     "model": "/products/sottobicchiere-dottore-giorno-disastro-notte.glb",
     "openModel": "/products/sottobicchiere-dottore-giorno-disastro-notte.glb",
     "colors": {
-      "structure": "#222222",
-      "accent": "#facc15"
+      "structure": "#facc15",
+      "accent": "#222222",
+      "detail": "#dc2626"
     }
   },
   {
@@ -796,8 +815,9 @@
     "model": "/products/sottobicchiere-laurea-presa-dignita.glb",
     "openModel": "/products/sottobicchiere-laurea-presa-dignita.glb",
     "colors": {
-      "structure": "#dc2626",
-      "accent": "#ffffff"
+      "structure": "#facc15",
+      "accent": "#222222",
+      "detail": "#dc2626"
     }
   },
   {
@@ -816,8 +836,9 @@
     "model": "/products/sottobicchiere-bevi-responsabilmente.glb",
     "openModel": "/products/sottobicchiere-bevi-responsabilmente.glb",
     "colors": {
-      "structure": "#218c45",
-      "accent": "#ffffff"
+      "structure": "#facc15",
+      "accent": "#222222",
+      "detail": "#dc2626"
     }
   },
   {
@@ -836,8 +857,9 @@
     "model": "/products/sottobicchiere-oggi-dottore-domani-hangover.glb",
     "openModel": "/products/sottobicchiere-oggi-dottore-domani-hangover.glb",
     "colors": {
-      "structure": "#2458b8",
-      "accent": "#ffffff"
+      "structure": "#facc15",
+      "accent": "#222222",
+      "detail": "#dc2626"
     }
   },
   {
@@ -856,8 +878,9 @@
     "model": "/products/sottobicchiere-110-lode-amaro.glb",
     "openModel": "/products/sottobicchiere-110-lode-amaro.glb",
     "colors": {
-      "structure": "#dc2626",
-      "accent": "#ffffff"
+      "structure": "#facc15",
+      "accent": "#222222",
+      "detail": "#dc2626"
     }
   },
   {
@@ -876,8 +899,9 @@
     "model": "/products/sottobicchiere-cum-laude-cum-spritz.glb",
     "openModel": "/products/sottobicchiere-cum-laude-cum-spritz.glb",
     "colors": {
-      "structure": "#f97316",
-      "accent": "#222222"
+      "structure": "#facc15",
+      "accent": "#222222",
+      "detail": "#dc2626"
     }
   },
   {
@@ -896,8 +920,9 @@
     "model": "/products/sottobicchiere-vero-esame-domani.glb",
     "openModel": "/products/sottobicchiere-vero-esame-domani.glb",
     "colors": {
-      "structure": "#803fa1",
-      "accent": "#ffffff"
+      "structure": "#facc15",
+      "accent": "#222222",
+      "detail": "#dc2626"
     }
   },
   {
@@ -916,8 +941,9 @@
     "model": "/products/sottobicchiere-discussione-superata.glb",
     "openModel": "/products/sottobicchiere-discussione-superata.glb",
     "colors": {
-      "structure": "#218c45",
-      "accent": "#ffffff"
+      "structure": "#facc15",
+      "accent": "#222222",
+      "detail": "#dc2626"
     }
   },
   {
@@ -936,8 +962,9 @@
     "model": "/products/sottobicchiere-proclamazione-pre-serata.glb",
     "openModel": "/products/sottobicchiere-proclamazione-pre-serata.glb",
     "colors": {
-      "structure": "#222222",
-      "accent": "#facc15"
+      "structure": "#facc15",
+      "accent": "#222222",
+      "detail": "#dc2626"
     }
   },
   {
@@ -956,8 +983,9 @@
     "model": "/products/sottobicchiere-tesi-finita-fegato.glb",
     "openModel": "/products/sottobicchiere-tesi-finita-fegato.glb",
     "colors": {
-      "structure": "#dc2626",
-      "accent": "#ffffff"
+      "structure": "#facc15",
+      "accent": "#222222",
+      "detail": "#dc2626"
     }
   },
   {
@@ -977,7 +1005,8 @@
     "openModel": "/products/sottobicchiere-non-chiedete-tesi.glb",
     "colors": {
       "structure": "#facc15",
-      "accent": "#222222"
+      "accent": "#222222",
+      "detail": "#dc2626"
     }
   },
   {
@@ -996,8 +1025,9 @@
     "model": "/products/sottobicchiere-dott-in-teoria.glb",
     "openModel": "/products/sottobicchiere-dott-in-teoria.glb",
     "colors": {
-      "structure": "#2458b8",
-      "accent": "#ffffff"
+      "structure": "#facc15",
+      "accent": "#222222",
+      "detail": "#dc2626"
     }
   },
   {
@@ -1016,8 +1046,9 @@
     "model": "/products/sottobicchiere-trust-me-dottore.glb",
     "openModel": "/products/sottobicchiere-trust-me-dottore.glb",
     "colors": {
-      "structure": "#218c45",
-      "accent": "#ffffff"
+      "structure": "#facc15",
+      "accent": "#222222",
+      "detail": "#dc2626"
     }
   },
   {
@@ -1036,8 +1067,9 @@
     "model": "/products/sottobicchiere-fonte-laureato.glb",
     "openModel": "/products/sottobicchiere-fonte-laureato.glb",
     "colors": {
-      "structure": "#222222",
-      "accent": "#ffffff"
+      "structure": "#facc15",
+      "accent": "#222222",
+      "detail": "#dc2626"
     }
   },
   {
@@ -1056,8 +1088,9 @@
     "model": "/products/sottobicchiere-sbagliare-con-titolo.glb",
     "openModel": "/products/sottobicchiere-sbagliare-con-titolo.glb",
     "colors": {
-      "structure": "#803fa1",
-      "accent": "#ffffff"
+      "structure": "#facc15",
+      "accent": "#222222",
+      "detail": "#dc2626"
     }
   },
   {
@@ -1077,7 +1110,8 @@
     "openModel": "/products/sottobicchiere-mamma-pezzo-carta.glb",
     "colors": {
       "structure": "#facc15",
-      "accent": "#222222"
+      "accent": "#222222",
+      "detail": "#dc2626"
     }
   },
   {
@@ -1096,8 +1130,9 @@
     "model": "/products/sottobicchiere-costo-laurea.glb",
     "openModel": "/products/sottobicchiere-costo-laurea.glb",
     "colors": {
-      "structure": "#2458b8",
-      "accent": "#ffffff"
+      "structure": "#facc15",
+      "accent": "#222222",
+      "detail": "#dc2626"
     }
   },
   {
@@ -1116,8 +1151,9 @@
     "model": "/products/sottobicchiere-ral-loading.glb",
     "openModel": "/products/sottobicchiere-ral-loading.glb",
     "colors": {
-      "structure": "#222222",
-      "accent": "#facc15"
+      "structure": "#facc15",
+      "accent": "#222222",
+      "detail": "#dc2626"
     }
   },
   {
@@ -1136,8 +1172,9 @@
     "model": "/products/sottobicchiere-esperienza-titolo.glb",
     "openModel": "/products/sottobicchiere-esperienza-titolo.glb",
     "colors": {
-      "structure": "#218c45",
-      "accent": "#ffffff"
+      "structure": "#facc15",
+      "accent": "#222222",
+      "detail": "#dc2626"
     }
   },
   {
@@ -1156,8 +1193,9 @@
     "model": "/products/sottobicchiere-linkedin-prima-proclamazione.glb",
     "openModel": "/products/sottobicchiere-linkedin-prima-proclamazione.glb",
     "colors": {
-      "structure": "#2458b8",
-      "accent": "#ffffff"
+      "structure": "#facc15",
+      "accent": "#222222",
+      "detail": "#dc2626"
     }
   },
   {
@@ -1176,8 +1214,9 @@
     "model": "/products/sottobicchiere-dottore-senza-pazienti.glb",
     "openModel": "/products/sottobicchiere-dottore-senza-pazienti.glb",
     "colors": {
-      "structure": "#dc2626",
-      "accent": "#ffffff"
+      "structure": "#facc15",
+      "accent": "#222222",
+      "detail": "#dc2626"
     }
   },
   {
@@ -1196,8 +1235,9 @@
     "model": "/products/sottobicchiere-chiamatemi-dottore.glb",
     "openModel": "/products/sottobicchiere-chiamatemi-dottore.glb",
     "colors": {
-      "structure": "#803fa1",
-      "accent": "#ffffff"
+      "structure": "#facc15",
+      "accent": "#222222",
+      "detail": "#dc2626"
     }
   },
   {
@@ -1216,8 +1256,9 @@
     "model": "/products/sottobicchiere-laurea-nessuna-idea.glb",
     "openModel": "/products/sottobicchiere-laurea-nessuna-idea.glb",
     "colors": {
-      "structure": "#f97316",
-      "accent": "#222222"
+      "structure": "#facc15",
+      "accent": "#222222",
+      "detail": "#dc2626"
     }
   },
   {
@@ -1236,8 +1277,9 @@
     "model": "/products/sottobicchiere-non-domande-difficili.glb",
     "openModel": "/products/sottobicchiere-non-domande-difficili.glb",
     "colors": {
-      "structure": "#222222",
-      "accent": "#ffffff"
+      "structure": "#facc15",
+      "accent": "#222222",
+      "detail": "#dc2626"
     }
   },
   {
@@ -1256,8 +1298,9 @@
     "model": "/products/sottobicchiere-commissione-sopravvissuta.glb",
     "openModel": "/products/sottobicchiere-commissione-sopravvissuta.glb",
     "colors": {
-      "structure": "#803fa1",
-      "accent": "#ffffff"
+      "structure": "#facc15",
+      "accent": "#222222",
+      "detail": "#dc2626"
     }
   },
   {
@@ -1276,8 +1319,9 @@
     "model": "/products/sottobicchiere-voto-segreto.glb",
     "openModel": "/products/sottobicchiere-voto-segreto.glb",
     "colors": {
-      "structure": "#dc2626",
-      "accent": "#ffffff"
+      "structure": "#facc15",
+      "accent": "#222222",
+      "detail": "#dc2626"
     }
   },
   {
@@ -1296,8 +1340,9 @@
     "model": "/products/sottobicchiere-sudore-e-biblioteca.glb",
     "openModel": "/products/sottobicchiere-sudore-e-biblioteca.glb",
     "colors": {
-      "structure": "#2458b8",
-      "accent": "#ffffff"
+      "structure": "#facc15",
+      "accent": "#222222",
+      "detail": "#dc2626"
     }
   },
   {
@@ -1316,8 +1361,9 @@
     "model": "/products/sottobicchiere-caffe-relatore-panico.glb",
     "openModel": "/products/sottobicchiere-caffe-relatore-panico.glb",
     "colors": {
-      "structure": "#222222",
-      "accent": "#facc15"
+      "structure": "#facc15",
+      "accent": "#222222",
+      "detail": "#dc2626"
     }
   },
   {
@@ -1336,8 +1382,9 @@
     "model": "/products/sottobicchiere-fuori-corso-dentro-party.glb",
     "openModel": "/products/sottobicchiere-fuori-corso-dentro-party.glb",
     "colors": {
-      "structure": "#f97316",
-      "accent": "#222222"
+      "structure": "#facc15",
+      "accent": "#222222",
+      "detail": "#dc2626"
     }
   },
   {
@@ -1356,8 +1403,9 @@
     "model": "/products/sottobicchiere-tesi-tre-copie.glb",
     "openModel": "/products/sottobicchiere-tesi-tre-copie.glb",
     "colors": {
-      "structure": "#218c45",
-      "accent": "#ffffff"
+      "structure": "#facc15",
+      "accent": "#222222",
+      "detail": "#dc2626"
     }
   },
   {
@@ -1376,8 +1424,9 @@
     "model": "/products/sottobicchiere-non-chiamatemi-domani.glb",
     "openModel": "/products/sottobicchiere-non-chiamatemi-domani.glb",
     "colors": {
-      "structure": "#2458b8",
-      "accent": "#ffffff"
+      "structure": "#facc15",
+      "accent": "#222222",
+      "detail": "#dc2626"
     }
   },
   {
@@ -1396,8 +1445,9 @@
     "model": "/products/sottobicchiere-sessione-fuori-pericolo.glb",
     "openModel": "/products/sottobicchiere-sessione-fuori-pericolo.glb",
     "colors": {
-      "structure": "#803fa1",
-      "accent": "#ffffff"
+      "structure": "#facc15",
+      "accent": "#222222",
+      "detail": "#dc2626"
     }
   },
   {
@@ -1416,8 +1466,9 @@
     "model": "/products/sottobicchiere-brindisi-ai-fuori-corso.glb",
     "openModel": "/products/sottobicchiere-brindisi-ai-fuori-corso.glb",
     "colors": {
-      "structure": "#dc2626",
-      "accent": "#ffffff"
+      "structure": "#facc15",
+      "accent": "#222222",
+      "detail": "#dc2626"
     }
   },
   {
@@ -1436,8 +1487,9 @@
     "model": "/products/sottobicchiere-laurea-con-riserva.glb",
     "openModel": "/products/sottobicchiere-laurea-con-riserva.glb",
     "colors": {
-      "structure": "#222222",
-      "accent": "#facc15"
+      "structure": "#facc15",
+      "accent": "#222222",
+      "detail": "#dc2626"
     }
   },
   {
@@ -1456,8 +1508,9 @@
     "model": "/products/sottobicchiere-dottore-ora-si-vede.glb",
     "openModel": "/products/sottobicchiere-dottore-ora-si-vede.glb",
     "colors": {
-      "structure": "#218c45",
-      "accent": "#ffffff"
+      "structure": "#facc15",
+      "accent": "#222222",
+      "detail": "#dc2626"
     }
   },
   {
@@ -1476,8 +1529,9 @@
     "model": "/products/sottobicchiere-festa-piano-studi.glb",
     "openModel": "/products/sottobicchiere-festa-piano-studi.glb",
     "colors": {
-      "structure": "#f97316",
-      "accent": "#222222"
+      "structure": "#facc15",
+      "accent": "#222222",
+      "detail": "#dc2626"
     }
   }
 ]

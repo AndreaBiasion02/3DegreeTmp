@@ -17,7 +17,7 @@ export type Product = {
   model: string;
   openModel: string;
   kind?: "cap" | "faculty-cap" | "coaster";
-  colors?: { structure: string; accent: string };
+  colors?: { structure: string; accent: string; detail?: string };
   collection: string;
   symbol?: string;
   preset?: CapPreset;

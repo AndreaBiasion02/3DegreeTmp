@@ -1,4 +1,4 @@
-export type ModelColors = { structure: string; accent: string };
+export type ModelColors = { structure: string; accent: string; detail?: string };
 import { filamentPalette } from "./filament-colors";
 export const defaultColors: ModelColors = {
   structure: "#222222",
@@ -11,10 +11,11 @@ export const colorChoices = filamentPalette.map(
 export function colorRole(
   name: string,
   rgb?: number[]
-): "structure" | "accent" | "fixed" {
+): "structure" | "accent" | "detail" | "fixed" {
   if (/chip/i.test(name)) return "fixed";
   if (name === "coaster_base") return "structure";
   if (name === "coaster_ink") return "accent";
+  if (name === "coaster_accent") return "detail";
   if (rgb)
     return rgb[0] > rgb[1] * 1.5 && rgb[0] > rgb[2] * 1.5
       ? "accent"

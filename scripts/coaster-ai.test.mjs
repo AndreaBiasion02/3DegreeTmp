@@ -37,7 +37,9 @@ test('Two-ink tracing separates red details, ignores transparency/white and fits
   const paths = await vectorizeCoasterComposition(Buffer.from(encode({ width, height, data })).toString('base64'), 'duotone');
   assert.deepEqual(new Set(paths.map(p => p.role)), new Set(['foreground', 'accent']));
   assert(paths.every(p => getPathBounds(p.d).maxRadius <= 45.51));
-  assert.equal(paths.length, 2);
+  assert.equal(paths.length, 3);
+  assert.equal(paths[0].fill,false);
+  assert(Math.abs(getPathBounds(paths[0].d).maxRadius-COASTER_BORDER_RADIUS)<.01);
 });
 
 test('Duotone mode uses the same single low-quality request and invalid modes cannot spend quota', async () => {
@@ -51,6 +53,7 @@ test('Duotone mode uses the same single low-quality request and invalid modes ca
       assert.equal(body.quality, 'low');
       assert.match(body.prompt, /NERO #222222/);
       assert.match(body.prompt, /ROSSO #dc2626/);
+      assert.match(body.prompt, /NON DISEGNARE ALCUN BORDO/);
       return Response.json({ data: [{ b64_json: testPng() }] });
     },
   }));
@@ -105,9 +108,10 @@ function testPng() {
 
 test('Traces an entire two-object PNG without moving either object to the top', async () => {
   const paths = await vectorizeCoasterComposition(testPng());
-  assert.equal(paths.length, 2);
-  assert(paths.every(path => path.fill && path.role === 'foreground' && path.d.length <= 15000));
-  const bounds = paths.map(path => getPathBounds(path.d)).sort((a, b) => a.centerX - b.centerX);
+  assert.equal(paths.length, 3);
+  assert.equal(paths[0].fill,false);
+  assert(paths.slice(1).every(path => path.fill && path.role === 'foreground' && path.d.length <= 15000));
+  const bounds = paths.slice(1).map(path => getPathBounds(path.d)).sort((a, b) => a.centerX - b.centerX);
   assert(bounds[0].centerX < 35 && bounds[0].centerY < 40);
   assert(bounds[1].centerX > 65 && bounds[1].centerY > 55);
   await assert.rejects(() => vectorizeCoasterComposition('not-png'));
@@ -122,9 +126,10 @@ test('Fits rounded image contours as curves without breaking the printable bound
     data[p + 3] = Math.max(0, Math.min(255, Math.round((174.5 - distance) * 255)));
   }
   const paths = await vectorizeCoasterComposition(Buffer.from(encode({ width, height, data })).toString('base64'));
-  assert.equal(paths.length, 1);
-  assert.match(paths[0].d, /C\s/);
-  const bounds = getPathBounds(paths[0].d);
+  assert.equal(paths.length, 2);
+  assert.equal(paths[0].fill,false);
+  assert.match(paths[1].d, /C\s/);
+  const bounds = getPathBounds(paths[1].d);
   assert(bounds.maxRadius < 48);
 });
 

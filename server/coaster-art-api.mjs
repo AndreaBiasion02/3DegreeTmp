@@ -157,10 +157,9 @@ async function generateImageComposition(input, { env, fetcher }) {
       signal: AbortSignal.timeout(85000),
       body: JSON.stringify({
         model, quality: 'low', size: '1024x1024', output_format: 'png', background: 'transparent', n: 1,
-        prompt: `Crea l'intera grafica, vista dall'alto, per un sottobicchiere circolare di laurea da 75 mm.
-Composizione originale e libera: la frase è protagonista, ma testo e disegni possono stare ovunque nel disco. Riproduci ESATTAMENTE la frase richiesta, inclusi nomi, accenti e giochi di parole; se manca, inventane una breve. Se il brief non indica soggetti, scegline uno pertinente; se ne chiede più di uno, rappresentali TUTTI distinti e riconoscibili, senza oggetti aggiuntivi.
-Stile sticker illustrato, lettering grande ed espressivo, sagome semplici e contorni spessi. Lascia spazio vuoto tra gli elementi; evita collage di emoji, icone sparse e dettagli minuti. Stelline, scintille, trattini e raggi: al massimo due piccoli segni in totale se non richiesti, anche zero; se richiesti, rispetta la quantità indicata.
-${inkDirection} Per la stampa 3D, tratti pieni di almeno 0,8 mm e vuoti essenziali di almeno 1 mm. Tutto entro l'area circolare con margine esterno, senza base piena. Se disegni una cornice circolare, tienila separata dagli altri elementi: il sito la riposizionerà a 2 mm dal bordo esterno.
+prompt: `Crea la grafica dall'alto per un sottobicchiere di laurea da 75 mm. Frase protagonista; disposizione libera nel disco. Riproduci ESATTAMENTE la frase, inclusi nomi, accenti e giochi di parole. Se il brief chiede più soggetti, rappresentali TUTTI distinti; altrimenti scegli un soggetto pertinente.
+Stile sticker: lettering grande, sagome semplici, contorni spessi, spazio tra elementi. Evita emoji e dettagli minuti. Stelline e raggi: al massimo due piccoli segni se non richiesti.
+${inkDirection} Per stampa 3D: tratti di almeno 0,8 mm e vuoti di almeno 1 mm, senza base piena. NON DISEGNARE ALCUN BORDO, CORNICE, CERCHIO, ANELLO O CONTORNO ESTERNO: il sito aggiunge un cerchio perfetto. Lascia spazio fra grafica e bordo esterno.
 ${getCoasterCategory(input.category)?.direction || ''}
 Brief: ${input.brief.trim()}.`,
       }),

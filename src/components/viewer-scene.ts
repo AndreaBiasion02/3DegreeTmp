@@ -62,7 +62,7 @@ export async function createScene(
   const model = gltf.scene;
   const colored: Array<{
     material: THREE.MeshStandardMaterial;
-    role: "structure" | "accent";
+    role: "structure" | "accent" | "detail";
   }> = [];
   model.traverse((object) => {
     if (!(object instanceof THREE.Mesh)) return;
@@ -150,7 +150,7 @@ export async function createScene(
   resize();
   return {
     setColors(colors) {
-      colored.forEach(({ material, role }) => material.color.set(colors[role]));
+      colored.forEach(({ material, role }) => material.color.set(colors[role] ?? colors.accent));
       render();
     },
     rotate(direction) {

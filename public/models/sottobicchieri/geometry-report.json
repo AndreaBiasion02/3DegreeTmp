@@ -5,7 +5,9 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 6900
+    "triangles": 10380,
+    "blackParts": 18,
+    "redParts": 6
   },
   {
     "slug": "sottobicchiere-laureato-per-sbaglio",
@@ -13,7 +15,9 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 10988
+    "triangles": 12576,
+    "blackParts": 18,
+    "redParts": 14
   },
   {
     "slug": "sottobicchiere-dottore-linkedin",
@@ -21,7 +25,9 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 10908
+    "triangles": 14040,
+    "blackParts": 28,
+    "redParts": 7
   },
   {
     "slug": "sottobicchiere-finalmente-disoccupato",
@@ -29,7 +35,9 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 10176
+    "triangles": 16902,
+    "blackParts": 29,
+    "redParts": 18
   },
   {
     "slug": "sottobicchiere-missione-compiuta",
@@ -37,7 +45,9 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 13048
+    "triangles": 13364,
+    "blackParts": 24,
+    "redParts": 16
   },
   {
     "slug": "sottobicchiere-ctrl-alt-laurea",
@@ -45,7 +55,9 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 15928
+    "triangles": 14536,
+    "blackParts": 16,
+    "redParts": 11
   },
   {
     "slug": "sottobicchiere-achievement-dottore",
@@ -53,7 +65,9 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 28564
+    "triangles": 21273,
+    "blackParts": 25,
+    "redParts": 14
   },
   {
     "slug": "sottobicchiere-game-over-universita",
@@ -61,7 +75,9 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 22598
+    "triangles": 18932,
+    "blackParts": 27,
+    "redParts": 14
   },
   {
     "slug": "sottobicchiere-respawn-lavoro",
@@ -69,7 +85,9 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 24800
+    "triangles": 15916,
+    "blackParts": 27,
+    "redParts": 14
   },
   {
     "slug": "sottobicchiere-laureato-exe",
@@ -77,7 +95,9 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 35688
+    "triangles": 16302,
+    "blackParts": 31,
+    "redParts": 19
   },
   {
     "slug": "sottobicchiere-chatgpt-ce-labbiamo-fatta",
@@ -85,7 +105,9 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 19320
+    "triangles": 18870,
+    "blackParts": 26,
+    "redParts": 11
   },
   {
     "slug": "sottobicchiere-3-anni-in-7",
@@ -93,7 +115,9 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 12128
+    "triangles": 14733,
+    "blackParts": 32,
+    "redParts": 9
   },
   {
     "slug": "sottobicchiere-sotto-pressione",
@@ -101,7 +125,9 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 17580
+    "triangles": 15956,
+    "blackParts": 35,
+    "redParts": 17
   },
   {
     "slug": "sottobicchiere-tesi-mai-sentita",
@@ -109,7 +135,9 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 12292
+    "triangles": 13956,
+    "blackParts": 24,
+    "redParts": 15
   },
   {
     "slug": "sottobicchiere-caffe-ansia",
@@ -117,7 +145,9 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 13820
+    "triangles": 17948,
+    "blackParts": 26,
+    "redParts": 11
   },
   {
     "slug": "sottobicchiere-ctrl-c-ctrl-v",
@@ -125,7 +155,9 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 24984
+    "triangles": 13942,
+    "blackParts": 19,
+    "redParts": 17
   },
   {
     "slug": "sottobicchiere-prima-titolo-poi-spritz",
@@ -133,7 +165,9 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 12872
+    "triangles": 14334,
+    "blackParts": 18,
+    "redParts": 23
   },
   {
     "slug": "sottobicchiere-brindisi-neo-disoccupato",
@@ -141,7 +175,9 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 17036
+    "triangles": 16030,
+    "blackParts": 24,
+    "redParts": 22
   },
   {
     "slug": "sottobicchiere-dottore-giorno-disastro-notte",
@@ -149,7 +185,9 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 18612
+    "triangles": 23146,
+    "blackParts": 39,
+    "redParts": 28
   },
   {
     "slug": "sottobicchiere-laurea-presa-dignita",
@@ -157,7 +195,9 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 16052
+    "triangles": 20558,
+    "blackParts": 40,
+    "redParts": 32
   },
   {
     "slug": "sottobicchiere-bevi-responsabilmente",
@@ -165,7 +205,9 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 21812
+    "triangles": 20902,
+    "blackParts": 50,
+    "redParts": 14
   },
   {
     "slug": "sottobicchiere-oggi-dottore-domani-hangover",
@@ -173,7 +215,9 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 16068
+    "triangles": 16302,
+    "blackParts": 30,
+    "redParts": 29
   },
   {
     "slug": "sottobicchiere-110-lode-amaro",
@@ -181,7 +225,9 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 8092
+    "triangles": 12224,
+    "blackParts": 12,
+    "redParts": 13
   },
   {
     "slug": "sottobicchiere-cum-laude-cum-spritz",
@@ -189,7 +235,9 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 12172
+    "triangles": 15936,
+    "blackParts": 14,
+    "redParts": 18
   },
   {
     "slug": "sottobicchiere-vero-esame-domani",
@@ -197,7 +245,9 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 15544
+    "triangles": 16172,
+    "blackParts": 43,
+    "redParts": 16
   },
   {
     "slug": "sottobicchiere-discussione-superata",
@@ -205,7 +255,9 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 19072
+    "triangles": 14070,
+    "blackParts": 27,
+    "redParts": 18
   },
   {
     "slug": "sottobicchiere-proclamazione-pre-serata",
@@ -213,7 +265,9 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 19568
+    "triangles": 16928,
+    "blackParts": 36,
+    "redParts": 23
   },
   {
     "slug": "sottobicchiere-tesi-finita-fegato",
@@ -221,7 +275,9 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 14416
+    "triangles": 15338,
+    "blackParts": 29,
+    "redParts": 14
   },
   {
     "slug": "sottobicchiere-non-chiedete-tesi",
@@ -229,7 +285,9 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 20560
+    "triangles": 24328,
+    "blackParts": 51,
+    "redParts": 23
   },
   {
     "slug": "sottobicchiere-dott-in-teoria",
@@ -237,7 +295,9 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 8512
+    "triangles": 9096,
+    "blackParts": 9,
+    "redParts": 13
   },
   {
     "slug": "sottobicchiere-trust-me-dottore",
@@ -245,7 +305,9 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 12232
+    "triangles": 14644,
+    "blackParts": 25,
+    "redParts": 12
   },
   {
     "slug": "sottobicchiere-fonte-laureato",
@@ -253,7 +315,9 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 21540
+    "triangles": 12992,
+    "blackParts": 20,
+    "redParts": 11
   },
   {
     "slug": "sottobicchiere-sbagliare-con-titolo",
@@ -261,7 +325,9 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 17808
+    "triangles": 14806,
+    "blackParts": 22,
+    "redParts": 20
   },
   {
     "slug": "sottobicchiere-mamma-pezzo-carta",
@@ -269,7 +335,9 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 16988
+    "triangles": 18388,
+    "blackParts": 35,
+    "redParts": 8
   },
   {
     "slug": "sottobicchiere-costo-laurea",
@@ -277,7 +345,9 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 30904
+    "triangles": 16682,
+    "blackParts": 41,
+    "redParts": 10
   },
   {
     "slug": "sottobicchiere-ral-loading",
@@ -285,7 +355,9 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 13132
+    "triangles": 11264,
+    "blackParts": 20,
+    "redParts": 8
   },
   {
     "slug": "sottobicchiere-esperienza-titolo",
@@ -293,7 +365,9 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 19664
+    "triangles": 12930,
+    "blackParts": 29,
+    "redParts": 13
   },
   {
     "slug": "sottobicchiere-linkedin-prima-proclamazione",
@@ -301,7 +375,9 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 41904
+    "triangles": 21342,
+    "blackParts": 67,
+    "redParts": 18
   },
   {
     "slug": "sottobicchiere-dottore-senza-pazienti",
@@ -309,7 +385,9 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 12620
+    "triangles": 14542,
+    "blackParts": 27,
+    "redParts": 10
   },
   {
     "slug": "sottobicchiere-chiamatemi-dottore",
@@ -317,7 +395,9 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 20420
+    "triangles": 18176,
+    "blackParts": 37,
+    "redParts": 12
   },
   {
     "slug": "sottobicchiere-laurea-nessuna-idea",
@@ -325,7 +405,9 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 20688
+    "triangles": 17042,
+    "blackParts": 44,
+    "redParts": 20
   },
   {
     "slug": "sottobicchiere-non-domande-difficili",
@@ -333,7 +415,9 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 16160
+    "triangles": 18863,
+    "blackParts": 40,
+    "redParts": 18
   },
   {
     "slug": "sottobicchiere-commissione-sopravvissuta",
@@ -341,7 +425,9 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 19812
+    "triangles": 18658,
+    "blackParts": 49,
+    "redParts": 15
   },
   {
     "slug": "sottobicchiere-voto-segreto",
@@ -349,7 +435,9 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 14428
+    "triangles": 14416,
+    "blackParts": 26,
+    "redParts": 12
   },
   {
     "slug": "sottobicchiere-sudore-e-biblioteca",
@@ -357,7 +445,9 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 26192
+    "triangles": 24710,
+    "blackParts": 45,
+    "redParts": 28
   },
   {
     "slug": "sottobicchiere-caffe-relatore-panico",
@@ -365,7 +455,9 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 11140
+    "triangles": 16022,
+    "blackParts": 24,
+    "redParts": 22
   },
   {
     "slug": "sottobicchiere-fuori-corso-dentro-party",
@@ -373,7 +465,9 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 14468
+    "triangles": 18352,
+    "blackParts": 42,
+    "redParts": 11
   },
   {
     "slug": "sottobicchiere-tesi-tre-copie",
@@ -381,7 +475,9 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 18524
+    "triangles": 20070,
+    "blackParts": 43,
+    "redParts": 27
   },
   {
     "slug": "sottobicchiere-non-chiamatemi-domani",
@@ -389,7 +485,9 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 27640
+    "triangles": 15494,
+    "blackParts": 42,
+    "redParts": 11
   },
   {
     "slug": "sottobicchiere-sessione-fuori-pericolo",
@@ -397,7 +495,9 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 12824
+    "triangles": 18284,
+    "blackParts": 24,
+    "redParts": 26
   },
   {
     "slug": "sottobicchiere-brindisi-ai-fuori-corso",
@@ -405,7 +505,9 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 16208
+    "triangles": 20312,
+    "blackParts": 39,
+    "redParts": 28
   },
   {
     "slug": "sottobicchiere-laurea-con-riserva",
@@ -413,7 +515,9 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 13676
+    "triangles": 15950,
+    "blackParts": 27,
+    "redParts": 11
   },
   {
     "slug": "sottobicchiere-dottore-ora-si-vede",
@@ -421,7 +525,9 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 16392
+    "triangles": 17127,
+    "blackParts": 53,
+    "redParts": 8
   },
   {
     "slug": "sottobicchiere-festa-piano-studi",
@@ -429,6 +535,8 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 19872
+    "triangles": 16818,
+    "blackParts": 31,
+    "redParts": 27
   }
 ]
