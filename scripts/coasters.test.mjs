@@ -5,7 +5,15 @@ import sharp from 'sharp';
 import { drawnBorderCoverage } from './coaster-border-audit.mjs';
 import { getPathBounds } from '../src/lib/coaster-art.mjs';
 import { COASTER_BORDER_RADIUS } from '../src/lib/coaster-tracing.mjs';
+import { catalogCoasterColorway, categoryCoasterColorway, coasterColorways } from '../src/lib/coaster-colorways.mjs';
+import { coasterCategories } from '../src/lib/coaster-categories.mjs';
 const products=JSON.parse(fs.readFileSync('src/lib/products.json')).filter(p=>p.kind==='coaster');
+const palette=JSON.parse(fs.readFileSync('src/lib/filament-palette.json')).map(color=>color.hex);
+const luminance=hex=>[1,3,5].map((start,index)=>{
+ const channel=parseInt(hex.slice(start,start+2),16)/255;
+ return (channel<=.04045?channel/12.92:((channel+.055)/1.055)**2.4)*[.2126,.7152,.0722][index];
+}).reduce((sum,value)=>sum+value,0);
+const contrast=(a,b)=>{const values=[luminance(a),luminance(b)].sort((x,y)=>y-x);return (values[0]+.05)/(values[1]+.05);};
 test('Every catalog coaster has a self-contained 75 mm top-view SVG and 75 mm STL base', () => {
  for (const p of products) {
   const slug=p.slug.replace('sottobicchiere-','');
@@ -35,21 +43,46 @@ test('Coasters are 75 mm wide, 4 mm thick, with a flush solid 0.6 mm graphic',()
 });
 test('Catalog coaster artwork is generated, reusable, and split into two printable ink colors',()=>{
  assert.equal(products.length,54);
- for(const p of products){
+ for(const [index,p] of products.entries()){
   const slug=p.slug.replace('sottobicchiere-','');
   const art=JSON.parse(fs.readFileSync(`scripts/coaster-artworks/${slug}.json`,'utf8'));
   assert.equal(art.imageComposition,true);
   assert(art.paths.some(path=>path.role==='foreground'));
   assert(art.paths.some(path=>path.role==='accent'));
-  assert.equal(p.colors.structure,art.background);
-  assert.equal(p.colors.accent,art.foreground);
-  assert.equal(p.colors.detail,art.accent);
+  assert.deepEqual(p.colors,catalogCoasterColorway(index));
+  const svg=fs.readFileSync(`public/models/sottobicchieri/${slug}.svg`,'utf8');
+  for(const color of Object.values(p.colors)) assert(svg.includes(`fill="${color}"`),`${slug}: preview color ${color} missing`);
   for(const color of ['nera','rossa']){
    const stl=fs.readFileSync(`public/models/sottobicchieri/${slug}-grafica-${color}.stl`);
    assert(stl.readUInt32LE(80)>0,`${slug}: missing ${color} ink triangles`);
   }
   const glb=fs.readFileSync('public'+p.model),length=glb.readUInt32LE(12),json=JSON.parse(glb.subarray(20,20+length));
   assert.deepEqual(json.meshes.map(mesh=>mesh.name),['coaster_base','coaster_ink','coaster_accent']);
+ }
+});
+test('Default colorways use available filaments and keep both printed inks legible',()=>{
+ assert(coasterColorways.length>=6);
+ assert(new Set(coasterColorways.map(colors=>colors.structure)).size>=4);
+ for(const colors of coasterColorways){
+  assert.equal(new Set(Object.values(colors)).size,3);
+  for(const color of Object.values(colors)) assert(palette.includes(color),`Unavailable filament ${color}`);
+  assert(contrast(colors.structure,colors.accent)>=4.5,`Main ink contrast: ${JSON.stringify(colors)}`);
+  assert(contrast(colors.structure,colors.detail)>=4,`Detail ink contrast: ${JSON.stringify(colors)}`);
+ }
+ for(const category of ['meme','party','faculty','student','gaming','personal','free']) assert(coasterColorways.includes(categoryCoasterColorway(category)));
+});
+test('Every inspiration example renders its category base and both ink colors',async()=>{
+ for(const category of coasterCategories){
+  const colors=Object.values(categoryCoasterColorway(category.id)).map(hex=>[1,3,5].map(i=>parseInt(hex.slice(i,i+2),16)));
+  for(const example of category.examples){
+   const {data}=await sharp(`public${example.image}`).ensureAlpha().raw().toBuffer({resolveWithObject:true});
+   const counts=[0,0,0];
+   for(let i=0;i<data.length;i+=4){
+    if(data[i+3]<240)continue;
+    for(let c=0;c<colors.length;c++)if(colors[c].every((channel,k)=>Math.abs(data[i+k]-channel)<=12))counts[c]++;
+   }
+   counts.forEach((count,index)=>assert(count>100,`${example.title}: color ${index} missing from example`));
+  }
  }
 });
 test('Every catalog coaster has the same separate 2 mm ring and no integrated inner frame',async()=>{

@@ -5,6 +5,7 @@ import pc from 'polygon-clipping';
 import sharp from 'sharp';
 import { writeGlb, writeStl } from './coaster-geometry.mjs';
 import { drawnBorderCoverage } from './coaster-border-audit.mjs';
+import { catalogCoasterColorway } from '../src/lib/coaster-colorways.mjs';
 
 const radius = 37.5, scale = 75 / 96;
 const onlyIndex = process.argv.indexOf('--only');
@@ -54,9 +55,11 @@ const polygonsFromArt = path => {
   }).filter(p=>p[0].length>=4);
 };
 const svgPath = shape => shape.map(poly=>poly.map(ring=>'M'+ring.map(([x,y])=>`${x.toFixed(3)},${(-y).toFixed(3)}`).join('L')+'Z').join('')).join('');
-const meshSvg = (background, black, red, phrase, outer=false) => `<svg xmlns="http://www.w3.org/2000/svg" width="${outer?1860:'75mm'}" height="${outer?1420:'75mm'}" viewBox="${outer?'0 0 465 355':'-37.5 -37.5 75 75'}"><title>${phrase.replaceAll('&','&amp;').replaceAll('<','&lt;')}</title>${outer?'<rect width="465" height="355" fill="#f0efed"/><ellipse cx="235" cy="302" rx="141" ry="12" fill="#222222" opacity=".10"/><g transform="translate(232.5 177) scale(3.70666667 3.53333333)"><circle cy="3" r="37.5" fill="#222222"/>':''}<circle r="37.5" fill="${background}"/><path d="${svgPath(black)}" fill="#222222" fill-rule="evenodd"/><path d="${svgPath(red)}" fill="#dc2626" fill-rule="evenodd"/>${outer?'</g>':''}</svg>`;
+const meshSvg = (colors, black, red, phrase, outer=false) => `<svg xmlns="http://www.w3.org/2000/svg" width="${outer?1860:'75mm'}" height="${outer?1420:'75mm'}" viewBox="${outer?'0 0 465 355':'-37.5 -37.5 75 75'}"><title>${phrase.replaceAll('&','&amp;').replaceAll('<','&lt;')}</title>${outer?'<rect width="465" height="355" fill="#f0efed"/><ellipse cx="235" cy="302" rx="141" ry="12" fill="#222222" opacity=".10"/><g transform="translate(232.5 177) scale(3.70666667 3.53333333)"><circle cy="3" r="37.5" fill="#222222"/>':''}<circle r="37.5" fill="${colors.structure}"/><path d="${svgPath(black)}" fill="${colors.accent}" fill-rule="evenodd"/><path d="${svgPath(red)}" fill="${colors.detail}" fill-rule="evenodd"/>${outer?'</g>':''}</svg>`;
 const report=[];
-for (const product of products.filter(p=>p.kind==='coaster' && (!only || p.slug.endsWith(only)))) {
+for (const [index, product] of products.filter(p=>p.kind==='coaster').entries()) {
+  if (only && !product.slug.endsWith(only)) continue;
+  const colors=catalogCoasterColorway(index);
   const slug=product.slug.replace(/^sottobicchiere-/,'');
   const file=`scripts/coaster-artworks/${slug}.json`;
   if (!fs.existsSync(file)) throw new Error(`Missing generated artwork: ${file}`);
@@ -69,15 +72,15 @@ for (const product of products.filter(p=>p.kind==='coaster' && (!only || p.slug.
   const result=spawnSync('python',['scripts/coaster-mesh.py'],{input:JSON.stringify({disk,black:blackParts,red:redParts}),encoding:'utf8',maxBuffer:100*1024*1024});
   if(result.status!==0)throw new Error(`Mesh construction failed for ${slug}: ${result.stderr||result.error?.message}`);
   const {baseTris,blackTris,redTris,black,red}=JSON.parse(result.stdout);
-  writeGlb([{name:'coaster_base',tris:baseTris,color:rgb(artwork.background)},{name:'coaster_ink',tris:blackTris,color:rgb(artwork.foreground)},...(redTris.length?[{name:'coaster_accent',tris:redTris,color:rgb(artwork.accent)}]:[])],`public/products/${product.slug}.glb`);
+  writeGlb([{name:'coaster_base',tris:baseTris,color:rgb(colors.structure)},{name:'coaster_ink',tris:blackTris,color:rgb(colors.accent)},...(redTris.length?[{name:'coaster_accent',tris:redTris,color:rgb(colors.detail)}]:[])],`public/products/${product.slug}.glb`);
   writeStl(baseTris,`public/models/sottobicchieri/${slug}-base.stl`);
   writeStl([...blackTris,...redTris],`public/models/sottobicchieri/${slug}-grafica.stl`);
   writeStl(blackTris,`public/models/sottobicchieri/${slug}-grafica-nera.stl`);
   if(redTris.length) writeStl(redTris,`public/models/sottobicchieri/${slug}-grafica-rossa.stl`);
-  fs.writeFileSync(`public/models/sottobicchieri/${slug}.svg`,meshSvg(artwork.background,black,red,product.name));
-  const svg=meshSvg(artwork.background,black,red,product.name,true);
+  fs.writeFileSync(`public/models/sottobicchieri/${slug}.svg`,meshSvg(colors,black,red,product.name));
+  const svg=meshSvg(colors,black,red,product.name,true);
   for(const [suffix,width] of [['',465],['@2x',930],['@4x',1860]]) await sharp(Buffer.from(svg)).resize(width).webp({quality:95}).toFile(`public/products/${product.slug}${suffix}.webp`);
-  product.colors={structure:artwork.background,accent:artwork.foreground,...(redTris.length?{detail:artwork.accent}:{})};
+  product.colors={structure:colors.structure,accent:colors.accent,...(redTris.length?{detail:colors.detail}:{})};
   report.push({slug:product.slug,phrase:product.name,diameterMm:75,heightMm:4,inlayDepthMm:.6,triangles:baseTris.length+blackTris.length+redTris.length,blackParts:black.length,redParts:red.length});
   console.log(`Built ${slug}: ${report.at(-1).triangles} triangles`);
 }

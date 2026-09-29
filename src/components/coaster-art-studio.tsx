@@ -8,6 +8,7 @@ import { validateArtworks } from '@/lib/coaster-art.mjs';
 import { artworkFromGeneratedImage } from '@/lib/coaster-image-browser';
 import { readGenerationResponse } from '@/lib/generation-response';
 import { coasterCategories, getCoasterCategory } from '@/lib/coaster-categories.mjs';
+import { categoryCoasterColorway } from '@/lib/coaster-colorways.mjs';
 import CoasterArtPreview, { type Artwork } from './coaster-art-preview';
 import { useGenerationCooldown } from './use-generation-cooldown';
 
@@ -61,10 +62,13 @@ export default function CoasterArtStudio() {
         validated = validateArtworks(data.proposals, filamentPalette) as Artwork[];
       }
       if (!validated.length) throw new Error('Nessuna grafica generata. Riprova.');
-      setHistory(previous => [{ brief, category, colorMode, art: validated[0] }, ...previous].slice(0, 6));
+      const colors = categoryCoasterColorway(category);
+      const colored = { ...validated[0], background: colors.structure, foreground: colors.accent,
+        ...(validated[0].accent ? { accent: colors.detail } : {}) };
+      setHistory(previous => [{ brief, category, colorMode, art: colored }, ...previous].slice(0, 6));
       setArt(previous => {
-        if (!previous) return validated[0];
-        const next = { ...validated[0], background: previous.background, foreground: previous.foreground };
+        if (!previous) return colored;
+        const next = { ...colored, background: previous.background, foreground: previous.foreground };
         if (next.accent) next.accent = [previous.accent, next.accent, ...filamentPalette.map(c => c.hex)].find(c => c && c !== next.background && c !== next.foreground);
         return next;
       });
@@ -125,7 +129,7 @@ export default function CoasterArtStudio() {
             <p className="mt-4 text-sm font-semibold">Parti da un esempio</p>
             <div className="mt-2 grid grid-cols-2 gap-3">
               {selectedCategory.examples.map(example => <button key={example.title} type="button" onClick={() => { setBrief(example.brief); setError(''); setNotice('Esempio inserito: puoi modificare la frase e i disegni prima di generare.'); }} className="overflow-hidden rounded-2xl border border-brand-primary/20 bg-white text-left transition hover:border-brand-primary disabled:opacity-50">
-                <img src={example.image} alt={`Ispirazione: ${example.title}`} width={240} height={240} loading="lazy" className="aspect-square w-full bg-brand-paper object-contain" />
+                <img src={`${example.image}?palette=4`} alt={`Ispirazione: ${example.title}`} width={240} height={240} loading="lazy" className="aspect-square w-full bg-brand-paper object-contain" />
                 <span className="block p-3 text-sm font-bold">{example.title}<span className="mt-1 block text-xs font-normal text-brand-dark/65">Personalizza questa idea →</span></span>
               </button>)}
             </div>
