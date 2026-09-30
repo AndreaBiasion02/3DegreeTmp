@@ -7,6 +7,7 @@ import sys
 
 from shapely import constrained_delaunay_triangles, make_valid, set_precision, union_all
 from shapely.geometry import Polygon
+from shapely.geometry.polygon import orient
 
 GRID = 0.0001
 FLOOR = 3.4
@@ -63,6 +64,9 @@ def faces(shape, z, up=True):
 def walls(shape, bottom, top, reverse=False):
     triangles = []
     for polygon in polygons(shape):
+        # Precision reduction/boolean operations may return clockwise shells.
+        # Outward walls require CCW shells and CW holes, independently of input.
+        polygon = orient(polygon, sign=1.0)
         rings = [polygon.exterior, *polygon.interiors]
         for ring in rings:
             vertices = list(ring.coords)

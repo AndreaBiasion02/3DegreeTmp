@@ -129,11 +129,11 @@ export default function CoasterArtStudio() {
             <p className="mt-4 text-sm font-semibold">Parti da un esempio</p>
             <div className="mt-2 grid grid-cols-2 gap-3">
               {selectedCategory.examples.map(example => <button key={example.title} type="button" onClick={() => { setBrief(example.brief); setError(''); setNotice('Esempio inserito: puoi modificare la frase e i disegni prima di generare.'); }} className="overflow-hidden rounded-2xl border border-brand-primary/20 bg-white text-left transition hover:border-brand-primary disabled:opacity-50">
-                <img src={`${example.image}?palette=4`} alt={`Ispirazione: ${example.title}`} width={240} height={240} loading="lazy" className="aspect-square w-full bg-brand-paper object-contain" />
+                <img src={example.image} alt={`Ispirazione: ${example.title}`} width={465} height={355} loading="lazy" className="aspect-[465/355] w-full bg-brand-paper object-contain" />
                 <span className="block p-3 text-sm font-bold">{example.title}<span className="mt-1 block text-xs font-normal text-brand-dark/65">Personalizza questa idea →</span></span>
               </button>)}
             </div>
-            <p className="mt-2 text-xs text-brand-dark/60">Immagini di ispirazione: la tua grafica sarà una nuova interpretazione con i colori dei nostri filamenti.</p>
+            <p className="mt-2 text-xs text-brand-dark/60">Questi modelli sono anche nella raccolta qui sotto. Scegli un esempio per personalizzare la tua idea.</p>
           </>}
         </fieldset>
         <fieldset disabled={loading} className="mb-6">

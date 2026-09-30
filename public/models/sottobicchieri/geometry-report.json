@@ -5,8 +5,8 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 10380,
-    "blackParts": 18,
+    "triangles": 40952,
+    "blackParts": 16,
     "redParts": 6
   },
   {
@@ -15,9 +15,9 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 12576,
-    "blackParts": 18,
-    "redParts": 14
+    "triangles": 50090,
+    "blackParts": 20,
+    "redParts": 13
   },
   {
     "slug": "sottobicchiere-dottore-linkedin",
@@ -25,8 +25,8 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 14040,
-    "blackParts": 28,
+    "triangles": 59856,
+    "blackParts": 26,
     "redParts": 7
   },
   {
@@ -35,8 +35,8 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 16902,
-    "blackParts": 29,
+    "triangles": 74622,
+    "blackParts": 30,
     "redParts": 18
   },
   {
@@ -45,8 +45,8 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 13364,
-    "blackParts": 24,
+    "triangles": 56902,
+    "blackParts": 25,
     "redParts": 16
   },
   {
@@ -55,8 +55,8 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 14536,
-    "blackParts": 16,
+    "triangles": 62104,
+    "blackParts": 17,
     "redParts": 11
   },
   {
@@ -65,7 +65,7 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 21273,
+    "triangles": 97286,
     "blackParts": 25,
     "redParts": 14
   },
@@ -75,9 +75,9 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 18932,
+    "triangles": 78388,
     "blackParts": 27,
-    "redParts": 14
+    "redParts": 15
   },
   {
     "slug": "sottobicchiere-respawn-lavoro",
@@ -85,7 +85,7 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 15916,
+    "triangles": 67856,
     "blackParts": 27,
     "redParts": 14
   },
@@ -95,8 +95,8 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 16302,
-    "blackParts": 31,
+    "triangles": 70188,
+    "blackParts": 30,
     "redParts": 19
   },
   {
@@ -105,9 +105,9 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 18870,
+    "triangles": 84064,
     "blackParts": 26,
-    "redParts": 11
+    "redParts": 9
   },
   {
     "slug": "sottobicchiere-3-anni-in-7",
@@ -115,8 +115,8 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 14733,
-    "blackParts": 32,
+    "triangles": 63424,
+    "blackParts": 29,
     "redParts": 9
   },
   {
@@ -125,9 +125,9 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 15956,
-    "blackParts": 35,
-    "redParts": 17
+    "triangles": 70576,
+    "blackParts": 34,
+    "redParts": 16
   },
   {
     "slug": "sottobicchiere-tesi-mai-sentita",
@@ -135,7 +135,7 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 13956,
+    "triangles": 58536,
     "blackParts": 24,
     "redParts": 15
   },
@@ -145,9 +145,9 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 17948,
+    "triangles": 78344,
     "blackParts": 26,
-    "redParts": 11
+    "redParts": 9
   },
   {
     "slug": "sottobicchiere-ctrl-c-ctrl-v",
@@ -155,7 +155,7 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 13942,
+    "triangles": 59784,
     "blackParts": 19,
     "redParts": 17
   },
@@ -165,9 +165,9 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 14334,
+    "triangles": 61668,
     "blackParts": 18,
-    "redParts": 23
+    "redParts": 22
   },
   {
     "slug": "sottobicchiere-brindisi-neo-disoccupato",
@@ -175,9 +175,9 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 16030,
-    "blackParts": 24,
-    "redParts": 22
+    "triangles": 84636,
+    "blackParts": 44,
+    "redParts": 25
   },
   {
     "slug": "sottobicchiere-dottore-giorno-disastro-notte",
@@ -185,8 +185,8 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 23146,
-    "blackParts": 39,
+    "triangles": 107890,
+    "blackParts": 35,
     "redParts": 28
   },
   {
@@ -195,9 +195,9 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 20558,
-    "blackParts": 40,
-    "redParts": 32
+    "triangles": 91352,
+    "blackParts": 38,
+    "redParts": 31
   },
   {
     "slug": "sottobicchiere-bevi-responsabilmente",
@@ -205,9 +205,9 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 20902,
-    "blackParts": 50,
-    "redParts": 14
+    "triangles": 94918,
+    "blackParts": 51,
+    "redParts": 13
   },
   {
     "slug": "sottobicchiere-oggi-dottore-domani-hangover",
@@ -215,8 +215,8 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 16302,
-    "blackParts": 30,
+    "triangles": 71050,
+    "blackParts": 29,
     "redParts": 29
   },
   {
@@ -225,7 +225,7 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 12224,
+    "triangles": 50344,
     "blackParts": 12,
     "redParts": 13
   },
@@ -235,9 +235,9 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 15936,
-    "blackParts": 14,
-    "redParts": 18
+    "triangles": 67090,
+    "blackParts": 11,
+    "redParts": 17
   },
   {
     "slug": "sottobicchiere-vero-esame-domani",
@@ -245,8 +245,8 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 16172,
-    "blackParts": 43,
+    "triangles": 70612,
+    "blackParts": 41,
     "redParts": 16
   },
   {
@@ -255,8 +255,8 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 14070,
-    "blackParts": 27,
+    "triangles": 60710,
+    "blackParts": 26,
     "redParts": 18
   },
   {
@@ -265,9 +265,9 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 16928,
+    "triangles": 71500,
     "blackParts": 36,
-    "redParts": 23
+    "redParts": 22
   },
   {
     "slug": "sottobicchiere-tesi-finita-fegato",
@@ -275,9 +275,9 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 15338,
-    "blackParts": 29,
-    "redParts": 14
+    "triangles": 63592,
+    "blackParts": 28,
+    "redParts": 15
   },
   {
     "slug": "sottobicchiere-non-chiedete-tesi",
@@ -285,9 +285,9 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 24328,
-    "blackParts": 51,
-    "redParts": 23
+    "triangles": 112105,
+    "blackParts": 50,
+    "redParts": 22
   },
   {
     "slug": "sottobicchiere-dott-in-teoria",
@@ -295,7 +295,7 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 9096,
+    "triangles": 34244,
     "blackParts": 9,
     "redParts": 13
   },
@@ -305,8 +305,8 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 14644,
-    "blackParts": 25,
+    "triangles": 63188,
+    "blackParts": 24,
     "redParts": 12
   },
   {
@@ -315,8 +315,8 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 12992,
-    "blackParts": 20,
+    "triangles": 54708,
+    "blackParts": 19,
     "redParts": 11
   },
   {
@@ -325,9 +325,9 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 14806,
+    "triangles": 61580,
     "blackParts": 22,
-    "redParts": 20
+    "redParts": 19
   },
   {
     "slug": "sottobicchiere-mamma-pezzo-carta",
@@ -335,7 +335,7 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 18388,
+    "triangles": 81858,
     "blackParts": 35,
     "redParts": 8
   },
@@ -345,9 +345,9 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 16682,
-    "blackParts": 41,
-    "redParts": 10
+    "triangles": 72080,
+    "blackParts": 40,
+    "redParts": 11
   },
   {
     "slug": "sottobicchiere-ral-loading",
@@ -355,9 +355,9 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 11264,
-    "blackParts": 20,
-    "redParts": 8
+    "triangles": 38372,
+    "blackParts": 21,
+    "redParts": 7
   },
   {
     "slug": "sottobicchiere-esperienza-titolo",
@@ -365,7 +365,7 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 12930,
+    "triangles": 54604,
     "blackParts": 29,
     "redParts": 13
   },
@@ -375,9 +375,9 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 21342,
-    "blackParts": 67,
-    "redParts": 18
+    "triangles": 96212,
+    "blackParts": 66,
+    "redParts": 17
   },
   {
     "slug": "sottobicchiere-dottore-senza-pazienti",
@@ -385,8 +385,8 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 14542,
-    "blackParts": 27,
+    "triangles": 63392,
+    "blackParts": 26,
     "redParts": 10
   },
   {
@@ -395,8 +395,8 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 18176,
-    "blackParts": 37,
+    "triangles": 82056,
+    "blackParts": 36,
     "redParts": 12
   },
   {
@@ -405,7 +405,7 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 17042,
+    "triangles": 74904,
     "blackParts": 44,
     "redParts": 20
   },
@@ -415,8 +415,8 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 18863,
-    "blackParts": 40,
+    "triangles": 80850,
+    "blackParts": 39,
     "redParts": 18
   },
   {
@@ -425,7 +425,7 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 18658,
+    "triangles": 84448,
     "blackParts": 49,
     "redParts": 15
   },
@@ -435,7 +435,7 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 14416,
+    "triangles": 62682,
     "blackParts": 26,
     "redParts": 12
   },
@@ -445,8 +445,8 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 24710,
-    "blackParts": 45,
+    "triangles": 115146,
+    "blackParts": 44,
     "redParts": 28
   },
   {
@@ -455,7 +455,7 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 16022,
+    "triangles": 70158,
     "blackParts": 24,
     "redParts": 22
   },
@@ -465,7 +465,7 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 18352,
+    "triangles": 82348,
     "blackParts": 42,
     "redParts": 11
   },
@@ -475,8 +475,8 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 20070,
-    "blackParts": 43,
+    "triangles": 90748,
+    "blackParts": 42,
     "redParts": 27
   },
   {
@@ -485,9 +485,9 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 15494,
-    "blackParts": 42,
-    "redParts": 11
+    "triangles": 66868,
+    "blackParts": 40,
+    "redParts": 10
   },
   {
     "slug": "sottobicchiere-sessione-fuori-pericolo",
@@ -495,8 +495,8 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 18284,
-    "blackParts": 24,
+    "triangles": 80860,
+    "blackParts": 23,
     "redParts": 26
   },
   {
@@ -505,9 +505,9 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 20312,
-    "blackParts": 39,
-    "redParts": 28
+    "triangles": 89928,
+    "blackParts": 38,
+    "redParts": 27
   },
   {
     "slug": "sottobicchiere-laurea-con-riserva",
@@ -515,9 +515,9 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 15950,
-    "blackParts": 27,
-    "redParts": 11
+    "triangles": 68328,
+    "blackParts": 26,
+    "redParts": 12
   },
   {
     "slug": "sottobicchiere-dottore-ora-si-vede",
@@ -525,8 +525,8 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 17127,
-    "blackParts": 53,
+    "triangles": 75952,
+    "blackParts": 55,
     "redParts": 8
   },
   {
@@ -535,7 +535,7 @@
     "diameterMm": 75,
     "heightMm": 4,
     "inlayDepthMm": 0.6,
-    "triangles": 16818,
+    "triangles": 75204,
     "blackParts": 31,
     "redParts": 27
   }

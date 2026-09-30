@@ -50,7 +50,8 @@ const polygonsFromArt = path => {
     throw new Error('Unsupported open path in generated art');
   }
   return shapePath(path.d).toShapes().map(shape => {
-    const {shape: contour, holes} = shape.extractPoints(3);
+    // Preserve rounded lettering and faces when flattening Bezier curves.
+    const {shape: contour, holes} = shape.extractPoints(16);
     return [ringToMm(contour),...holes.map(ringToMm)];
   }).filter(p=>p[0].length>=4);
 };

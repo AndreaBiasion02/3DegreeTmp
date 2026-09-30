@@ -60,6 +60,12 @@ export async function createScene(
   fill.position.set(-3, 2, -2);
   scene.add(fill);
   const model = gltf.scene;
+  if (gltf.scene.getObjectByName("coaster_base")) {
+    // Keep the underside's filament color legible when the coaster is flipped.
+    const bottomFill = new THREE.DirectionalLight(0xffffff, 1.5);
+    bottomFill.position.set(0, -5, 2);
+    scene.add(bottomFill);
+  }
   const colored: Array<{
     material: THREE.MeshStandardMaterial;
     role: "structure" | "accent" | "detail";

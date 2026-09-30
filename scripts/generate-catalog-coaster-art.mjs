@@ -1,4 +1,4 @@
-// Billed image generation is explicit. Existing artwork is never billed again.
+// Billed image generation is explicit. --force regenerates only the named product.
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { generateArtworks } from '../server/coaster-art-api.mjs';
@@ -13,6 +13,13 @@ for (const file of ['.env.local', '.env']) {
 if (!process.env.OPENAI_API_KEY) throw new Error('OPENAI_API_KEY missing.');
 const palette = JSON.parse(await fs.readFile('src/lib/filament-palette.json', 'utf8'));
 const products = JSON.parse(await fs.readFile('src/lib/products.json', 'utf8')).filter(p => p.kind === 'coaster');
+const argument = name => { const index = process.argv.indexOf(name); return index >= 0 ? process.argv[index + 1] : undefined; };
+const only = argument('--only');
+const force = process.argv.includes('--force');
+const briefFile = argument('--brief-file');
+if ((force || briefFile) && (!only || !products.some(product => product.slug === `sottobicchiere-${only}`))) throw new Error('Regeneration requires --only <existing product slug>.');
+const customBrief = briefFile ? (await fs.readFile(briefFile, 'utf8')).trim() : undefined;
+if (customBrief && (customBrief.length < 10 || customBrief.length > 600)) throw new Error('Brief must be 10–600 characters.');
 const destination = path.resolve('scripts/coaster-artworks');
 const originals = path.resolve('outputs/coaster-catalog-originals');
 const redo = process.argv.includes('--redo-borders');
@@ -100,16 +107,17 @@ if (redo) console.log(`Regenerating ${targets.size} coasters with integrated bor
 const report = [];
 for (const product of products) {
   const slug = product.slug.replace(/^sottobicchiere-/, '');
+  if (only && slug !== only) continue;
   if (redo && !targets.has(slug)) continue;
   const category = categoryFor(slug);
   if (!category) throw new Error(`Missing category: ${slug}`);
   const file = path.join(destination, `${slug}.json`);
-  if (!redo) { try { await fs.access(file); console.log(`Existing ${slug}`); continue; } catch {} }
+  if (!redo && !force) { try { await fs.access(file); console.log(`Existing ${slug}`); continue; } catch {} }
   if (redo) {
     await fs.copyFile(file,path.join(redoDirectory,'backup',`${slug}.json`));
     try { await fs.copyFile(path.join(originals,`${slug}.png`),path.join(redoDirectory,'backup',`${slug}.png`)); } catch(error) { if(error.code!=='ENOENT')throw error; }
   }
-  if (!redo && reused[slug]) {
+  if (!redo && !force && reused[slug]) {
     const artwork = JSON.parse(await fs.readFile(path.join(sample, `${reused[slug]}.json`), 'utf8'));
     artwork.title = product.name;
     artwork.concept = `Grafica riutilizzata dall'esempio ${reused[slug]}`;
@@ -118,7 +126,7 @@ for (const product of products) {
     console.log(`Reused ${slug}`);
     continue;
   }
-  const brief = `Scrivi ESATTAMENTE ${quote(product.name)} senza abbreviare, correggere o aggiungere parole. Il testo deve essere grande, leggibile e prevalere. Disegna ${subjects[slug] || 'una scena semplice e pertinente alla frase'}. Impagina in modo equilibrato nel disco, con inchiostro nero e pochi accenti rossi. Niente altri testi.${redo?' Nessuna cornice, anello o cerchio esterno, neppure spezzato o collegato alle lettere: il bordo viene aggiunto dal software.':''}`;
+  const brief = customBrief || `Scrivi ESATTAMENTE ${quote(product.name)} senza abbreviare, correggere o aggiungere parole. Il testo deve essere grande, leggibile e prevalere. Disegna ${subjects[slug] || 'una scena semplice e pertinente alla frase'}. Impagina in modo equilibrato nel disco, con inchiostro nero e pochi accenti rossi. Niente altri testi.${redo?' Nessuna cornice, anello o cerchio esterno, neppure spezzato o collegato alle lettere: il bordo viene aggiunto dal software.':''}`;
   let success = false;
   for (let attempt = 1; attempt <= (redo?4:3) && !success; attempt++) {
     console.log(`Generating ${slug} (${category}, attempt ${attempt})...`);
@@ -126,7 +134,7 @@ for (const product of products) {
     try {
       const originalFile=path.join(originals, `${slug}.png`);
       let base64, usage;
-      if (!redo && attempt===1 && await fs.access(originalFile).then(()=>true,()=>false)) {
+      if (!redo && !force && attempt===1 && await fs.access(originalFile).then(()=>true,()=>false)) {
         base64=(await fs.readFile(originalFile)).toString('base64');
         console.log(`Recovering saved original ${slug}`);
       } else {
@@ -138,8 +146,8 @@ for (const product of products) {
         await fs.writeFile(redo?path.join(redoDirectory,`${slug}-attempt${attempt}.png`):originalFile, Buffer.from(base64, 'base64'));
       }
       const paths = await vectorizeCoasterComposition(base64, 'duotone');
-      if (redo && await drawnBorderCoverage(paths) >= .95) throw new Error('Model still drew an integrated circular border');
-      if (redo && !paths[0]?.d.includes(' A ')) throw new Error('Missing normalized border');
+      if ((redo || force) && await drawnBorderCoverage(paths) >= .95) throw new Error('Model still drew an integrated circular border');
+      if ((redo || force) && !paths[0]?.d.includes(' A ')) throw new Error('Missing normalized border');
       const artwork = validateArtworks([{title:product.name.slice(0,40), concept:`Grafica del catalogo: ${category}`, background:'#facc15', foreground:'#222222', ...(paths.some(p=>p.role==='accent')?{accent:'#dc2626'}:{}), texts:[], paths, imageComposition:true}],palette)[0];
       await fs.writeFile(file, JSON.stringify(artwork));
       if (redo) await fs.writeFile(originalFile,Buffer.from(base64,'base64'));
@@ -150,3 +158,4 @@ for (const product of products) {
   }
 }
 console.log(`Complete: ${report.filter(r=>!r.error).length} new/reused, ${report.filter(r=>r.error).length} failures.`);
+if (report.some(result => result.error)) process.exitCode = 1;
