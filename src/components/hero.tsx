@@ -55,7 +55,7 @@ const Hero = () => {
               src="/hero-homepage-ultrarealistica-v3.webp"
               alt={t("Hero Image Alt")}
               fill
-              className="object-cover object-center transition-transform duration-1000 ease-out hover:scale-[1.015]"
+              className="object-cover object-center"
               priority
               sizes="(max-width: 1023px) 100vw, 55vw"
             />
