@@ -159,7 +159,7 @@ export function Footer() {
               href="/collections/laurea/"
               className="mt-8 inline-block border-b border-brand-gold pb-1 text-sm font-bold uppercase"
             >
-              Esplora le collezioni ↗
+              Esplora le collezioni
             </a>
           </div>
           <div className="small:col-span-2">

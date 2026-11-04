@@ -33,7 +33,7 @@ export default function Home() {
               href="/collections/laurea/"
               className="shrink-0 border-b border-brand-primary pb-1 text-sm font-bold uppercase"
             >
-              Scopri le collezioni ↗
+              Scopri le collezioni
             </a>
           </div>
           <CollectionCards />
@@ -45,7 +45,7 @@ export default function Home() {
             href="/collections/tocchi-laurea/"
             className="brand-button-secondary mt-9"
           >
-            Tutti i tocchi di laurea ↗
+            Tutti i tocchi di laurea
           </a>
         </div>
       </section>

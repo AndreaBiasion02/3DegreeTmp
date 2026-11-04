@@ -35,14 +35,13 @@ export default function Catalog({
                   }
                   width={930}
                   height={710}
-                  className="w-full transition-transform duration-500 group-hover:scale-[1.03]"
+                  className="w-full transition-transform duration-500 group-hover:scale-[1.02]"
                 />
               </div>
-              <div className="mt-5 flex items-center justify-between gap-4">
-                <h3 className="text-2xl font-bold uppercase italic tracking-[-0.04em] text-brand-primary">
+              <div className="mt-5 flex items-start justify-between gap-4">
+                <h3 className="text-2xl font-bold uppercase tracking-[-0.03em] text-brand-primary">
                   {p.name}
                 </h3>
-                <span aria-hidden="true">↗</span>
               </div>
               <p className="mt-2 leading-relaxed text-brand-dark/70">
                 {p.description}

@@ -12,7 +12,7 @@ export default function CollectionCards() {
             <span className="brand-kicker">{products.filter(p => p.collection === collection.slug).length} modelli</span>
             <h2 className="brand-heading mt-4 text-3xl">{collection.name}</h2>
             <p className="my-5 leading-relaxed text-brand-dark/70">{collection.description}</p>
-            <span className="mt-auto text-sm font-bold uppercase">Esplora la collezione ↗</span>
+            <span className="mt-auto text-sm font-bold uppercase">Esplora la collezione</span>
           </div>
         </a>
       ))}

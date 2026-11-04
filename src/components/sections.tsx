@@ -265,9 +265,8 @@ export const ContactSection = () => {
               Hai domande o vuoi info? Scrivici.
             </h2>
             <p className="mt-5 text-base leading-relaxed text-brand-dark/75 small:text-lg">
-              Ogni traguardo merita un ricordo speciale. Che tu voglia maggiori dettagli sui modelli,
-              richiedere una personalizzazione o informazioni su tempi e preventivi, scrivici direttamente
-              nei direct message sui nostri social o via email: siamo a tua completa disposizione!
+              Per dettagli sui modelli, personalizzazioni, tempi e preventivi scrivici nei DM
+              su Instagram o TikTok oppure via email a info@3degreelab.com.
             </p>
           </div>
         </ScrollReveal>

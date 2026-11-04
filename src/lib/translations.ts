@@ -13,7 +13,7 @@ const dictionary: Record<string, string> = {
   "Back to shopping cart": "Torna al carrello",
   Search: "Cerca",
   "Announcement Bar":
-    "Rendi indimenticabile il giorno della tua laurea",
+    "Bomboniere di laurea in stampa 3D — vetrina modelli",
   "Home Title": "Il tuo traguardo, in 3D",
   Featured: "In evidenza",
   "Previous products": "Prodotti precedenti",
@@ -62,18 +62,18 @@ const dictionary: Record<string, string> = {
   "Video unsupported": "Il tuo browser non supporta il video HTML5.",
   "Start now": "Inizia ora",
   "Why 3Degree": "Perché 3Degree",
-  "Not a favor": "Non una bomboniera\nLa tua",
+  "Not a favor": "Non una bomboniera qualsiasi",
   "Value Intro":
-    "La tecnologia è il punto di partenza. Il risultato è un oggetto personale, curato e capace di ricordare un momento irripetibile.",
-  "Value 1 Title": "Davvero personale",
+    "Ogni modello si esplora aperto e chiuso nel configuratore: colori, testi e logo prima di chiedere il preventivo.",
+  "Value 1 Title": "Scelta per facoltà",
   "Value 1 Text":
-    "Non aggiungiamo solo un nome: costruiamo un dettaglio coerente con la tua storia.",
-  "Value 2 Title": "Design intenzionale",
+    "Tocchi con il simbolo della tua facoltà e portaconfetti a tema, con anteprima dei colori iniziali.",
+  "Value 2 Title": "Colori e testi tuoi",
   "Value 2 Text":
-    "Forme, colori e proporzioni sono pensati per essere belli il giorno della festa e dopo.",
-  "Value 3 Title": "Produzione su misura",
+    "Nella collezione Personalizzabili cambi colori, aggiungi testi e logo e vedi il riepilogo prima di contattarci.",
+  "Value 3 Title": "Pezzi su ordinazione",
   "Value 3 Text":
-    "La stampa 3D ci permette di produrre ciò che scegli, con meno standardizzazione e più identità.",
+    "Stampiamo in 3D solo i pezzi che ordini, nei colori scelti. Colori e finiture fisiche possono differire dal digitale.",
   "Clear before creating": "Tutto chiaro, prima di creare",
   "FAQ 1 Question": "Cosa posso personalizzare?",
   "FAQ 1 Answer":
@@ -96,10 +96,10 @@ const dictionary: Record<string, string> = {
 };
 Object.assign(dictionary, {
   "Hero Description New":
-    "Trasforma il giorno della laurea in un ricordo che parla davvero di te: scopri le bomboniere 3Degree, tra design, personalità e stampa 3D.",
+    "Portaconfetti a tema, tocchi per facoltà e sottobicchieri ironici: esplora i modelli, cambia colori e testi nel configuratore e chiedi un preventivo via DM o email.",
   "Create Yours": "Scopri i modelli",
-  "Made to order": "Creato con cura",
-  "Secure checkout": "Design italiano",
+  "Made to order": "Fatto su ordinazione",
+  "Secure checkout": "Preventivo via DM o email",
   "Start now": "Esplora le collezioni",
   "Process 1 Text":
     "Scegli una pagina o un album condiviso, come Google Foto, dove raccogliere le immagini della laurea.",
