@@ -10,7 +10,7 @@ export default function CollectionCards() {
           <ResponsiveImage src={collection.image} alt={collection.name} width={465} height={355} className="w-full transition-transform duration-500 group-hover:scale-[1.03]" />
           <div className="flex flex-1 flex-col p-6 xsmall:p-8">
             <span className="brand-kicker">{products.filter(p => p.collection === collection.slug).length} modelli</span>
-            <h2 className="brand-heading mt-4 text-3xl">{collection.name}</h2>
+            <h3 className="brand-heading mt-4 text-3xl">{collection.name}</h3>
             <p className="my-5 leading-relaxed text-brand-dark/70">{collection.description}</p>
             <span className="mt-auto text-sm font-bold uppercase">Esplora la collezione</span>
           </div>

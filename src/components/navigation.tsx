@@ -1,3 +1,7 @@
+"use client";
+
+import { useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
 import Image from "next/image";
 import collections from "@/lib/collections.json";
 import { t } from "@/lib/translations";
@@ -30,6 +34,29 @@ function Logo() {
 }
 
 export function Nav() {
+  const pathname = usePathname();
+  const detailsRef = useRef<HTMLDetailsElement>(null);
+
+  useEffect(() => {
+    const closeMenu = () => {
+      if (detailsRef.current?.open) detailsRef.current.open = false;
+    };
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") closeMenu();
+    };
+    const onPointerDown = (e: PointerEvent) => {
+      if (detailsRef.current && !detailsRef.current.contains(e.target as Node)) {
+        closeMenu();
+      }
+    };
+    document.addEventListener("keydown", onKeyDown);
+    document.addEventListener("pointerdown", onPointerDown);
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+      document.removeEventListener("pointerdown", onPointerDown);
+    };
+  }, []);
+
   return (
     <div className="sticky top-0 z-50">
       <div className="hidden bg-brand-primary px-5 py-2 text-center text-[10px] font-bold uppercase italic tracking-[0.12em] text-brand-light xsmall:block">
@@ -42,15 +69,21 @@ export function Nav() {
         >
           <Logo />
           <div className="hidden gap-10 small:flex">
-            {links.map(([url, label]) => (
-              <a
-                key={url}
-                href={url}
-                className="text-sm font-bold uppercase tracking-[0.15em] hover:text-brand-secondary"
-              >
-                {label}
-              </a>
-            ))}
+            {links.map(([url, label]) => {
+              const isActive = url === "/" ? pathname === "/" : pathname?.startsWith(url.split("#")[0]) && !url.includes("#");
+              return (
+                <a
+                  key={url}
+                  href={url}
+                  aria-current={isActive ? "page" : undefined}
+                  className={`text-sm font-bold uppercase tracking-[0.15em] hover:text-brand-secondary ${
+                    isActive ? "text-brand-secondary underline underline-offset-4" : ""
+                  }`}
+                >
+                  {label}
+                </a>
+              );
+            })}
           </div>
           <div className="hidden items-center gap-2.5 small:flex">
             <a
@@ -82,8 +115,8 @@ export function Nav() {
               <MailIcon className="h-4 w-4" />
             </a>
           </div>
-          <details className="group small:hidden">
-            <summary className="cursor-pointer rounded-full border border-brand-primary/25 px-4 py-2 text-sm font-bold">
+          <details ref={detailsRef} className="group small:hidden">
+            <summary className="inline-flex min-h-[44px] cursor-pointer items-center rounded-full border border-brand-primary/25 px-4 py-2 text-sm font-bold">
               Menu
             </summary>
             <div className="absolute inset-x-0 top-full border-b border-brand-primary/15 bg-brand-light px-5 py-6 shadow-lg">

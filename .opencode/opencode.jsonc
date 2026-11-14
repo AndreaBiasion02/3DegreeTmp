@@ -1,0 +1,12 @@
+{
+  "mcp": {
+    "neuromesh": {
+      "command": [
+        "neuromesh",
+        "mcp"
+      ],
+      "enabled": true,
+      "type": "local"
+    }
+  }
+}

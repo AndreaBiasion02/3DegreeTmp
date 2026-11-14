@@ -1,0 +1,20 @@
+{
+  "mcpServers": {
+    "neuromesh": {
+      "args": [
+        "mcp"
+      ],
+      "command": "neuromesh",
+      "type": "stdio"
+    }
+  },
+  "servers": {
+    "neuromesh": {
+      "args": [
+        "mcp"
+      ],
+      "command": "neuromesh",
+      "type": "stdio"
+    }
+  }
+}
